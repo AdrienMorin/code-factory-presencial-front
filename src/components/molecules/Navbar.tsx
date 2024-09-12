@@ -23,7 +23,7 @@ function Navbar() {
   ];
 
   return (
-    <>
+    <nav className="flex justify-between gap-4 items-center border-b-2 border-gray-500 shadow-md px-4 py-1 w-full">
       <div className="flex flex-row justify-center items-center gap-2">
         <Logo />
       </div>
@@ -40,7 +40,7 @@ function Navbar() {
       <div className="flex gap-4">
         <AdminInfo />
       </div>
-    </>
+    </nav>
   );
 }
 
