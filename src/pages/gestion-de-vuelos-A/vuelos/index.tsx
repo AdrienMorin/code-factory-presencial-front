@@ -43,7 +43,11 @@ function FlightsPage() {
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {date ? (
+                  format(date, "dd/MM/yyyy HH:mm")
+                ) : (
+                  <span>Pick a date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -53,6 +57,7 @@ function FlightsPage() {
                 onSelect={setDate}
                 initialFocus
               />
+              <input type="time"></input>
             </PopoverContent>
           </Popover>
         </div>

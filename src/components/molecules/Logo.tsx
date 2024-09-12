@@ -6,8 +6,8 @@ function Logo() {
     <>
       <Image
         src="/avion.png"
-        width={75}
-        height={75}
+        width={64}
+        height={64}
         alt="Logo de la aerolínea"
         className="h-full object-contain"
       />

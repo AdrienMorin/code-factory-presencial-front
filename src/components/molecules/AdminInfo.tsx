@@ -7,7 +7,7 @@ function AdminInfo() {
   return (
     <>
       <Avatar className="shadow-md bg-primary">
-        <AvatarImage src="/admin.png" />
+        <AvatarImage src="/admin.png" alt="Imagen administrador" />
         <AvatarFallback>SA</AvatarFallback>
       </Avatar>
 
