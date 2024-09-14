@@ -1,15 +1,16 @@
-import FooterCopy from "@/components/molecules/FooterCopy";
-import FlightForm from "@/components/molecules/forms/FlightForm";
-import Navbar from "@/components/molecules/Navbar";
+import Navbar from "@/components/molecules/bars/Navbar";
+import SearchBar from "@/components/molecules/bars/SearchBar";
+import FlightCard from "@/components/molecules/cards/FlightCard";
+import React from "react";
 
-function FlightsPage() {
+function FlightsHome() {
   return (
-    <div className="h-screen px-4">
+    <div className="flex flex-col h-full w-full justify-center items-center">
       <Navbar />
-      <FlightForm />
-      <FooterCopy />
+      <SearchBar />
+      <FlightCard />
     </div>
   );
 }
 
-export default FlightsPage;
+export default FlightsHome;

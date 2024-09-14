@@ -1,7 +1,7 @@
 import React from "react";
-import AdminInfo from "./AdminInfo";
+import AdminInfo from "@/components/molecules/AdminInfo";
 import Link from "next/link";
-import Logo from "./Logo";
+import Logo from "@/components/molecules/Logo";
 
 function Navbar() {
   const navigationOptions = [
@@ -23,7 +23,7 @@ function Navbar() {
   ];
 
   return (
-    <nav className="flex justify-between gap-4 items-center border-b-2 border-gray-500 shadow-md px-4 py-1 w-full">
+    <nav className="flex justify-between items-center gap-4 border-b-2 border-gray-500 px-4 py-1 w-full h-full">
       <div className="flex flex-row justify-center items-center gap-2">
         <Logo />
       </div>
