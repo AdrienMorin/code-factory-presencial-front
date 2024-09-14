@@ -17,7 +17,7 @@ export const formFlight = z.object({
   }),
   departureTime: z.string(),
   destination: z.string().min(3, { message: "El destino es muy corto" }),
-  arrivalDate: z.string().refine((value) => !isNaN(Date.parse(value)), {
+  arrivalDate: z.date({
     message: "La fecha de llegada no es válida",
   }),
   arrivalTime: z.string(),

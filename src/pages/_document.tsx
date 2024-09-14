@@ -3,8 +3,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html lang="es-CO">
-      <Head>
-        <title>Gestión de vuelos A</title>
+      <Head title="Gestión de vuelos A">
         <meta charSet="UTF-8" />
         <meta
           name="description"
