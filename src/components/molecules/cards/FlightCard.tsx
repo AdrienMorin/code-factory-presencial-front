@@ -34,6 +34,16 @@ const FlightCard = () => {
       departureDate: "2024/12/25",
       arrivalDate: "2024/12/26",
     },
+    {
+      flightType: "Vuelo Nacional",
+      flightCode: "A-126",
+      departure: "CAL",
+      arrival: "BTA",
+      departureTime: "10:00 A.M",
+      arrivalTime: "12:00 P.M",
+      departureDate: "2024/12/21",
+      arrivalDate: "2024/12/22",
+    },
   ];
 
   return (

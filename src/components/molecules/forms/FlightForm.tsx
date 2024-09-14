@@ -29,6 +29,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 function FlightForm() {
   const form = useForm<FlightSchema>({
@@ -37,17 +47,18 @@ function FlightForm() {
 
   function onSubmit(data: FlightSchema) {
     console.log(data);
+    form.reset(); // Resetea el formulario después del envío
   }
 
   return (
-    <div className="flex flex-col h-full w-full justify-center items-center">
+    <div className="flex flex-col items-center">
       <h1 className="text-5xl font-extrabold text-center my-4">
         Ingresar información del vuelo
       </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-3 justify-between items-center gap-4 px-4 py-6"
+          className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4 py-6"
         >
           {/* Select tipo de Vuelo y Aeronave */}
           <FormField
@@ -56,19 +67,16 @@ function FlightForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tipo de vuelo</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl className="w-[300px] h-[55px] text-base">
                     <SelectTrigger>
                       <SelectValue placeholder="Tipo de vuelo" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Boeing">Economico</SelectItem>
-                    <SelectItem value="Airbus">Internacional</SelectItem>
-                    <SelectItem value="Jet">Nacional</SelectItem>
+                    <SelectItem value="economico">Económico</SelectItem>
+                    <SelectItem value="internacional">Internacional</SelectItem>
+                    <SelectItem value="nacional">Nacional</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>Seleccione un tipo de vuelo</FormDescription>
@@ -76,35 +84,31 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="aircraft"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Seleccionar una aeronave</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <FormLabel>Aeronave</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl className="w-[300px] h-[55px] text-base">
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione una aeronave" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Boeing">Boeing747</SelectItem>
-                    <SelectItem value="Airbus">Airbus124</SelectItem>
-                    <SelectItem value="Jet">Jet-M2</SelectItem>
+                    <SelectItem value="Boeing">Boeing</SelectItem>
+                    <SelectItem value="Airbus">Airbus</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>
-                  Seleccione un avión para el vuelo
-                </FormDescription>
+                <FormDescription>Seleccione una aeronave</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* Inputs: Número de pasajeros, precio, impuesto, sobretasa */}
+
+          {/* Inputs: Número de pasajeros, precio */}
           <FormField
             control={form.control}
             name="passengers"
@@ -116,16 +120,18 @@ function FlightForm() {
                     placeholder="# de pasajeros"
                     className="w-[300px] h-[55px] text-base decoration-transparent"
                     type="number"
-                    {...field}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>
-                  Ingresa el número máximo de pasajeros del vuelo
+                  Ingresa el número máximo de pasajeros
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="price"
@@ -135,9 +141,10 @@ function FlightForm() {
                 <FormControl>
                   <Input
                     placeholder="$ Precio"
-                    className="w-[300px] h-[55px] text-base "
-                    pattern="[0-9]+"
-                    {...field}
+                    className="w-[300px] h-[55px] text-base"
+                    type="number"
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>Ingresa el precio del vuelo</FormDescription>
@@ -145,6 +152,8 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
+          {/* Impuesto, sobretasa */}
           <FormField
             control={form.control}
             name="tax"
@@ -156,7 +165,8 @@ function FlightForm() {
                     placeholder="% Impuesto"
                     className="w-[300px] h-[55px] text-base "
                     pattern="[0-9]+"
-                    {...field}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>Ingresa el impuesto del vuelo</FormDescription>
@@ -175,7 +185,8 @@ function FlightForm() {
                     placeholder="% Sobretasa"
                     className="w-[300px] h-[55px] text-base "
                     pattern="[0-9]+"
-                    {...field}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormDescription>
@@ -185,6 +196,7 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
           {/* Origen */}
           <FormField
             control={form.control}
@@ -290,6 +302,7 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
           {/* Destino */}
           <FormField
             control={form.control}
@@ -397,9 +410,26 @@ function FlightForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-start-2">
-            Registrar vuelo
-          </Button>
+
+          {/* Botón para registrar vuelo */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button type="submit" className="col-start-2">
+                Registrar vuelo
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>¡Vuelo registrado!</AlertDialogTitle>
+                <AlertDialogDescription>
+                  El vuelo ha sido registrado exitosamente.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction>Continuar</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </form>
       </Form>
     </div>

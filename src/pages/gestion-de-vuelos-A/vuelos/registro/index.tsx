@@ -4,7 +4,7 @@ import Navbar from "@/components/molecules/bars/Navbar";
 
 function FlightsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col h-full w-full">
       <Navbar />
       <FlightForm />
       <FooterCopy />

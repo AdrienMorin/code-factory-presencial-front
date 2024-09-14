@@ -9,8 +9,10 @@ export const formFlight = z.object({
   }),
   passengers: z.number().min(1, { message: "Debe haber al menos un pasajero" }),
   price: z.number().min(1, { message: "El precio debe ser mayor que 0" }),
-  tax: z.number().optional(),
-  surcharge: z.number().optional(),
+  tax: z.number().min(1, { message: "El porcentaje de impuesto es requerido" }),
+  surcharge: z
+    .number()
+    .min(1, { message: "El porcentaje de sobretasa es requerido" }),
   origin: z.string().min(3, { message: "El origen es muy corto" }),
   departureDate: z.date({
     message: "La fecha de salida no es válida",
