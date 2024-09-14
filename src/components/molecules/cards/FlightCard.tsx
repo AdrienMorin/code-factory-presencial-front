@@ -37,7 +37,7 @@ const FlightCard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-4">
       {flights.map((flight, index) => (
         <div
           key={index}
