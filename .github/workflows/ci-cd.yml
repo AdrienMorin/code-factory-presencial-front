@@ -21,8 +21,9 @@ jobs:
         run: yarn build
 
   Deploy-Production:
+    needs: Build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev/gestion-de-vuelos-B'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/gestion-de-vuelos-B'
     steps:
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
