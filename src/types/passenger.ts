@@ -1,10 +1,8 @@
-import { z } from "zod";
-
-export const passengerSchema = z.object({
-    nombre: z.string(),
-    apellido: z.string(),
-    tipoDocumento: z.string(),
-    numeroDocumento: z.string(),
-    correo: z.string(),
-    telefono: z.nullable(z.string()),
-    
+export interface Passenger {
+    nombres: string;
+    apellidos: string;
+    tipoDocumento: string;
+    numeroDocumento: string;
+    correo: string;
+    telefono: string;
+    }
