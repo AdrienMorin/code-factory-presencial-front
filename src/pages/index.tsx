@@ -1,5 +1,4 @@
 import { Button } from '@/src/components/ui/button';
-import { Icon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
