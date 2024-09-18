@@ -31,4 +31,4 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN_GESTION_VUELOS_B }}
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --no-wait --token=${{ secrets.VERCEL_TOKEN_GESTION_VUELOS_B }}
+        run: vercel deploy --prod --no-wait --token=${{ secrets.VERCEL_TOKEN_GESTION_VUELOS_B }}
