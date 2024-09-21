@@ -32,6 +32,6 @@ jobs:
       - name: Install Vercel CLI
         run: yarn global add vercel@latest
       - name: pull Vercel Environtment Variables
-        run: vercel pull --yes --token=${{ env.VERCEL_TOKEN_RESERVASA }}
+        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN_RESERVASA }}
       - name: Trigger Vercel Deployment
-        run: vercel deploy --no-wait --token=${{ env.VERCEL_TOKEN_RESERVASA }}
+        run: vercel deploy --no-wait --token=${{ secrets.VERCEL_TOKEN_RESERVASA }}
