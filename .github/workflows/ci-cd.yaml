@@ -1,14 +1,14 @@
 name: CI/CD
-on: [push]
 env:
-  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_RESERVASA }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_RESERVASA }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_RESERVASA }}
+
+on: [push]
 
 jobs:
   Build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/reservas-a' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/reservas-a' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 20.x
@@ -35,4 +35,3 @@ jobs:
         run: vercel pull --yes --token=${{ env.VERCEL_TOKEN_RESERVASA }}
       - name: Trigger Vercel Deployment
         run: vercel deploy --no-wait --token=${{ env.VERCEL_TOKEN_RESERVASA }}
-
