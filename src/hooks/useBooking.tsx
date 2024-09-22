@@ -1,5 +1,6 @@
+import { useCallback } from "react";
 import { BookingApi } from "../db/bookingApi";
-import { Booking } from "../types/booking";
+import { Booking, BookingPassenger } from "../types/booking";
 import Swal from "sweetalert2";
 
 export interface CustomError {
@@ -12,6 +13,7 @@ export interface CustomError {
 
 const useBooking = () => {
   const path = "/api/reservas";
+
   const createBooking = async (booking: Booking) => {
     try {
       const response = await BookingApi.post<Booking>(path + "/crear", booking);
@@ -28,8 +30,35 @@ const useBooking = () => {
       console.error(error);
     }
   };
+  const findBooking = useCallback(
+    async (numeroReserva: string, numeroDocumento: string) => {
+      try {
+        const response = await BookingApi.get<BookingPassenger[]>(
+          path + "/obtenerReserva",
+          {
+            params: {
+              numeroReserva,
+              numeroDocumento,
+            },
+          }
+        );
+        return response.data;
+      } catch (error: unknown) {
+        const customError = error as CustomError;
 
-  return { createBooking };
+        Swal.fire({
+          title: "Error",
+          text: customError.response.data.details,
+          icon: "error",
+        });
+
+        console.error(error);
+      }
+    },
+    []
+  );
+
+  return { createBooking, findBooking };
 };
 
 export { useBooking };

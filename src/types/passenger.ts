@@ -10,3 +10,13 @@ export interface Passenger {
     adiciones: boolean;
     asientoElegido: boolean;
     }
+
+export interface PassengerDB {
+    idPasajero: number;
+    nombre: string;
+    apellido: string;
+    tipoDocumento: string;
+    numeroDocumento: string;
+    correo: string;
+    telefono: string;
+    }
