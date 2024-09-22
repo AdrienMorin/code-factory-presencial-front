@@ -27,7 +27,7 @@ const PassengerCard = ({ passenger, passengers, setPassengers}: {
     <Card>
     <CardHeader>
       <CardTitle>
-        {passenger.nombres} {passenger.apellidos}
+        {passenger.nombre} {passenger.apellido}
       </CardTitle>
       <CardDescription>{passenger.correo}</CardDescription>
     </CardHeader>
