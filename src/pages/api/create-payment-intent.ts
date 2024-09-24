@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import type {NextApiRequest, NextApiResponse} from "next";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(
-    request: NextRequest
+    request: NextApiRequest,
+    response: NextApiResponse
 ) {
     try {
-        const { amount } = await request.json();
+        const { amount } = request.body;
         console.log("amount:", amount);
 
         const paymentIntent = await stripe.paymentIntents.create({
@@ -14,13 +15,12 @@ export default async function handler(
             automatic_payment_methods: { enabled: true },
         });
 
-        return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+        return response.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
         console.error("Internal Error:", error);
         // Handle other errors (e.g., network issues, parsing errors)
-        return NextResponse.json(
-            { error: `Internal Server Error: ${error}` },
-            { status: 500 }
+        return response.status(500).json(
+            { error: `Internal Server Error: ${error}` }
         );
     }
 }
