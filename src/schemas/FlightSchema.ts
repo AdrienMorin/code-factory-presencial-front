@@ -1,28 +1,72 @@
 import { z } from "zod";
 
+// Lista de códigos IATA para validación de origen y destino
+const iataCodes: [string, ...string[]] = [
+  "BOG",
+  "MDE",
+  "CTG",
+  "ADZ",
+  "AXM",
+  "CLO",
+  "CUC",
+  "BAQ",
+  "PEI",
+  "SMR",
+  "JFK",
+  "LHR",
+  "CDG",
+  "SYD",
+  "HND",
+  "DXB",
+  "SIN",
+  "CAN",
+  "MEX",
+  "IST",
+];
+
+// Lista de tipos de aeronaves válidas
+const aircraftModels: [string, ...string[]] = [
+  "B737-800",
+  "B737-800Max",
+  "B747-400",
+  "B777-300",
+  "B787-800",
+  "A320-200",
+  "A320-200Neo",
+  "A330-200",
+  "A350-900",
+];
+
 export const formFlight = z.object({
-  flightType: z.enum(["economico", "internacional", "nacional"], {
+  flightType: z.enum(["internacional", "nacional"], {
     message: "El tipo de vuelo no es válido",
   }),
-  aircraft: z.enum(["Boeing", "Airbus"], {
+  origin: z.enum(iataCodes, {
+    message: "El código de origen no es válido",
+  }),
+  destination: z.enum(iataCodes, {
+    message: "El código de destino no es válido",
+  }),
+  aircraftModel: z.enum(aircraftModels, {
     message: "El tipo de aeronave no es válido",
   }),
-  passengers: z.number().min(1, { message: "Debe haber al menos un pasajero" }),
+  departureDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "La fecha de salida debe estar en formato YYYY-MM-DD",
+  }),
+  departureTime: z.string().regex(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: "La hora de salida debe estar en formato HH:mm",
+  }),
+  arrivalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "La fecha de llegada debe estar en formato YYYY-MM-DD",
+  }),
+  arrivalTime: z.string().regex(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: "La hora de llegada debe estar en formato HH:mm",
+  }),
   price: z.number().min(1, { message: "El precio debe ser mayor que 0" }),
   tax: z.number().min(1, { message: "El porcentaje de impuesto es requerido" }),
   surcharge: z
     .number()
     .min(1, { message: "El porcentaje de sobretasa es requerido" }),
-  origin: z.string().min(3, { message: "El origen es muy corto" }),
-  departureDate: z.date({
-    message: "La fecha de salida no es válida",
-  }),
-  departureTime: z.string(),
-  destination: z.string().min(3, { message: "El destino es muy corto" }),
-  arrivalDate: z.date({
-    message: "La fecha de llegada no es válida",
-  }),
-  arrivalTime: z.string(),
 });
 
 export type FlightSchema = z.infer<typeof formFlight>;

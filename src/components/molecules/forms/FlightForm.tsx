@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -43,24 +42,36 @@ import {
 function FlightForm() {
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
+    defaultValues: {
+      flightType: undefined,
+      aircraftModel: "",
+      price: 0,
+      tax: 0,
+      surcharge: 0,
+      origin: "",
+      departureDate: undefined,
+      departureTime: undefined,
+      destination: "",
+      arrivalDate: undefined,
+      arrivalTime: undefined,
+    },
   });
 
   function onSubmit(data: FlightSchema) {
     console.log(data);
-    form.reset(); // Resetea el formulario después del envío
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-5xl font-extrabold text-center my-4">
+    <div className="h-full">
+      <h1 className="text-5xl font-extrabold text-center my-4 text-gray-800">
         Ingresar información del vuelo
       </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4 py-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-6 w-full justify-center items-center"
         >
-          {/* Select tipo de Vuelo y Aeronave */}
+          {/* Tipo de vuelo */}
           <FormField
             control={form.control}
             name="flightType"
@@ -68,18 +79,16 @@ function FlightForm() {
               <FormItem>
                 <FormLabel>Tipo de vuelo</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl className="w-[300px] h-[55px] text-base">
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Tipo de vuelo" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="economico">Económico</SelectItem>
                     <SelectItem value="internacional">Internacional</SelectItem>
                     <SelectItem value="nacional">Nacional</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>Seleccione un tipo de vuelo</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -87,51 +96,28 @@ function FlightForm() {
 
           <FormField
             control={form.control}
-            name="aircraft"
+            name="aircraftModel"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Aeronave</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl className="w-[300px] h-[55px] text-base">
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione una aeronave" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Boeing">Boeing</SelectItem>
-                    <SelectItem value="Airbus">Airbus</SelectItem>
+                    {/* Aquí las aeronaves DISPONIBLES que me traiga del back */}
+                    <SelectItem value="B737">Boeing737</SelectItem>
+                    <SelectItem value="A320">Airbus320</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>Seleccione una aeronave</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Inputs: Número de pasajeros, precio */}
-          <FormField
-            control={form.control}
-            name="passengers"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Número de pasajeros</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="# de pasajeros"
-                    className="w-[300px] h-[55px] text-base decoration-transparent"
-                    type="number"
-                    value={field.value || ""}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Ingresa el número máximo de pasajeros
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
+          {/* Inputs: precio */}
           <FormField
             control={form.control}
             name="price"
@@ -141,13 +127,11 @@ function FlightForm() {
                 <FormControl>
                   <Input
                     placeholder="$ Precio"
-                    className="w-[300px] h-[55px] text-base"
                     type="number"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
-                <FormDescription>Ingresa el precio del vuelo</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -163,13 +147,11 @@ function FlightForm() {
                 <FormControl>
                   <Input
                     placeholder="% Impuesto"
-                    className="w-[300px] h-[55px] text-base "
                     pattern="[0-9]+"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
-                <FormDescription>Ingresa el impuesto del vuelo</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -183,15 +165,11 @@ function FlightForm() {
                 <FormControl>
                   <Input
                     placeholder="% Sobretasa"
-                    className="w-[300px] h-[55px] text-base "
                     pattern="[0-9]+"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
-                <FormDescription>
-                  Ingresa la sobretasa del vuelo
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -208,20 +186,17 @@ function FlightForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="w-[300px] h-[55px] text-base">
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione un origen" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Boeing">Medellín</SelectItem>
-                    <SelectItem value="Airbus">Bogotá</SelectItem>
-                    <SelectItem value="Jet">Singapur</SelectItem>
+                    <SelectItem value="CLI">Cali</SelectItem>
+                    <SelectItem value="TLA">Tailandia</SelectItem>
+                    <SelectItem value="ITL">Italia</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>
-                  Seleccione un origen para el vuelo
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -230,19 +205,16 @@ function FlightForm() {
             control={form.control}
             name="departureDate"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col gap-2">
                 <FormLabel>Fecha de salida</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className={cn(
-                          "w-[300px] h-[55px] text-base pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                        className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarIcon className="mr-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
                           format(field.value, "dd/MM/yyyy")
                         ) : (
@@ -254,16 +226,12 @@ function FlightForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date()}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>
-                  Seleccione una fecha de despegue
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -272,23 +240,20 @@ function FlightForm() {
             control={form.control}
             name="departureTime"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col gap-2">
                 <FormLabel>Hora de salida</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className={cn(
-                          "w-[300px] h-[55px] text-base pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                        className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarClock className="mr-auto h-4 w-4 opacity-50" />
+                        <CalendarClock className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
                           format(field.value, "HH:mm aa")
                         ) : (
-                          <span>Selecciona una hora, minuto y horario</span>
+                          <span>Selecciona una hora</span>
                         )}
                       </Button>
                     </FormControl>
@@ -297,7 +262,6 @@ function FlightForm() {
                     <Input type="time" onSelect={field.onChange} />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>Hora de llegada</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -314,41 +278,36 @@ function FlightForm() {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl className="w-[300px] h-[55px] text-base">
+                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Seleccione un destino" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Boeing">Cali</SelectItem>
-                    <SelectItem value="Airbus">Tailandia</SelectItem>
-                    <SelectItem value="Jet">Italia</SelectItem>
+                    <SelectItem value="CLI">Cali</SelectItem>
+                    <SelectItem value="TLA">Tailandia</SelectItem>
+                    <SelectItem value="ITL">Italia</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>
-                  Seleccione un destino para el vuelo
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {/* ArrivalDate */}
           <FormField
             control={form.control}
             name="arrivalDate"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col gap-2">
                 <FormLabel>Fecha de llegada</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className={cn(
-                          "w-[300px] h-[55px] text-base pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                        className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarIcon className="mr-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
                           format(field.value, "dd/MM/yyyy")
                         ) : (
@@ -360,14 +319,12 @@ function FlightForm() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date()}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>Fecha de llegada del vuelo</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -376,23 +333,20 @@ function FlightForm() {
             control={form.control}
             name="arrivalTime"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col gap-2">
                 <FormLabel>Hora de llegada</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className={cn(
-                          "w-[300px] h-[55px] text-base pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                        className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarClock className="mr-auto h-4 w-4 opacity-50" />
+                        <CalendarClock className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
-                          format(field.value, "HH:mm aa")
+                          format(field.value, "HH:mm")
                         ) : (
-                          <span>Selecciona una hora, minuto y horario</span>
+                          <span>Selecciona una hora</span>
                         )}
                       </Button>
                     </FormControl>
@@ -405,7 +359,6 @@ function FlightForm() {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>Hora de llegada</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -414,19 +367,21 @@ function FlightForm() {
           {/* Botón para registrar vuelo */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button type="submit" className="col-start-2">
-                Registrar vuelo
-              </Button>
+              <Button type="submit">Registrar vuelo</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="rounded-md shadow-lg p-6 bg-white text-center">
               <AlertDialogHeader>
-                <AlertDialogTitle>¡Vuelo registrado!</AlertDialogTitle>
-                <AlertDialogDescription>
+                <AlertDialogTitle className="text-xl font-bold">
+                  ¡Vuelo registrado!
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-gray-600">
                   El vuelo ha sido registrado exitosamente.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogAction>Continuar</AlertDialogAction>
+                <AlertDialogAction className="bg-green-500 text-white px-4 py-2 rounded-md">
+                  Continuar
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
