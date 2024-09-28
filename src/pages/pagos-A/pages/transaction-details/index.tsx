@@ -4,9 +4,9 @@ import Header from "@/pages/pagos-A/components/molecules/header";
 
 export default function Pagos() {
   return (
-      <div>
+      <div >
           <Header />
-          <div className="w-full h-dvh bg-gray-200">
+          <div className="w-full h-full bg-gray-200">
               <div className="bg-white w-11/12 h-dvh mx-auto pt-4">
                   <div className="bg-white w-5/12 h-14 rounded-2xl flex items-center -mt-10">
                       <h2 className="scroll-m-20 text-3xl mx-auto font-semibold tracking-tight">
