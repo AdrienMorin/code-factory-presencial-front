@@ -38,6 +38,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { TimePicker } from "@/components/ui/time-picker/time-picker";
 
 function FlightForm() {
   const form = useForm<FlightSchema>({
@@ -58,7 +59,23 @@ function FlightForm() {
   });
 
   function onSubmit(data: FlightSchema) {
-    console.log(data);
+    const formattedData = {
+      ...data,
+      departureDate: data.departureDate
+        ? format(new Date(data.departureDate), "yyyy-MM-dd")
+        : undefined,
+      arrivalDate: data.arrivalDate
+        ? format(new Date(data.arrivalDate), "yyyy-MM-dd")
+        : undefined,
+      departureTime: data.departureTime
+        ? format(new Date(data.departureTime), "HH:mm")
+        : undefined,
+      arrivalTime: data.arrivalTime
+        ? format(new Date(data.arrivalTime), "HH:mm")
+        : undefined,
+    };
+
+    console.log(formattedData);
   }
 
   return (
@@ -192,7 +209,7 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="CLI">Cali</SelectItem>
+                    <SelectItem value="CLO">Cali</SelectItem>
                     <SelectItem value="TLA">Tailandia</SelectItem>
                     <SelectItem value="ITL">Italia</SelectItem>
                   </SelectContent>
@@ -216,7 +233,7 @@ function FlightForm() {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
-                          format(field.value, "dd/MM/yyyy")
+                          format(new Date(field.value), "yyyy-MM-dd")
                         ) : (
                           <span>Seleccione una fecha</span>
                         )}
@@ -240,29 +257,35 @@ function FlightForm() {
             control={form.control}
             name="departureTime"
             render={({ field }) => (
-              <FormItem className="flex flex-col gap-2">
+              <FormItem className="flex flex-col">
                 <FormLabel>Hora de salida</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
+                  <FormControl>
+                    <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
+                        variant="outline"
                         className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarClock className="mr-2 h-4 w-4 opacity-50" />
+                        <CalendarClock className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, "HH:mm aa")
+                          format(field.value, "HH:mm")
                         ) : (
-                          <span>Selecciona una hora</span>
+                          <span>Escribe la hora</span>
                         )}
                       </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Input type="time" onSelect={field.onChange} />
+                    </PopoverTrigger>
+                  </FormControl>
+                  <PopoverContent className="w-auto p-0">
+                    <div className="p-3 border-t border-border">
+                      <TimePicker
+                        setDate={(date) =>
+                          field.onChange(date ? date.toISOString() : undefined)
+                        }
+                        date={field.value ? new Date(field.value) : undefined}
+                      />
+                    </div>
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -284,9 +307,9 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="CLI">Cali</SelectItem>
-                    <SelectItem value="TLA">Tailandia</SelectItem>
-                    <SelectItem value="ITL">Italia</SelectItem>
+                    <SelectItem value="CLO">Cali</SelectItem>
+                    <SelectItem value="BKK">Bangkok</SelectItem>
+                    <SelectItem value="CFO">Roma</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -309,7 +332,7 @@ function FlightForm() {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
                         {field.value ? (
-                          format(field.value, "dd/MM/yyyy")
+                          format(new Date(field.value), "yyyy-MM-dd")
                         ) : (
                           <span>Seleccione una fecha</span>
                         )}
@@ -333,33 +356,35 @@ function FlightForm() {
             control={form.control}
             name="arrivalTime"
             render={({ field }) => (
-              <FormItem className="flex flex-col gap-2">
+              <FormItem className="flex flex-col">
                 <FormLabel>Hora de llegada</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
+                  <FormControl>
+                    <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
+                        variant="outline"
                         className={cn(!field.value && "text-muted-foreground")}
                       >
-                        <CalendarClock className="mr-2 h-4 w-4 opacity-50" />
+                        <CalendarClock className="mr-2 h-4 w-4" />
                         {field.value ? (
                           format(field.value, "HH:mm")
                         ) : (
-                          <span>Selecciona una hora</span>
+                          <span>Escribe la hora</span>
                         )}
                       </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Input
-                      type="time"
-                      onSelect={field.onChange}
-                      value={field.value}
-                    />
+                    </PopoverTrigger>
+                  </FormControl>
+                  <PopoverContent className="w-auto p-0">
+                    <div className="p-3 border-t border-border">
+                      <TimePicker
+                        setDate={(date) =>
+                          field.onChange(date ? date.toISOString() : undefined)
+                        }
+                        date={field.value ? new Date(field.value) : undefined}
+                      />
+                    </div>
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
               </FormItem>
             )}
           />
