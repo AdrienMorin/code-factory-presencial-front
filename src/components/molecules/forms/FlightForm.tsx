@@ -39,8 +39,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { TimePicker } from "@/components/ui/time-picker/time-picker";
+import { useCreateFlight } from "@/hooks/use-flight";
 
 function FlightForm() {
+  const createFlight = useCreateFlight();
+
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
     defaultValues: {
@@ -58,7 +61,7 @@ function FlightForm() {
     },
   });
 
-  function onSubmit(data: FlightSchema) {
+  async function onSubmit(data: FlightSchema) {
     const formattedData = {
       ...data,
       departureDate: data.departureDate
@@ -75,7 +78,12 @@ function FlightForm() {
         : undefined,
     };
 
-    console.log(formattedData);
+    try {
+      await createFlight({ variables: { input: formattedData } });
+      console.log("Vuelo registrado exitosamente");
+    } catch (error) {
+      console.error("Error al registrar el vuelo", error);
+    }
   }
 
   return (

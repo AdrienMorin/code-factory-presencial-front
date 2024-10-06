@@ -2,11 +2,18 @@ import Navbar from "@/components/molecules/bars/Navbar";
 import SearchBar from "@/components/molecules/bars/SearchBar";
 import FlightCard from "@/components/molecules/cards/FlightCard";
 import FooterCopy from "@/components/molecules/FooterCopy";
+import { useFlights } from "@/hooks/use-flight";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 function FlightsHome() {
+  // Obtener vuelos desde la query de Apollo
+  const { flights, loading, error } = useFlights();
+
+  if (loading) return <p>Cargando vuelos...</p>;
+  if (error) return <p>Error al cargar los vuelos: {error.message}</p>;
+
   return (
     <div className="flex flex-col h-full w-full">
       <Navbar />
@@ -20,7 +27,8 @@ function FlightsHome() {
             <BadgePlus /> Registrar vuelo
           </Link>
         </div>
-        <FlightCard />
+        {/* Pasar los vuelos obtenidos a FlightCard */}
+        <FlightCard flights={flights} />
       </section>
       <FooterCopy />
     </div>
