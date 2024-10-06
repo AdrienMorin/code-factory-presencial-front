@@ -7,7 +7,10 @@
     text-wrap: balance;
   }
 }
-
+/* Utilidad para evitar sombras de texto */
+.no-shadow {
+  text-shadow: none; /* Elimina la sombra del texto */
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

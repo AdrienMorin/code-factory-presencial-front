@@ -1,7 +1,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../atoms/DropdownMenu";
-import { Avatar, AvatarFallback } from "../atoms/Avatar"; // Asegúrate de que AvatarFallback esté importado
-import { Logo } from "../atoms/Logo";
-import { Button } from "../atoms/button"; // Importa tu componente Button
+import { Avatar, AvatarFallback } from "@/components/atoms/Avatar"; // Asegúrate de que AvatarFallback esté importado
+import { Logo } from "@/components/atoms/Logo";
+import { Button } from "@/components/atoms/button"; // Importa tu componente Button
 import { FaBars } from "react-icons/fa"; 
 import { useState } from "react";
 
