@@ -2,20 +2,29 @@ import { Button } from "@/components/ui/button";
 import { CircleEllipsis, Pencil, X } from "lucide-react";
 import React from "react";
 
-type FlightCardProps = {
-  flights: {
-    flightType: string;
-    flightCode: string;
-    departure: string;
-    arrival: string;
-    departureTime: string;
-    arrivalTime: string;
-    departureDate: string;
-    arrivalDate: string;
-  }[];
-};
-
-const FlightCard: React.FC<FlightCardProps> = ({ flights }) => {
+const FlightCard = () => {
+  const flights = [
+    {
+      flightType: "Vuelo de carga",
+      flightCode: "SIA-0001",
+      departure: "SIN - Singapur",
+      departureDate: "2021-12-31",
+      departureTime: "12:00",
+      arrival: "MEX - Ciudad de México",
+      arrivalDate: "2022-01-01",
+      arrivalTime: "00:00",
+    },
+    {
+      flightType: "Vuelo de pasajeros",
+      flightCode: "SIA-0002",
+      departure: "MEX - Ciudad de México",
+      departureDate: "2022-01-01",
+      departureTime: "12:00",
+      arrival: "SIN - Singapur",
+      arrivalDate: "2022-01-02",
+      arrivalTime: "00:00",
+    },
+  ];
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-4">
       {flights.map((flight, index) => (
