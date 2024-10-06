@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const ALL_FLIGHTS = gql`
   query AllFlights {
@@ -37,13 +37,3 @@ export const FLIGHT_BY_ID = gql`
     }
   }
 `;
-
-export const useFlights = () => {
-  const { data, loading, error } = useQuery(ALL_FLIGHTS);
-
-  return {
-    flights: data?.allFlights || [],
-    loading,
-    error,
-  };
-};
