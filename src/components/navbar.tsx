@@ -56,14 +56,14 @@ const Navbar = () => {
               Mi cuenta
             </Link>
             <Link
-              href="gestion-vuelos-b/airplane-types"
+              href="/gestion-vuelos-b/airplane-types"
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-4"
             >
               <PlaneIcon className="h-6 w-6" />
               Aeronaves
             </Link>
             <Link
-              href="gestion-vuelos-b/flights"
+              href="/gestion-vuelos-b/flights"
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-4"
             >
               <GlobeIcon className="h-6 w-6" />
