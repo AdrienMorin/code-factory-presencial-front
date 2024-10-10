@@ -138,14 +138,6 @@ export const columns: ColumnDef<Flight>[] = [
     },
   },
   {
-    accessorKey: "price",
-    id: "precio",
-    header: () => <div className="text-right">Precio</div>,
-    cell: ({ row }) => {
-      return <div className="text-right">{row.original.price}</div>;
-    },
-  },
-  {
     id: "actions",
     enableHiding: false,
     cell: ({}) => {
