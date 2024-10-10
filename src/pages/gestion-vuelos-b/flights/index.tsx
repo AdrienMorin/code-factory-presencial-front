@@ -138,6 +138,38 @@ export const columns: ColumnDef<Flight>[] = [
     },
   },
   {
+    accessorKey: "departureDate",
+    id: "fecha de salida",
+    header: () => <div className="text-right">Fecha de salida</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-right">
+          {new Intl.DateTimeFormat("es", {
+            month: "short",
+            day: "2-digit",
+          }).format(new Date(row.original.departureDate))}{" "}
+          {row.original.departureTime}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "arrivalDate",
+    id: "fecha de llegada",
+    header: () => <div className="text-right">Fecha de llegada</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-right">
+          {new Intl.DateTimeFormat("es", {
+            month: "short",
+            day: "2-digit",
+          }).format(new Date(row.original.arrivalDate))}{" "}
+          {row.original.arrivalTime}
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({}) => {
