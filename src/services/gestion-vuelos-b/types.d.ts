@@ -40,6 +40,10 @@ export type Flight = {
   price: number;
   taxPercentage: number;
   surchargePercentage: number;
+  departureDate: string;
+  arrivalDate: string;
+  departureTime: string;
+  arrivalTime: string;
   flightType: FlightType;
   airplaneType: AirplaneType;
   status: Status;

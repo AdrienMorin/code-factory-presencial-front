@@ -27,6 +27,10 @@ export const getAllFlights = async () => {
         price
         taxPercentage
         surchargePercentage
+        departureDate
+        arrivalDate
+        departureTime
+        arrivalTime
         flightType {
           id
           name
@@ -49,8 +53,7 @@ export const getAllFlights = async () => {
   `;
   const response: {
     getAllFlights: Partial<Flight>[];
-  }
-   = await gqlClient.request(query);
+  } = await gqlClient.request(query);
   return response.getAllFlights;
 };
 
@@ -73,6 +76,10 @@ export const getFlightById = async (id: string) => {
         price
         taxPercentage
         surchargePercentage
+        departureDate
+        arrivalDate
+        departureTime
+        arrivalTime
         flightType {
           id
           name
@@ -94,7 +101,10 @@ export const getFlightById = async (id: string) => {
     }
   `;
   const variables = { id };
-  const response: Record<string, string> = await gqlClient.request(query, variables);
+  const response: Record<string, string> = await gqlClient.request(
+    query,
+    variables
+  );
   return response.getFlightById;
 };
 
@@ -106,6 +116,10 @@ export const updateFlight = async (input: string) => {
         flightNumber: $input.flightNumber,
         originIata: $input.originIata,
         destinationIata: $input.destinationIata,
+        departureDate: $input.departureDate,
+        arrivalDate: $input.arrivalDate,
+        departureTime: $input.departureTime,
+        arrivalTime: $input.arrivalTime,
         price: $input.price,
         taxPercentage: $input.taxPercentage,
         surchargePercentage: $input.surchargePercentage,
@@ -118,17 +132,45 @@ export const updateFlight = async (input: string) => {
         origin {
           iataCode
           airportName
+          country
         }
         destination {
           iataCode
           airportName
+          country
         }
         price
+        taxPercentage
+        surchargePercentage
+        departureDate
+        arrivalDate
+        departureTime
+        arrivalTime
+        flightType {
+          id
+          name
+        }
+        airplaneType {
+          id
+          type {
+            id
+            name
+          }
+          maxSeats
+          seatsDistribution
+        }
+        status {
+          id
+          statusName
+        }
       }
     }
   `;
   const variables = { input };
-  const response: Record<string, string> = await gqlClient.request(mutation, variables);
+  const response: Record<string, string> = await gqlClient.request(
+    mutation,
+    variables
+  );
   return response.updateFlight;
 };
 
@@ -139,6 +181,9 @@ export const deleteFlight = async (id: number) => {
     }
   `;
   const variables = { id };
-  const response: Record<string, string> = await gqlClient.request(mutation, variables);
+  const response: Record<string, string> = await gqlClient.request(
+    mutation,
+    variables
+  );
   return response.deleteFlight;
 };
