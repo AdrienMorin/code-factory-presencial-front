@@ -101,7 +101,9 @@ export const columns: ColumnDef<Flight>[] = [
     header: () => <div className="text-right">Tipo de vuelo</div>,
     cell: ({ row }) => {
       return (
-        <Badge className="text-right">{row.original.flightType.name}</Badge>
+        <div className="w-full inline-flex justify-end">
+          <Badge>{row.original.flightType.name}</Badge>
+        </div>
       );
     },
   },
