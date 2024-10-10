@@ -96,6 +96,18 @@ export const columns: ColumnDef<Flight>[] = [
     ),
   },
   {
+    accessorKey: "status",
+    id: "estado",
+    header: () => <div className="text-right">Estado</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="w-full inline-flex justify-end">
+          <Badge variant="secondary">{row.original.status.statusName}</Badge>
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "flightType",
     id: "tipo de vuelo",
     header: () => <div className="text-right">Tipo de vuelo</div>,
