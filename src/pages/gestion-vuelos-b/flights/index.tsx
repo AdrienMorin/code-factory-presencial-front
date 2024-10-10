@@ -110,9 +110,7 @@ export const columns: ColumnDef<Flight>[] = [
     id: "origen",
     header: () => <div className="text-right">Origen</div>,
     cell: ({ row }) => {
-      return (
-        <div className="text-right">{row.original.origin.airportName}</div>
-      );
+      return <div className="text-right">{row.original.origin.iataCode}</div>;
     },
   },
   {
@@ -121,7 +119,7 @@ export const columns: ColumnDef<Flight>[] = [
     header: () => <div className="text-right">Destino</div>,
     cell: ({ row }) => {
       return (
-        <div className="text-right">{row.original.destination.airportName}</div>
+        <div className="text-right">{row.original.destination.iataCode}</div>
       );
     },
   },
