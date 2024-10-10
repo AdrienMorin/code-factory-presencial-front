@@ -1,6 +1,6 @@
 "use client";
 
-import StripeCheckout from "@/pages/pagos-A/components/molecules/stripeCheckout";
+import StripeCheckout from "@/components/molecules/stripeCheckout";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";

@@ -1,6 +1,7 @@
-import {PaymentModule} from "@/pages/pagos-A/components/organisms/paymentModule";
+import {PaymentModule} from "@/components/organisms/paymentModule";
 import React from "react";
-import Header from "@/pages/pagos-A/components/molecules/header";
+import Header from "@/components/molecules/header";
+import OrderSummary from "@/components/organisms/orderSummary";
 
 export default function Pagos() {
   return (
@@ -13,8 +14,13 @@ export default function Pagos() {
                           Método de pago
                       </h2>
                   </div>
-                  <div className="m-2 px-8 lg:w-7/12">
-                      <PaymentModule/>
+                  <div className={"flex flex-col lg:flex-row lg:justify-between"}>
+                      <div className="m-2 px-8 lg:w-7/12">
+                          <PaymentModule />
+                      </div>
+                      <div className={"mt-2 mr-10 ml-10 lg:w-4/12 lg:mr-8"}>
+                          <OrderSummary />
+                      </div>
                   </div>
               </div>
           </div>

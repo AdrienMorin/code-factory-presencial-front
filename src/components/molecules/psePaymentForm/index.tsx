@@ -6,7 +6,7 @@ import { z } from "zod"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import PayButton from "@/pages/pagos-A/components/atoms/payButton";
+import PayButton from "@/components/atoms/payButton";
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import {

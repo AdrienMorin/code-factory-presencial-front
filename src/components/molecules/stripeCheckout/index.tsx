@@ -7,7 +7,7 @@ import {
     PaymentElement,
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
-import PayButton from "@/pages/pagos-A/components/atoms/payButton";
+import PayButton from "@/components/atoms/payButton";
 
 const StripeCheckout = ({ amount }: { amount: number }) => {
     const stripe = useStripe();

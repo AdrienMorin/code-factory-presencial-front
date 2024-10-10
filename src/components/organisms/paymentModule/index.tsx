@@ -4,8 +4,8 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import CardPaymentForm from "@/pages/pagos-A/components/molecules/cardPaymentForm";
-import {PSEPaymentForm} from "@/pages/pagos-A/components/molecules/psePaymentForm";
+import CardPaymentForm from "@/components/molecules/cardPaymentForm";
+import {PSEPaymentForm} from "@/components/molecules/psePaymentForm";
 
 export function PaymentModule() {
     const amount = 49.99;
