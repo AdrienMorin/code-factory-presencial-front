@@ -34,23 +34,23 @@ export function SearchInputCalendar({ inputSearchField, handleInputChange }: Sea
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex gap-1.5">
-        {inputSearchField.map((field, index) => (
-          <div key={index} className="flex flex-col items-center gap-1.5">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-                !dates[field.name] && "text-black"
-              )}
-              onClick={() => setActiveField(field.name)}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {dates[field.name] ? format(dates[field.name], "yyyy-MM-dd") : <span>{field.placeholder}</span>}
-            </Button>
-          </div>
-        ))}
+        <div className="flex gap-3 xl:gap-10">
+          {inputSearchField.map((field, index) => (
+            <div key={index} className="flex flex-col items-center gap-1.5">
+              <Label htmlFor={field.value}>{field.label}</Label>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+                  !dates[field.value] && "text-black"
+                )}
+                onClick={() => setActiveField(field.value)}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {dates[field.value] ? format(dates[field.value], "yyyy-MM-dd") : <span>{field.placeholder}</span>}
+              </Button>
+            </div>
+          ))}
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
