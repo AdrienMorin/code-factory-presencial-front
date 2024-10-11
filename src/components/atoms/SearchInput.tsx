@@ -3,10 +3,11 @@ import { Label } from "@/components/ui/label"
 import { InputSearchField } from "@/types/InputTypes"
 
 type SearchInputProps = {
-  inputSearchField: InputSearchField[]
+  inputSearchField: InputSearchField[],
+  handleInputChange: (name: string, value: string) => void
 }
 
-export default function SearchInput({ inputSearchField }: SearchInputProps) {
+export default function SearchInput({ inputSearchField, handleInputChange }: SearchInputProps) {
   return (
     <div className="flex w-full max-w-sm items-center gap-1.5">
       { inputSearchField.map((field, index) => (
@@ -17,6 +18,7 @@ export default function SearchInput({ inputSearchField }: SearchInputProps) {
               type="search"
               placeholder={field.placeholder}
               className="bg-input lg:pl-10" // Añade padding a la izquierda para el icono
+              onChange={(e) => handleInputChange(field.name, e.target.value)}
             />
             <span className="absolute hidden lg:block left-2 top-1/2 transform -translate-y-1/2">
               {<field.icon/>}
