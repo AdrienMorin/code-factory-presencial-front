@@ -24,7 +24,7 @@ export default function SearchForm( { inputFields, inputFieldsCalendar }: Search
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Aquí envías los parámetros al backend
+    // TO DO: logica para enviar los datos al Backend
     console.log('Parámetros de búsqueda:', searchParams, tripType);
   };
 
