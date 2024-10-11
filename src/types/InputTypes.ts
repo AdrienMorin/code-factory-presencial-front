@@ -1,13 +1,17 @@
 export type InputSearchField = {
-  name: string;
   label: string;
+  value: string;
   placeholder: string;
   type: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
+export type InputSearchFieldPassenger = InputSearchField & {
+  passengerValue: number;
+}
+
 export type InputSearchFieldCalendar = {
-  name: string;
   label: string;
+  value: string;
   placeholder: string;
 };
