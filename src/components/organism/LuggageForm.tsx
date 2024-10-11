@@ -13,7 +13,7 @@ const FormSchema = z.object({
   location: z.enum(["handLuggage", "cabin", "hold"], {
     required_error: "Debes seleccionar una ubicación para el equipaje.",
   }),
-  type: z.enum(["suitcase", "pet", "preciousItem"], {
+  type: z.enum(["suitcase", "musicalInstrument", "sportItem", "animal", "specialItems"], {
     required_error: "Debes seleccionar un tipo de equipaje.",
   }),
   weight: z
@@ -57,7 +57,10 @@ export function LuggageForm() {
 
   return (
     <div className="w-full h-screen bg-white flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full md:max-w-6xl mt-16">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full md:max-w-6xl mt-8"> {/* Ajuste de mt-16 a mt-8 */}
+        {/* Título principal "Añadir equipaje" */}
+        <Label className="block mb-4 text-left text-4xl font-bold text-black">Añadir equipaje</Label>
+
         {/* Sección de ubicación y tipo de equipaje */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           {/* Columna 1: Ubicación del equipaje */}
@@ -95,9 +98,11 @@ export function LuggageForm() {
                 <SelectValue placeholder="Seleccione un tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="suitcase">Maleta</SelectItem>
-                <SelectItem value="pet">Mascota</SelectItem>
-                <SelectItem value="preciousItem">Artículo precioso</SelectItem>
+                <SelectItem value="suitcase">Maleta o bolso</SelectItem>
+                <SelectItem value="musicalInstrument">Instrumento musical</SelectItem>
+                <SelectItem value="sportItem">Artículo deportivo</SelectItem>
+                <SelectItem value="animal">Animal</SelectItem>
+                <SelectItem value="specialItems">Otros artículos especiales</SelectItem>
               </SelectContent>
             </Select>
             {errors.type && <span className="text-red-500">{errors.type.message}</span>}
@@ -119,7 +124,7 @@ export function LuggageForm() {
 
         {/* Sección de dimensiones */}
         <div className="mt-8">
-          <Label className="block mb-1 text-left">Dimensiones</Label>
+          <Label className="block mb-1 text-left text-xl font-bold text-black">Dimensiones</Label>
           <p className="text-xs text-gray-500 mt-1 block mb-1 text-left">
             Ingresa las dimensiones de tu equipaje en centímetros (cm).
           </p>
@@ -176,7 +181,7 @@ export function LuggageForm() {
         {/* Botones de acción */}
         <div className="flex justify-end mt-8 space-x-4">
           <Button type="button" className="bg-white text-black">Cancelar</Button>
-          <Button type="submit" className="bg-blue-500">Añadir equipaje</Button>
+          <Button type="submit" className="bg-customSky">Añadir equipaje</Button>
         </div>
       </form>
     </div>
