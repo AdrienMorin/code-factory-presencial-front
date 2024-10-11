@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
 
@@ -16,11 +16,20 @@ import { Label } from "../ui/label"
 import { InputSearchFieldCalendar } from "@/types/InputTypes"
 
 type SearchInputCalendarProps = {
-  inputSearchField: InputSearchFieldCalendar[]
+  inputSearchField: InputSearchFieldCalendar[];
+  handleInputChange: (name: string, value: string) => void;
 }
 
-export function SearchInputCalendar({ inputSearchField }: SearchInputCalendarProps) {
-  const [date, setDate] = React.useState<Date>()
+export function SearchInputCalendar({ inputSearchField, handleInputChange }: SearchInputCalendarProps) {
+  const [dates, setDates] = useState<{ [key: string]: Date }>({});
+  const [activeField, setActiveField] = useState<string | null>(null);
+
+  const handleDateChange = (name: string , selectedDate: Date) => {
+    setDates(prevDates => ({...prevDates, [name]: selectedDate}));
+    if(selectedDate){
+      handleInputChange(name, format(selectedDate, "yyyy-MM-dd"));  
+    }
+  };
 
   return (
     <Popover>
@@ -33,11 +42,12 @@ export function SearchInputCalendar({ inputSearchField }: SearchInputCalendarPro
               variant={"outline"}
               className={cn(
                 "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-                !date && "text-black"
+                !dates[field.name] && "text-black"
               )}
+              onClick={() => setActiveField(field.name)}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>{field.placeholder}</span>}
+              {dates[field.name] ? format(dates[field.name], "yyyy-MM-dd") : <span>{field.placeholder}</span>}
             </Button>
           </div>
         ))}
@@ -46,8 +56,12 @@ export function SearchInputCalendar({ inputSearchField }: SearchInputCalendarPro
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          selected={activeField ? dates[activeField] : undefined}
+          onSelect={(date) => {
+            if (activeField && date) {
+              handleDateChange(activeField, date);
+            }
+          }}
           initialFocus
         />
       </PopoverContent>
