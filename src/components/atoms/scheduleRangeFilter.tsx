@@ -8,19 +8,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import scheduleRanges from "@/utils/const/scheduleRanges";
 
-const PassengerNumber = () => {
+const ScheduleRangeFilter = () => {
   return (
     <Select>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select number of passengers" />
+        <SelectValue placeholder="Select schedule range" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Passengers</SelectLabel>
-          {[...Array(8)].map((_, i) => (
-            <SelectItem key={i + 1} value={(i + 1).toString()}>
-              {i + 1}
+          <SelectLabel>Schedule range</SelectLabel>
+          {scheduleRanges.map((range) => (
+            <SelectItem key={range.value} value={range.value}>
+              {range.label}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -29,4 +30,4 @@ const PassengerNumber = () => {
   );
 };
 
-export default PassengerNumber;
+export default ScheduleRangeFilter;

@@ -9,18 +9,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const PassengerNumber = () => {
+const ScalesNumberFilter = () => {
   return (
     <Select>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select number of passengers" />
+        <SelectValue placeholder="Select number of scales" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Passengers</SelectLabel>
-          {[...Array(8)].map((_, i) => (
-            <SelectItem key={i + 1} value={(i + 1).toString()}>
-              {i + 1}
+          <SelectLabel>Scales</SelectLabel>
+          {[...Array(3)].map((_, i) => (
+            <SelectItem key={i} value={i.toString()}>
+              {i}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -29,4 +29,4 @@ const PassengerNumber = () => {
   );
 };
 
-export default PassengerNumber;
+export default ScalesNumberFilter;

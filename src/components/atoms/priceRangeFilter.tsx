@@ -8,19 +8,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import priceRanges from "@/utils/const/priceRange";
 
-const PassengerNumber = () => {
+const PriceRangeFilter = () => {
   return (
     <Select>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select number of passengers" />
+        <SelectValue placeholder="Select price range" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Passengers</SelectLabel>
-          {[...Array(8)].map((_, i) => (
-            <SelectItem key={i + 1} value={(i + 1).toString()}>
-              {i + 1}
+          <SelectLabel>Price Range</SelectLabel>
+          {priceRanges.map((range) => (
+            <SelectItem key={range.value} value={range.value}>
+              {range.label}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -29,4 +30,4 @@ const PassengerNumber = () => {
   );
 };
 
-export default PassengerNumber;
+export default PriceRangeFilter;
