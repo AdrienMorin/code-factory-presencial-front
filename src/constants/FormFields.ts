@@ -2,7 +2,7 @@ import {
   InputSearchField,
   InputSearchFieldCalendar
 } from "@/types/InputTypes";
-import { PlaneTakeoff, PlaneLanding, UserPlus } from "lucide-react";
+import { PlaneTakeoff, PlaneLanding, UserPlus} from "lucide-react";
 
 export const searchFields: InputSearchField[] = [
   {
@@ -22,20 +22,20 @@ export const searchFields: InputSearchField[] = [
   {
     name: "passengers",
     label: "Pasajeros",
-    placeholder: "adulto + 1",
-    type: "search",
+    placeholder: "1",
+    type: "number",
     icon: UserPlus,
-  }
+  },
 ];
 
 export const searchFieldsCalendar: InputSearchFieldCalendar[] = [
   {
-    name: "departure",
+    name: "departureDate",
     label: "Ida",
     placeholder: "Fecha ida",
   },
   {
-    name: "return",
+    name: "returnDate",
     label: "Vuelta",
     placeholder: "Fecha vuelta",
   },
