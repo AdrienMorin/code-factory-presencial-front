@@ -43,12 +43,13 @@ export default function Navbar() {
         <div className='hidden md:block p-5'>
           <NavigateCard />
         </div>
-        <div>
+        <div className='flex gap-5'>
           <ProfileCard />
+
+          <Link href='/'>
+            <LogOut size={40} className='cursor-pointer bg-black text-white rounded-full p-2'/>
+          </Link>
         </div>
-        <Link href='/'>
-          <LogOut size={40} className='cursor-pointer bg-black text-white rounded-full p-2'/>
-        </Link>
       </div>
     </div>
   )
