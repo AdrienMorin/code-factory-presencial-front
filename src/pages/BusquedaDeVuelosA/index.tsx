@@ -1,7 +1,7 @@
 import Navbar from '@/components/molecules/Navbar'
 import PublicityCard from '@/components/molecules/PublicityCard'
 import SearchForm from '@/components/molecules/SearchForm'
-import { searchFields, searchFieldsCalendar } from '@/constants/FormFields'
+import { searchFieldsCalendar, searchFields, searchFieldsPassenger } from '@/constants/FormFields'
 import React from 'react'
 
 export default function BusquedaDeVuelosA() {
@@ -11,6 +11,7 @@ export default function BusquedaDeVuelosA() {
       <SearchForm 
         inputFields={searchFields}
         inputFieldsCalendar={searchFieldsCalendar}
+        InputSearchFieldPassenger={searchFieldsPassenger}
       />
       <PublicityCard />
     </div>
