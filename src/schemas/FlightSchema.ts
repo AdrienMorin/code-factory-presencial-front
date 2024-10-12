@@ -27,31 +27,18 @@ const iataCodes: [string, ...string[]] = [
   "FCO",
 ];
 
-// Lista de tipos de aeronaves válidas
-const aircraftModels: [string, ...string[]] = [
-  "B737",
-  "B737-800Max",
-  "B747-400",
-  "B777-300",
-  "B787-800",
-  "A320",
-  "A320-200Neo",
-  "A330-200",
-  "A350-900",
-];
-
 export const formFlight = z
   .object({
-    flightType: z.enum(["internacional", "nacional"], {
+    flightType: z.enum(["INTERNACIONAL", "NACIONAL"], {
       message: "El tipo de vuelo no es válido",
     }),
-    origin: z.enum(iataCodes, {
+    departureCity: z.enum(iataCodes, {
       message: "El código de origen no es válido",
     }),
-    destination: z.enum(iataCodes, {
+    destinationCity: z.enum(iataCodes, {
       message: "El código de destino no es válido",
     }),
-    aircraftModel: z.enum(aircraftModels, {
+    aircraftId: z.string({
       message: "El tipo de aeronave no es válido",
     }),
     departureDate: z.date({
@@ -67,7 +54,7 @@ export const formFlight = z
       message: "La hora de llegada debe estar en formato HH:mm",
     }),
     price: z.number().min(1, { message: "El precio debe ser mayor que 0" }),
-    tax: z
+    taxPercentage: z
       .number()
       .min(1, { message: "El porcentaje de impuesto es requerido" }),
     surcharge: z

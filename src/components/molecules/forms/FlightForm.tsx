@@ -39,20 +39,26 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { TimePicker } from "@/components/ui/time-picker/time-picker";
+import { useMutation } from "@apollo/client";
+import { CREATE_FLIGHT } from "@/graphql/mutations/flightMutations";
+import createApolloClient from "@/apollo/client";
 
 function FlightForm() {
+  const client = createApolloClient();
+  const [createFlight] = useMutation(CREATE_FLIGHT, { client });
+
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
     defaultValues: {
       flightType: undefined,
-      aircraftModel: "",
+      aircraftId: "",
       price: 0,
-      tax: 0,
+      taxPercentage: 0,
       surcharge: 0,
-      origin: "",
+      departureCity: "",
       departureDate: undefined,
       departureTime: undefined,
-      destination: "",
+      destinationCity: "",
       arrivalDate: undefined,
       arrivalTime: undefined,
     },
@@ -75,12 +81,14 @@ function FlightForm() {
         : undefined,
     };
 
-    /* try {
-      await createFlight({ variables: { input: formattedData } });
-      console.log("Vuelo registrado exitosamente");
+    try {
+      const response = await createFlight({
+        variables: { input: formattedData },
+      });
+      console.log("Vuelo registrado exitosamente", response);
     } catch (error) {
       console.error("Error al registrar el vuelo", error);
-    } */
+    }
 
     console.log(formattedData);
   }
@@ -109,8 +117,8 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="internacional">Internacional</SelectItem>
-                    <SelectItem value="nacional">Nacional</SelectItem>
+                    <SelectItem value="INTERNACIONAL">Internacional</SelectItem>
+                    <SelectItem value="NACIONAL">Nacional</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -118,9 +126,10 @@ function FlightForm() {
             )}
           />
 
+          {/* Aeronaves disponibles */}
           <FormField
             control={form.control}
-            name="aircraftModel"
+            name="aircraftId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Aeronave</FormLabel>
@@ -131,9 +140,8 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* Aquí las aeronaves DISPONIBLES que me traiga del back */}
-                    <SelectItem value="B737">Boeing737</SelectItem>
-                    <SelectItem value="A320">Airbus320</SelectItem>
+                    <SelectItem value="1">Boeing737</SelectItem>
+                    <SelectItem value="2">Airbus320</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -164,7 +172,7 @@ function FlightForm() {
           {/* Impuesto, sobretasa */}
           <FormField
             control={form.control}
-            name="tax"
+            name="taxPercentage"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>% Impuesto</FormLabel>
@@ -202,7 +210,7 @@ function FlightForm() {
           {/* Origen */}
           <FormField
             control={form.control}
-            name="origin"
+            name="departureCity"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Origen</FormLabel>
@@ -300,7 +308,7 @@ function FlightForm() {
           {/* Destino */}
           <FormField
             control={form.control}
-            name="destination"
+            name="destinationCity"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Destino</FormLabel>
@@ -316,7 +324,7 @@ function FlightForm() {
                   <SelectContent>
                     <SelectItem value="CLO">Cali</SelectItem>
                     <SelectItem value="BKK">Bangkok</SelectItem>
-                    <SelectItem value="CFO">Roma</SelectItem>
+                    <SelectItem value="FCO">Roma</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
