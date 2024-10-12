@@ -1,6 +1,7 @@
 import AdminInfo from "@/components/molecules/AdminInfo";
 import FooterCopy from "@/components/molecules/FooterCopy";
 import { Button } from "@/components/ui/button";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,6 +9,9 @@ import React from "react";
 function HomePage() {
   return (
     <main className="h-screen bg-gradient-to-b from-emerald-600 to-emerald-900 to-95% font-sans text-white flex flex-col justify-between">
+      <Head>
+        <title>Gestión de vuelos A</title>
+      </Head>
       <header className="flex justify-end gap-4 items-center p-4">
         <AdminInfo />
       </header>
