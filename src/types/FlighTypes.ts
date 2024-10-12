@@ -1,4 +1,5 @@
 export interface Flight {
+  flightNumber: string;
   flightType: "INTERNACIONAL" | "NACIONAL";
   departureCity: string;
   destinationCity: string;
