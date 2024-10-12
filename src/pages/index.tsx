@@ -1,5 +1,7 @@
 import FloatBadge from "@/components/molecules/floatBadge/index";
 
+import Accordion from "@/components/molecules/Accordion/index";
+
 export default function Home() {
   return (
     <div className="flex justify-center items-center">
