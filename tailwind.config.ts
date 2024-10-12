@@ -51,6 +51,7 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
         customSky: '#10a4ec', // Agrega el color personalizado aquí
+        customRed: '#e63946',
       },
       borderRadius: {
         lg: 'var(--radius)',

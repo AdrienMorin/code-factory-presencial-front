@@ -1,6 +1,6 @@
 import { Header } from "@/components/molecules/Header"; 
-import { Footer } from "@/components/atoms/Footer"; 
-import { LuggageForm } from "@/components/organism/LuggageForm"; // Adjust the import if necessary
+import { Footer } from "@/components/atoms/Footer";  // Adjust the import if necessary
+import { SaveForm } from "@/components/organism/editForm";
 
 export default function AgregarEquipaje() {
   return (
@@ -14,7 +14,7 @@ export default function AgregarEquipaje() {
         style={{ marginTop: '1rem' }} // Ajusta el margen superior aquí
       >
         {/* Formulario para añadir equipaje */}
-        <LuggageForm />
+        <SaveForm />
       </main>
 
       {/* Footer de la página */}

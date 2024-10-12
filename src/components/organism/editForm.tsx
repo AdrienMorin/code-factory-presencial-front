@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/router"; // Importa useRouter
 import { RadioGroup, RadioGroupItem } from "@/components/atoms/RadioGroup";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/atoms/Select";
-import { Button } from "@/components/atoms/button";
+import { Button } from "@/components/atoms/button"; 
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
 import { toast } from "@/components/hooks/use-toast";
+import { useRouter } from "next/router"; 
 
 // Define el esquema de validación con Zod
 const FormSchema = z.object({
@@ -19,56 +19,55 @@ const FormSchema = z.object({
   }),
   weight: z
     .string() // Mantener como string
-    .min(1, { message: "El peso no puede estar vacío." }) // Prohibir campos vacíos
+    .min(1, { message: "El peso no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El peso debe ser un número positivo." }),
   height: z
     .string() // Mantener como string
-    .min(1, { message: "La altura no puede estar vacía." }) // Prohibir campos vacíos
+    .min(1, { message: "La altura no puede estar vacía." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "La altura debe ser un número positivo." }),
   length: z
     .string() // Mantener como string
-    .min(1, { message: "El largo no puede estar vacío." }) // Prohibir campos vacíos
+    .min(1, { message: "El largo no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El largo debe ser un número positivo." }),
   width: z
     .string() // Mantener como string
-    .min(1, { message: "El ancho no puede estar vacío." }) // Prohibir campos vacíos
+    .min(1, { message: "El ancho no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El ancho debe ser un número positivo." }),
 });
 
 // Inferir tipos a partir del esquema de Zod
 type FormData = z.infer<typeof FormSchema>;
 
-export function LuggageForm() {
-  const router = useRouter(); // Inicializa useRouter
+export function SaveForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
 
   const { register, handleSubmit, setValue, formState: { errors } } = form;
+  const router = useRouter(); // Inicializa el enrutador
 
   function onSubmit(data: FormData) {
+    // Aquí  agregar la lógica para guardar los datos (por ejemplo, hacer una petición a la API)
+
     toast({
-      title: "Has enviado los siguientes valores:",
+      title: "Datos guardados correctamente",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
     });
-    
-    // Redirige a la nueva ruta
-    router.push("/equipajes/equipaje");
+
+    // Redirige a la página de equipaje después de guardar
+    router.push("/equipajes/equipaje"); // Cambia la ruta según tu estructura
   }
 
   return (
     <div className="w-full h-screen bg-white flex justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full md:max-w-6xl mt-0">
-        {/* Título principal "Añadir equipaje" */}
-        <Label className="block mb-4 text-left text-4xl font-bold text-black">Añadir equipaje</Label>
+        <Label className="block mb-4 text-left text-4xl font-bold text-black">Guardar equipaje</Label>
 
-        {/* Sección de ubicación y tipo de equipaje */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          {/* Columna 1: Ubicación del equipaje */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Ubicación del equipaje</Label>
             <RadioGroup
@@ -92,7 +91,6 @@ export function LuggageForm() {
             {errors.location && <span className="text-red-500">{errors.location.message}</span>}
           </div>
 
-          {/* Columna 2: Tipo de equipaje */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Tipo de equipaje</Label>
             <Select
@@ -113,7 +111,6 @@ export function LuggageForm() {
             {errors.type && <span className="text-red-500">{errors.type.message}</span>}
           </div>
 
-          {/* Columna 3: Peso */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Peso</Label>
             <Input
@@ -127,7 +124,6 @@ export function LuggageForm() {
           </div>
         </div>
 
-        {/* Sección de dimensiones */}
         <div className="mt-8">
           <Label className="block mb-1 text-left text-xl font-bold text-black">Dimensiones</Label>
           <p className="text-xs text-gray-500 mt-1 block mb-1 text-left">
@@ -170,12 +166,8 @@ export function LuggageForm() {
           </div>
         </div>
 
-        {/* Línea dibujada y valor */}
         <div className="mt-8">
-          {/* Línea con el mismo tono de los bordes de input */}
           <div className="w-full h-[2px] bg-gray-300"></div>
-
-          {/* Texto "Valor" debajo de la línea */}
           <div className="flex justify-end mt-2">
             <div className="text-black text-right">
               <span className="font-bold">Valor:</span> <span className="text-black">$ 50.000</span>
@@ -183,10 +175,9 @@ export function LuggageForm() {
           </div>
         </div>
 
-        {/* Botones de acción */}
         <div className="flex justify-end mt-8 space-x-4">
-          <Button type="button" className="bg-white text-black">Cancelar</Button>
-          <Button type="submit" className="bg-customSky">Añadir equipaje</Button>
+          <Button type="button" className="bg-[#e63946] text-white">Eliminar</Button>
+          <Button type="submit" className="bg-[#10a4ec] text-white">Guardar</Button> {/* Cambié el tipo a "submit" */}
         </div>
       </form>
     </div>

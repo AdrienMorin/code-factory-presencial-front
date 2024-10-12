@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"; // Importa useRouter
+import { useRouter } from "next/router"; 
 import { Header } from "@/components/molecules/Header"; 
 import { Footer } from "@/components/atoms/Footer"; 
 import { Button } from "@/components/atoms/button"; 
