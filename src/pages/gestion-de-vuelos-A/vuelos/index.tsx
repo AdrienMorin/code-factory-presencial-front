@@ -3,12 +3,16 @@ import SearchBar from "@/components/molecules/bars/SearchBar";
 import FlightCard from "@/components/molecules/cards/FlightCard";
 import FooterCopy from "@/components/molecules/FooterCopy";
 import { BadgePlus } from "lucide-react";
+import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 
 function FlightsHome() {
   return (
     <div className="flex flex-col h-full w-full">
+      <Head>
+        <title>Vuelos página principal | Gestión de vuelos A</title>
+      </Head>
       <Navbar />
       <SearchBar />
       <section className="flex flex-col">
@@ -20,7 +24,6 @@ function FlightsHome() {
             <BadgePlus /> Registrar vuelo
           </Link>
         </div>
-        {/* Pasar los vuelos obtenidos a FlightCard */}
         <FlightCard />
       </section>
       <FooterCopy />

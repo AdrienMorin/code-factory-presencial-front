@@ -8,8 +8,10 @@ function Logo() {
         src="/avion.png"
         width={64}
         height={64}
-        alt="Logo de la aerolínea"
-        className="h-full object-contain"
+        sizes="100%"
+        className="object-contain"
+        alt="Logo de la página"
+        priority
       />
       <h2 className="text-3xl font-semibold text-primary">Singapur Airlines</h2>
     </>
