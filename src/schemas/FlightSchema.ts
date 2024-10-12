@@ -55,7 +55,12 @@ export const formFlight = z
     arrivalTime: z.string({
       message: "La hora de llegada debe estar en formato HH:mm",
     }),
-    price: z.number().min(1, { message: "El precio debe ser mayor que 0" }),
+    price: z
+      .number()
+      .min(150000, { message: "El precio debe ser mayor o igual a 150000" })
+      .max(10000000, {
+        message: "El precio debe ser menor o igual a 10000000",
+      }),
     taxPercentage: z
       .number()
       .min(1, { message: "El porcentaje de impuesto es requerido" }),

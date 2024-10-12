@@ -175,7 +175,7 @@ function FlightForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="SA-####"
+                    placeholder="SA666"
                     value={field.value}
                     onChange={field.onChange}
                   />
@@ -394,6 +394,7 @@ function FlightForm() {
                     </div>
                   </PopoverContent>
                 </Popover>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -498,6 +499,7 @@ function FlightForm() {
                     </div>
                   </PopoverContent>
                 </Popover>
+                <FormMessage />
               </FormItem>
             )}
           />
