@@ -8,6 +8,7 @@ import React from "react";
 const FlightCard = () => {
   const { data } = useQuery<FlightType>(ALL_FLIGHTS);
   const flights = data?.getFlightsByFilters || [];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-4">
       {flights.map((flight, index) => (
@@ -18,7 +19,7 @@ const FlightCard = () => {
           {/* Tipo de vuelo en la esquina superior izquierda */}
           <div className="flex justify-between">
             <span className="text-sm font-semibold text-gray-500">
-              {flight.flightType}
+              Vuelo {flight.flightType.toLowerCase()}
             </span>
           </div>
 

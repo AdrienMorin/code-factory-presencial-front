@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const ALL_FLIGHTS = gql`
   query AllFlights {
     getFlightsByFilters {
-      id
+      flightType
       flightNumber
       departureCity
       destinationCity

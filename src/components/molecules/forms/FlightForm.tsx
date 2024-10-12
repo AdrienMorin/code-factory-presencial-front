@@ -133,7 +133,6 @@ function FlightForm() {
       const { data } = await createFlight({
         variables: { input: formattedData },
       });
-      console.log(data);
       // Establecer mensaje de éxito
       setAlertTitle("¡Éxito!");
       setAlertMessage(
@@ -147,10 +146,10 @@ function FlightForm() {
       setAlertType("error");
     }
 
+    form.reset();
+
     // Abrir el diálogo de alerta
     setIsDialogOpen(true);
-
-    console.log(formattedData);
   }
 
   return (
