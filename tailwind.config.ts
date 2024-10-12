@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			boxShadow: {
+        'proportional': '0px 4px 10px rgba(0, 0, 0, 0.15), 0px -4px 10px rgba(0, 0, 0, 0.15)', // Ejemplo
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -21,7 +24,7 @@ const config: Config = {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+  				DEFAULT: '#09090b',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
