@@ -5,7 +5,7 @@ import React from "react";
 const FlightCard = () => {
   const flights = [
     {
-      flightType: "Vuelo de carga",
+      flightType: "Vuelo internacional",
       flightCode: "SIA-0001",
       departure: "SIN - Singapur",
       departureDate: "2021-12-31",
@@ -15,7 +15,7 @@ const FlightCard = () => {
       arrivalTime: "00:00",
     },
     {
-      flightType: "Vuelo de pasajeros",
+      flightType: "Vuelo internacional",
       flightCode: "SIA-0002",
       departure: "MEX - Ciudad de México",
       departureDate: "2022-01-01",
