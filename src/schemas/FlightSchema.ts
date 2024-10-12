@@ -22,9 +22,6 @@ const iataCodes: [string, ...string[]] = [
   "CAN",
   "MEX",
   "IST",
-  "CLO",
-  "BKK",
-  "FCO",
 ];
 
 export const formFlight = z

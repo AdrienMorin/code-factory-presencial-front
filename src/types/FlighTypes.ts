@@ -11,3 +11,7 @@ export interface Flight {
   taxPercentage: number;
   surcharge: number;
 }
+
+export type FlightType = {
+  getFlightsByFilters: Flight[];
+};

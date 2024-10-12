@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -41,6 +41,12 @@ import { TimePicker } from "@/components/ui/time-picker/time-picker";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { CREATE_FLIGHT } from "@/graphql/mutations/flightMutations";
 import Head from "next/head";
+import { Label } from "@/components/ui/label";
+import {
+  colombiaAirports,
+  getAirports,
+  internationalAirports,
+} from "@/utils/AirportsUtils";
 
 export interface Aircraft {
   id: string;
@@ -73,6 +79,7 @@ function FlightForm() {
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // Utilizamos el hook useForm para manejar el formulario
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
     defaultValues: {
@@ -90,6 +97,21 @@ function FlightForm() {
     },
   });
 
+  // Función para observar el tipo de vuelo para cambiar las opciones de origen y destino
+  const { watch, control } = form; // Esto obtiene el estado del formulario
+  const flightType = watch("flightType");
+  const departureCity = watch("departureCity");
+
+  const [availableDestinations, setAvailableDestinations] = useState(
+    internationalAirports
+  );
+
+  useEffect(() => {
+    const airports = getAirports(flightType, departureCity);
+    setAvailableDestinations(airports);
+  }, [flightType, departureCity]);
+
+  // Función para enviar los datos del formulario
   async function onSubmit(data: FlightSchema) {
     const formattedData = {
       ...data,
@@ -111,20 +133,17 @@ function FlightForm() {
       const { data } = await createFlight({
         variables: { input: formattedData },
       });
-      console.log("Vuelo registrado exitosamente", data);
 
       // Establecer mensaje de éxito
       setAlertTitle("¡Éxito!");
-      setAlertMessage("El vuelo ha sido registrado exitosamente.");
+      setAlertMessage(
+        `El vuelo ha sido registrado exitosamente ${data.flightNumber}.`
+      );
       setAlertType("success");
     } catch (error) {
-      console.error("Error al registrar el vuelo", error);
-
       // Establecer mensaje de error
       setAlertTitle("Error");
-      setAlertMessage(
-        "Hubo un problema al registrar el vuelo. Inténtelo nuevamente."
-      );
+      setAlertMessage("Hubo un problema al registrar el vuelo.");
       setAlertType("error");
     }
 
@@ -256,9 +275,9 @@ function FlightForm() {
             )}
           />
 
-          {/* Origen */}
+          {/* Campo de Origen */}
           <FormField
-            control={form.control}
+            control={control}
             name="departureCity"
             render={({ field }) => (
               <FormItem>
@@ -273,9 +292,11 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="CLO">Cali</SelectItem>
-                    <SelectItem value="BKK">Bangkok</SelectItem>
-                    <SelectItem value="FCO">Roma</SelectItem>
+                    {colombiaAirports.map((airport) => (
+                      <SelectItem key={airport.code} value={airport.code}>
+                        {airport.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -358,9 +379,9 @@ function FlightForm() {
             )}
           />
 
-          {/* Destino */}
+          {/* Campo de Destino */}
           <FormField
-            control={form.control}
+            control={control}
             name="destinationCity"
             render={({ field }) => (
               <FormItem>
@@ -375,9 +396,11 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="CLO">Cali</SelectItem>
-                    <SelectItem value="BKK">Bangkok</SelectItem>
-                    <SelectItem value="FCO">Roma</SelectItem>
+                    {availableDestinations.map((airport) => (
+                      <SelectItem key={airport.code} value={airport.code}>
+                        {airport.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -459,7 +482,14 @@ function FlightForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Registrar vuelo</Button>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="sendButton" className="text-primary font-bold">
+              Envíar datos
+            </Label>
+            <Button type="submit" id="sendButton" className="text-base">
+              Registrar vuelo
+            </Button>
+          </div>
         </form>
       </Form>
 
@@ -474,7 +504,7 @@ function FlightForm() {
               className={`text-gray-600 ${
                 alertType === "error"
                   ? "text-destructive text-base font-bold"
-                  : "text-green-500"
+                  : "text-primary"
               }`}
             >
               {alertMessage}
@@ -485,8 +515,8 @@ function FlightForm() {
               className={`px-4 py-2 rounded-md ${
                 alertType === "error"
                   ? "bg-destructive hover:bg-destructive/85"
-                  : "bg-green-500"
-              } text-white`}
+                  : "bg-primary"
+              } text-slate-100`}
               onClick={() => setIsDialogOpen(false)}
             >
               Continuar
