@@ -41,7 +41,6 @@ import { TimePicker } from "@/components/ui/time-picker/time-picker";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { CREATE_FLIGHT } from "@/graphql/mutations/flightMutations";
 import Head from "next/head";
-import { Label } from "@/components/ui/label";
 import {
   colombiaAirports,
   getAirports,
@@ -83,6 +82,7 @@ function FlightForm() {
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
     defaultValues: {
+      flightNumber: "",
       flightType: undefined,
       aircraftId: "",
       price: 0,
@@ -133,11 +133,11 @@ function FlightForm() {
       const { data } = await createFlight({
         variables: { input: formattedData },
       });
-
+      console.log(data);
       // Establecer mensaje de éxito
       setAlertTitle("¡Éxito!");
       setAlertMessage(
-        `El vuelo ha sido registrado exitosamente ${data.flightNumber}.`
+        `El vuelo ha sido registrado exitosamente: ${data.createFlight.departureCity} - ${data.createFlight.destinationCity}.`
       );
       setAlertType("success");
     } catch (error) {
@@ -166,6 +166,26 @@ function FlightForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-6 w-full justify-center items-center"
         >
+          {/* Número del vuelo */}
+          <FormField
+            control={form.control}
+            name="flightNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Número del vuelo</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="SA-####"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Tipo de vuelo */}
           <FormField
             control={form.control}
@@ -482,10 +502,7 @@ function FlightForm() {
               </FormItem>
             )}
           />
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="sendButton" className="text-primary font-bold">
-              Envíar datos
-            </Label>
+          <div className="col-start-2 flex justify-center items-center">
             <Button type="submit" id="sendButton" className="text-base">
               Registrar vuelo
             </Button>

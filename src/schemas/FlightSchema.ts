@@ -26,6 +26,11 @@ const iataCodes: [string, ...string[]] = [
 
 export const formFlight = z
   .object({
+    flightNumber: z
+      .string({ message: "El número de vuelo es requerido" })
+      .regex(/^SA\d{3,4}$/, {
+        message: "El número de vuelo debe tener el formato SA####",
+      }),
     flightType: z.enum(["INTERNACIONAL", "NACIONAL"], {
       message: "El tipo de vuelo no es válido",
     }),
