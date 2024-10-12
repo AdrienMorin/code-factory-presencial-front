@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -36,16 +36,42 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { TimePicker } from "@/components/ui/time-picker/time-picker";
-import { useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { CREATE_FLIGHT } from "@/graphql/mutations/flightMutations";
-import createApolloClient from "@/apollo/client";
+import Head from "next/head";
+
+export interface Aircraft {
+  id: string;
+  aircraftModel: string;
+}
+
+export const GET_AIRCRAFTS = gql`
+  query GetAircrafts {
+    getAircraftsByFilters {
+      id
+      aircraftModel
+    }
+  }
+`;
+
+type AircraftType = {
+  getAircraftsByFilters: Aircraft[];
+};
 
 function FlightForm() {
-  const client = createApolloClient();
-  const [createFlight] = useMutation(CREATE_FLIGHT, { client });
+  // Traemos la data de las aeronaves disponibles
+  const { data } = useQuery<AircraftType>(GET_AIRCRAFTS);
+
+  // Utilizamos la función useMutation para crear un vuelo
+  const [createFlight] = useMutation(CREATE_FLIGHT);
+
+  // Estado para controlar el diálogo de alerta
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertTitle, setAlertTitle] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<FlightSchema>({
     resolver: zodResolver(formFlight),
@@ -82,19 +108,37 @@ function FlightForm() {
     };
 
     try {
-      const response = await createFlight({
+      const { data } = await createFlight({
         variables: { input: formattedData },
       });
-      console.log("Vuelo registrado exitosamente", response);
+      console.log("Vuelo registrado exitosamente", data);
+
+      // Establecer mensaje de éxito
+      setAlertTitle("¡Éxito!");
+      setAlertMessage("El vuelo ha sido registrado exitosamente.");
+      setAlertType("success");
     } catch (error) {
       console.error("Error al registrar el vuelo", error);
+
+      // Establecer mensaje de error
+      setAlertTitle("Error");
+      setAlertMessage(
+        "Hubo un problema al registrar el vuelo. Inténtelo nuevamente."
+      );
+      setAlertType("error");
     }
+
+    // Abrir el diálogo de alerta
+    setIsDialogOpen(true);
 
     console.log(formattedData);
   }
 
   return (
     <div className="h-full">
+      <Head>
+        <title>Registrar vuelo | Gestión de vuelos A</title>
+      </Head>
       <h1 className="text-5xl font-extrabold text-center my-4 text-gray-800">
         Ingresar información del vuelo
       </h1>
@@ -140,8 +184,11 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">Boeing737</SelectItem>
-                    <SelectItem value="2">Airbus320</SelectItem>
+                    {data?.getAircraftsByFilters.map((aircraft) => (
+                      <SelectItem key={aircraft.id} value={aircraft.id}>
+                        {aircraft.aircraftModel}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -149,7 +196,7 @@ function FlightForm() {
             )}
           />
 
-          {/* Inputs: precio */}
+          {/* Precio */}
           <FormField
             control={form.control}
             name="price"
@@ -169,7 +216,7 @@ function FlightForm() {
             )}
           />
 
-          {/* Impuesto, sobretasa */}
+          {/* Impuesto */}
           <FormField
             control={form.control}
             name="taxPercentage"
@@ -188,6 +235,8 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
+          {/* Sobretasa */}
           <FormField
             control={form.control}
             name="surcharge"
@@ -225,14 +274,16 @@ function FlightForm() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="CLO">Cali</SelectItem>
-                    <SelectItem value="TLA">Tailandia</SelectItem>
-                    <SelectItem value="ITL">Italia</SelectItem>
+                    <SelectItem value="BKK">Bangkok</SelectItem>
+                    <SelectItem value="FCO">Roma</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          {/* Fecha de salida */}
           <FormField
             control={form.control}
             name="departureDate"
@@ -268,6 +319,8 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
+          {/* Hora de salida */}
           <FormField
             control={form.control}
             name="departureTime"
@@ -331,7 +384,8 @@ function FlightForm() {
               </FormItem>
             )}
           />
-          {/* ArrivalDate */}
+
+          {/* Fecha de llegada */}
           <FormField
             control={form.control}
             name="arrivalDate"
@@ -367,6 +421,8 @@ function FlightForm() {
               </FormItem>
             )}
           />
+
+          {/* Hora de llegada */}
           <FormField
             control={form.control}
             name="arrivalTime"
@@ -403,30 +459,41 @@ function FlightForm() {
               </FormItem>
             )}
           />
-
-          {/* Botón para registrar vuelo */}
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button type="submit">Registrar vuelo</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="rounded-md shadow-lg p-6 bg-white text-center">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="text-xl font-bold">
-                  ¡Vuelo registrado!
-                </AlertDialogTitle>
-                <AlertDialogDescription className="text-gray-600">
-                  El vuelo ha sido registrado exitosamente.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogAction className="bg-green-500 text-white px-4 py-2 rounded-md">
-                  Continuar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <Button type="submit">Registrar vuelo</Button>
         </form>
       </Form>
+
+      {/* Dialogo de Alerta */}
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent className="rounded-md shadow-lg p-6 bg-white text-center">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-xl font-bold">
+              {alertTitle}
+            </AlertDialogTitle>
+            <AlertDialogDescription
+              className={`text-gray-600 ${
+                alertType === "error"
+                  ? "text-destructive text-base font-bold"
+                  : "text-green-500"
+              }`}
+            >
+              {alertMessage}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              className={`px-4 py-2 rounded-md ${
+                alertType === "error"
+                  ? "bg-destructive hover:bg-destructive/85"
+                  : "bg-green-500"
+              } text-white`}
+              onClick={() => setIsDialogOpen(false)}
+            >
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
