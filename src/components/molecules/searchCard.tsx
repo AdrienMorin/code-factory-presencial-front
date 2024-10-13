@@ -75,7 +75,7 @@ const SearchCard = () => {
             </div>
           </div>
           <div className="mt-6 flex justify-end">
-            <Button>Buscar</Button>
+            <Button>Search</Button>
           </div>
         </form>
       </div>
