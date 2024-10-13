@@ -5,16 +5,26 @@ import FooterCopy from "@/components/molecules/FooterCopy";
 import { BadgePlus } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 function FlightsHome() {
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  const handleSearch = () => {
+    // En este caso, solo actualiza el estado. React se encargará de renderizar de nuevo.
+    setSearchValue("searchValue");
+  };
   return (
     <div className="flex flex-col h-full w-full">
       <Head>
         <title>Vuelos página principal | Gestión de vuelos A</title>
       </Head>
       <Navbar />
-      <SearchBar />
+      <SearchBar
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        handleSearch={handleSearch}
+      />
       <section className="flex flex-col">
         <div className="flex justify-end px-4">
           <Link
@@ -24,7 +34,7 @@ function FlightsHome() {
             <BadgePlus /> Registrar vuelo
           </Link>
         </div>
-        <FlightCard />
+        <FlightCard searchValue={searchValue} />
       </section>
       <FooterCopy />
     </div>

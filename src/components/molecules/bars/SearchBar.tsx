@@ -5,7 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 
-function SearchBar() {
+type SearchBarProps = {
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+  handleSearch: () => void;
+};
+
+function SearchBar({
+  searchValue,
+  setSearchValue,
+  handleSearch,
+}: SearchBarProps) {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div className="flex justify-center gap-2 w-full max-w-lg">
@@ -15,6 +25,8 @@ function SearchBar() {
           </span>
           <Input
             type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             placeholder="Buscar vuelo..."
             id="search"
             className="pl-10"
@@ -23,7 +35,7 @@ function SearchBar() {
             Búsqueda por código de vuelo
           </Label>
         </div>
-        <Button type="submit" className="my-8">
+        <Button type="button" className="my-8" onClick={handleSearch}>
           Filtrar
         </Button>
       </div>
