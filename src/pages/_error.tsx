@@ -1,11 +1,11 @@
-// pages/_error.tsx
+import Link from 'next/link';
 import React from 'react';
 
 
 const error = () => {
   return (
     <div> 
-      <a href="/">Error, Volver al inicio</a>
+      <Link href="/">Error, Volver al inicio</Link>
     </div>
   );
 }
