@@ -52,7 +52,7 @@ const FlightCard = () => {
           <Text text={`USD ${selectedCategory.price}`} />
         </div>
         <div className="flex mt-2">
-          <Button>Reservar</Button>
+          <Button>Reserve</Button>
         </div>
       </div>
     </div>
