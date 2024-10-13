@@ -1,19 +1,54 @@
 import { Button } from "@/components/ui/button";
+import { DELETE_FLIGHT } from "@/graphql/mutations/flightMutations";
 import { ALL_FLIGHTS } from "@/graphql/queries/flightQueries";
+import { toast } from "@/hooks/use-toast";
 import { FlightType } from "@/types/FlighTypes";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { CircleEllipsis, Pencil, X } from "lucide-react";
 import React from "react";
 
-const FlightCard = () => {
+type FlightCardProps = {
+  searchValue: string;
+};
+
+const FlightCard = ({ searchValue }: FlightCardProps) => {
   const { data } = useQuery<FlightType>(ALL_FLIGHTS);
   const flights = data?.getFlightsByFilters || [];
+  const lowerSearchValue = searchValue.toLowerCase();
+
+  // Mutación para eliminar un vuelo
+  const [deleteFlight] = useMutation(DELETE_FLIGHT, {
+    refetchQueries: [{ query: ALL_FLIGHTS }],
+  });
+
+  const handleDelete = (flightId: string) => {
+    try {
+      deleteFlight({ variables: { id: flightId } });
+      toast({
+        title: "Vuelo eliminado ✅",
+        description: "El vuelo ha sido eliminado con éxito",
+      });
+    } catch (error) {
+      toast({
+        title: "Error al eliminar vuelo ❌",
+        description: "Ha ocurrido un error al eliminar el vuelo.",
+      });
+    }
+  };
+
+  // Filtrar los vuelos según el valor de búsqueda
+  const filteredFlights = flights.filter(
+    (flight) =>
+      flight.flightNumber.toLowerCase().includes(lowerSearchValue) ||
+      flight.departureCity.toLowerCase().includes(lowerSearchValue) ||
+      flight.destinationCity.toLowerCase().includes(lowerSearchValue)
+  );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-4">
-      {flights.map((flight, index) => (
+      {filteredFlights.map((flight) => (
         <div
-          key={index}
+          key={flight.id}
           className="w-full max-w-3xl border border-slate-300 shadow-lg rounded-lg p-6 flex flex-col gap-4"
         >
           {/* Tipo de vuelo en la esquina superior izquierda */}
@@ -66,6 +101,7 @@ const FlightCard = () => {
             <Button
               variant="destructive"
               className="flex gap-1 items-center justify-center"
+              onClick={() => handleDelete(flight.id)}
             >
               <X />
               Eliminar
