@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/atoms/button';
 import { useState } from 'react';
+import { SubTitle, TextPrincipal, TextSecondary, TextSidebar, InputText } from '@/components/atoms/titles';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -38,19 +39,17 @@ export default function Home() {
       {/* Contenido principal */}
       {/* Avatar Section */}
       <div className="mb-6 mt-40 px-20 flex justify-end flex-col">
-        <h2 className="text-xl mb-4 font-bold">Avatar</h2>
+        <SubTitle title='Avatar'/>
         <input type="file" id="avatar" className="border border-gray-300 p-2 w-full" />
       </div>
 
       <div className="flex flex-col px-20">
         {/* Datos Personales */}
-        <h2 className="text-xl mb-4 font-bold">Datos Personales</h2>
+        <SubTitle title='Datos Personales'/>
         <form className="grid grid-cols-2 gap-x-10 w-full" onSubmit={handleSubmit}>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="nombre">
-              Nombre*
-            </label>
+            <TextPrincipal text='Nombre*'/>
             <input
               type="text"
               id="nombre"
@@ -59,13 +58,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su nombre</p>
+            <TextSecondary text='Introduzca su nombre'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="apellido">
-              Apellido*
-            </label>
+            <TextPrincipal text='Apellido*'/>
             <input
               type="text"
               id="apellido"
@@ -74,13 +71,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su apellido</p>
+            <TextSecondary text='Introduzca su apellido'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="fechaNacimiento">
-              Fecha de Nacimiento*
-            </label>
+            <TextPrincipal text='Fecha de nacimiento*'/>
             <input
               type="date"
               id="fechaNacimiento"
@@ -89,13 +84,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su fecha de nacimiento</p>
+            <TextSecondary text='Introduzca su fecha de nacimiento'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="telefono">
-              Teléfono*
-            </label>
+            <TextPrincipal text='Teléfono*'/>
             <input
               type="tel"
               id="telefono"
@@ -104,13 +97,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su teléfono</p>
+            <TextSecondary text='Introduzca su teléfono'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="ciudad">
-              Ciudad*
-            </label>
+            <TextPrincipal text='Ciudad*'/>
             <input
               type="text"
               id="ciudad"
@@ -119,13 +110,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su ciudad</p>
+            <TextSecondary text='Introduzca su ciudad'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="genero">
-              Género*
-            </label>
+            <TextPrincipal text='Género*'/>
             <select
               id="genero"
               name="genero"
@@ -138,13 +127,11 @@ export default function Home() {
               <option value="femenino">Femenino</option>
               <option value="otro">Otro</option>
             </select>
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Seleccione su género</p>
+            <TextSecondary text='Seleccione su género'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="tipoDocumento">
-              Tipo de Documento*
-            </label>
+            <TextPrincipal text='Tipo de documento*'/>
             <input
               type="text"
               id="tipoDocumento"
@@ -153,13 +140,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Seleccione su tipo de documento</p>
+            <TextSecondary text='Seleccione su tipo de documento'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="documento">
-              Documento*
-            </label>
+            <TextPrincipal text='Documento*'/>
             <input
               type="text"
               id="documento"
@@ -168,13 +153,11 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su documento</p>
+            <TextSecondary text='Introduzca su documento'/>
           </div>
 
           <div className="mb-4">
-            <label className="block text-black-500 text-sm font-medium mb-2" htmlFor="direccion">
-              Dirección*
-            </label>
+            <TextPrincipal text='Dirección*'/>
             <input
               type="text"
               id="direccion"
@@ -183,7 +166,7 @@ export default function Home() {
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-sm"
             />
-            <p className='mt-2 text-slate-500 font-normal text-sm'>Introduzca su dirección</p>
+            <TextSecondary text='Introduzca su dirección'/>
           </div>
           
         </form>
