@@ -1,9 +1,16 @@
-import { Button } from '@/components/ui/button';
+import React from 'react';
+import DatosRequeridos from '../components/DatosRequeridos';
+import FormularioPasajero from '../components/FormularioPasajero';
+import Acciones from '../components/Acciones';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
-    <div className='flex justify-center items-center'>
-      <Button>Button ReservasB</Button>
+    <div className="container mx-auto p-6">
+      <DatosRequeridos />
+      <FormularioPasajero />
+      <Acciones />
     </div>
   );
-}
+};
+
+export default Home;
