@@ -12,7 +12,7 @@ import {
 const ScalesNumberFilter = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[250px] border-primary">
         <SelectValue placeholder="Select number of scales" />
       </SelectTrigger>
       <SelectContent>

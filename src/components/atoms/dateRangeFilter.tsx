@@ -19,11 +19,11 @@ const DateRangeFilter = ({ className }: React.HTMLAttributes<HTMLDivElement>) =>
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-[250px] justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
             {date?.from ? (
               date.to ? (
                 <>

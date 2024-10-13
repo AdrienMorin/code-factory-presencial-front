@@ -10,18 +10,21 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CategoryProps from "@/utils/interface/category";
+import { DialogClose } from "../ui/dialog";
 
-const Category = ({ categories }: CategoryProps) => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+const Category = ({ categories, setSelectedCategory }: CategoryProps) => {
+  const [selectedTab, setSelectedTab] = useState(categories[0].value);
 
   return (
-    <Tabs defaultValue={selectedCategory.value} className="w-[400px]">
+    <Tabs defaultValue={selectedTab} className="w-[400px]">
       <TabsList className="grid w-full grid-cols-3">
         {categories.map((category) => (
           <TabsTrigger
             key={category.value}
             value={category.value}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => {
+              setSelectedTab(category.value);
+            }}
           >
             {category.title}
           </TabsTrigger>
@@ -49,7 +52,11 @@ const Category = ({ categories }: CategoryProps) => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Select {category.title}</Button>
+              <DialogClose asChild>
+                <Button onClick={() => setSelectedCategory(category)}>
+                  Select {category.title}
+                </Button>
+              </DialogClose>
             </CardFooter>
           </Card>
         </TabsContent>

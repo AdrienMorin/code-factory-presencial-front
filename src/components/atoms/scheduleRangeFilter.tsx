@@ -13,7 +13,7 @@ import scheduleRanges from "@/utils/const/scheduleRanges";
 const ScheduleRangeFilter = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[250px] border-primary">
         <SelectValue placeholder="Select schedule range" />
       </SelectTrigger>
       <SelectContent>

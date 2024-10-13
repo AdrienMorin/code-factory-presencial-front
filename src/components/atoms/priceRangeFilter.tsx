@@ -13,7 +13,7 @@ import priceRanges from "@/utils/const/priceRange";
 const PriceRangeFilter = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[250px] border-primary">
         <SelectValue placeholder="Select price range" />
       </SelectTrigger>
       <SelectContent>

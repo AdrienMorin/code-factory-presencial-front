@@ -22,11 +22,11 @@ const DepartureDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
             id="departure-date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
             {date ? format(date, "LLL dd, y") : <span>Pick a departure date</span>}
           </Button>
         </PopoverTrigger>
@@ -57,11 +57,11 @@ const RoundTripDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
             id="round-trip-date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal",
               !departureDate && !returnDate && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
             {departureDate ? (
               returnDate ? (
                 <>

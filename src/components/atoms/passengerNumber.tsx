@@ -12,7 +12,7 @@ import {
 const PassengerNumber = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-full border-primary">
         <SelectValue placeholder="Select number of passengers" />
       </SelectTrigger>
       <SelectContent>
