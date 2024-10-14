@@ -3,7 +3,7 @@ const TitlePrincipal = ({ title }: { title: string }) => {
 };
 
 const TitleSecondary = ({ title }: { title: string }) => {
-  return <h1 className="font-bold text-lg mb-4">{title}</h1>;
+  return <h1 className="font-bold text-2xl mb-4">{title}</h1>;
 };
 
 const TitleTertiary = ({ title }: { title: string }) => {

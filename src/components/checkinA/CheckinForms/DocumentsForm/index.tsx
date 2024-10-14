@@ -47,6 +47,9 @@ export const DocumentsForm = ({
                   <Input
                     className="pl-0 py-0 file:bg-primary file:text-white file:h-full file:cursor-pointer"
                     type="file"
+                    // onChange={(event) => {
+                    //   field.onChange(event.target?.files?.[0] ?? undefined);
+                    // }}
                     {...field}
                   />
                 </FormControl>
