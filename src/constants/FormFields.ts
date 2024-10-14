@@ -26,8 +26,7 @@ export const searchFields: InputSearchField[] = [
 export const searchFieldsPassenger: InputSearchFieldPassenger[] = [
   {
     label: "Pasajeros",
-    value: "passenger",
-    passengerValue: 1,
+    value: "passengers",
     placeholder: "1",
     type: "number",
     icon: UserPlus,

@@ -12,10 +12,10 @@ export default function SearchInputPassenger({ inputSearchField, handleInputChan
     <div className="flex w-full max-w-sm items-center gap-1.5">
       { inputSearchField.map((field, index) => (
         <div key={index} className="flex flex-col items-center gap-1.5">
-          <Label htmlFor={field.value}>{field.label}</Label>
+          <Label htmlFor={field.label}>{field.label}</Label>
           <div className="relative w-full">
             <Input
-              type="search"
+              type="number"
               placeholder={field.placeholder}
               className="bg-input xl:pl-10 w-20 text-sm xl:text-base" // Añade padding a la izquierda para el icono
               onChange={(e) => handleInputChange(field.value, e.target.value)}

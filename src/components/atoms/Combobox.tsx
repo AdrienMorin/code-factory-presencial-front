@@ -33,6 +33,7 @@ type ComboboxProps = {
 export default function Combobox({field, options, selectedValue, onSelectValue, open, onOpenChange}: ComboboxProps) {
     return (
         <Popover open={open} onOpenChange={onOpenChange}>
+          
           <PopoverTrigger asChild>
             <div className="relative flex flex-col justify-center items-center gap-1.5">
               <Label htmlFor={field.value}>{field.label}</Label>
@@ -47,6 +48,7 @@ export default function Combobox({field, options, selectedValue, onSelectValue, 
               </span>
             </div>
           </PopoverTrigger>
+
           <PopoverContent className="w-[200px] p-0">
             <Command>
               <CommandInput placeholder="Busca lugar..." className="h-9" />
@@ -66,6 +68,7 @@ export default function Combobox({field, options, selectedValue, onSelectValue, 
               </CommandList>
             </Command>
           </PopoverContent>
+
         </Popover>
     );
 }

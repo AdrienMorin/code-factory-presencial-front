@@ -6,8 +6,8 @@ export type InputSearchField = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
-export type InputSearchFieldPassenger = InputSearchField & {
-  passengerValue: number;
+export type InputSearchFieldPassenger = Omit<InputSearchField, 'value'> & {
+  value: string;
 }
 
 export type InputSearchFieldCalendar = {

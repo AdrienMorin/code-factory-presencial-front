@@ -28,13 +28,12 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // TO DO: logica para enviar los datos al Backend
-    console.log('Parámetros de búsqueda:', searchParams, tripType);
   };
 
   const handleInputChange = (name: string, value: string) => {
     setSearchParams({
       ...searchParams,
-      [name]: value
+      [name]: value === 'passengers' ? (parseInt(value, 10) || 1) : value
     });
   };
 
@@ -70,7 +69,11 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
             handleInputChange={handleInputChange}
           />
         </div>
-        <Button type="submit" className="bg-primary lg:w-32 xl:w-52 h-10 text-white rounded-2xl p-2">Buscar</Button>
+        <Button 
+          type="submit" 
+          className="bg-primary lg:w-32 xl:w-52 h-10 text-white rounded-2xl p-2"
+          onClick={() => console.log(searchParams, tripType)}
+        >Buscar</Button>
     </form>
   )
 }
