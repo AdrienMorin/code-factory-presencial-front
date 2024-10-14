@@ -11,31 +11,25 @@ const disabledBeforeToday = (date: Date) => {
   return isBefore(date, today) && !isSameDay(date, today);
 };
 
-const DepartureDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
+const DepartureDate = ({ onDateSelect }: { onDateSelect: (date: Date | undefined) => void }) => {
   const [date, setDate] = React.useState<Date | undefined>();
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className="grid gap-2">
       <Popover>
         <PopoverTrigger asChild>
-          <Button
-            id="departure-date"
-            variant={"outline"}
-            className={cn(
-              "w-full justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
+          <Button variant="outline" className="w-full justify-start text-left font-normal">
             <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
             {date ? format(date, "LLL dd, y") : <span>Pick a departure date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            initialFocus
             selected={date}
-            onSelect={setDate}
-            disabled={disabledBeforeToday}
+            onSelect={(selectedDate) => {
+              setDate(selectedDate);
+              onDateSelect(selectedDate);
+            }}
             mode="single"
           />
         </PopoverContent>
@@ -44,9 +38,18 @@ const DepartureDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   );
 };
 
-const RoundTripDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
+const RoundTripDate = ({
+  className,
+  onDepartureSelect,
+  onReturnSelect,
+}: {
+  className?: string;
+  onDepartureSelect: (date: Date | undefined) => void;
+  onReturnSelect: (date: Date | undefined) => void;
+}) => {
   const [departureDate, setDepartureDate] = React.useState<Date | undefined>();
   const [returnDate, setReturnDate] = React.useState<Date | undefined>();
+
   const disabledReturnDates = (date: Date) => (departureDate ? date < departureDate : false);
 
   return (
@@ -82,7 +85,10 @@ const RoundTripDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
               <Calendar
                 initialFocus
                 selected={departureDate}
-                onSelect={setDepartureDate}
+                onSelect={(date) => {
+                  setDepartureDate(date);
+                  onDepartureSelect(date);
+                }}
                 disabled={disabledBeforeToday}
                 mode="single"
               />
@@ -93,7 +99,10 @@ const RoundTripDate = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
               <Calendar
                 initialFocus
                 selected={returnDate}
-                onSelect={setReturnDate}
+                onSelect={(date) => {
+                  setReturnDate(date);
+                  onReturnSelect(date);
+                }}
                 disabled={disabledReturnDates}
                 mode="single"
               />

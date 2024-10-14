@@ -5,30 +5,37 @@ import { Text } from "../atoms/text";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import Category from "../atoms/category";
 import categoriesData from "@/utils/const/categoriesData";
+import Flight from "@/utils/interface/flight";
 
-const FlightCard = () => {
+const FlightCard: React.FC<{ flight: Flight }> = ({ flight }) => {
   const [selectedCategory, setSelectedCategory] = useState(categoriesData[0]);
 
   return (
-    <div className="bg-white shadow-md rounded-lg px-6 py-6 sm:py-8 lg:px-8 grid grid-cols-2 transition-colors shadow-primary">
+    <div className="w-3/4 mx-auto bg-white shadow-md rounded-lg px-6 py-6 sm:py-8 lg:px-8 grid grid-cols-2 transition-colors shadow-primary">
       <div className="grid grid-rows-1 items-center space-y-3">
         <div className="flex items-center font-bold space-x-3">
           <span>
             <Icon icon="ion:paper-plane" className="h-6 w-6 text-primary" />
           </span>
-          <Text text="City: " />
+          <Text text={`Origin: ${flight.origin}`} />
+        </div>
+        <div className="flex items-center font-bold space-x-3">
+          <span>
+            <Icon icon="ion:paper-plane" className="h-6 w-6 text-primary transform rotate-90" />
+          </span>
+          <Text text={`Destination: ${flight.destination}`} />
         </div>
         <div className="flex items-center font-bold space-x-3">
           <span>
             <Icon icon="radix-icons:calendar" className="h-6 w-6 text-primary" />
           </span>
-          <Text text="Date and time: " />
+          <Text text={`Date and time: ${flight.date} / ${flight.time}`} />
         </div>
         <div className="flex items-center font-bold space-x-3">
           <span>
             <Icon icon="icon-park-outline:transfer" className="h-6 w-6 text-primary" />
           </span>
-          <Text text="Number of scales: " />
+          <Text text={`Number of scales: ${flight.scales}`} />
         </div>
         <div className="flex items-center font-bold space-x-3">
           <span>

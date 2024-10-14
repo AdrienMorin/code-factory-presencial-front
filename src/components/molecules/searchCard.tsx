@@ -8,9 +8,24 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { DepartureDate, RoundTripDate } from "../atoms/date";
 import PassengerNumber from "../atoms/passengerNumber";
 import { Button } from "../ui/button";
+import SearchParams from "@/utils/interface/search";
 
-const SearchCard = () => {
+const SearchCard: React.FC<{ onSearch: (searchParams: SearchParams) => void }> = ({ onSearch }) => {
   const [tripType, setTripType] = useState("departure");
+
+  const [searchParams, setSearchParams] = useState<SearchParams>({
+    origin: "",
+    destination: "",
+    startDate: "",
+    endDate: "",
+    passengers: 0,
+    tripType: tripType,
+  });
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch({ ...searchParams, tripType });
+  };
 
   return (
     <div className="h-screen flex justify-center items-center bg-accent">
@@ -19,14 +34,17 @@ const SearchCard = () => {
           <Title title="Flight search" />
           <Text text="Find the flight you need" />
         </div>
-        <form className="mt-6 sm:mt-8" autoComplete="off">
+        <form className="mt-6 sm:mt-8" onSubmit={handleSearch} autoComplete="off">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div>
               <Label htmlFor="origin" className="text-sm font-semibold leading-6">
                 Origin
               </Label>
               <div className="relative py-2">
-                <City cities={citiesList} />
+                <City
+                  cities={citiesList}
+                  onSelectCity={(value) => setSearchParams({ ...searchParams, origin: value })}
+                />
                 <span className="absolute inset-y-0 right-2 flex items-center pr-1.5">
                   <Icon icon="bx:map" className="text-primary h-5 w-5" />
                 </span>
@@ -37,7 +55,10 @@ const SearchCard = () => {
                 Destination
               </Label>
               <div className="relative py-2">
-                <City cities={citiesList} />
+                <City
+                  cities={citiesList}
+                  onSelectCity={(value) => setSearchParams({ ...searchParams, destination: value })}
+                />
                 <span className="absolute inset-y-0 right-2 flex items-center pr-1.5">
                   <Icon icon="bx:map" className="text-primary h-5 w-5" />
                 </span>
@@ -62,7 +83,22 @@ const SearchCard = () => {
                 Date
               </Label>
               <div className="relative py-2">
-                {tripType === "departure" ? <DepartureDate /> : <RoundTripDate />}
+                {tripType === "departure" ? (
+                  <DepartureDate
+                    onDateSelect={(date) =>
+                      setSearchParams({ ...searchParams, startDate: date?.toISOString() || "" })
+                    }
+                  />
+                ) : (
+                  <RoundTripDate
+                    onDepartureSelect={(date) =>
+                      setSearchParams({ ...searchParams, startDate: date?.toISOString() || "" })
+                    }
+                    onReturnSelect={(date) =>
+                      setSearchParams({ ...searchParams, endDate: date?.toISOString() || "" })
+                    }
+                  />
+                )}
               </div>
             </div>
             <div>
@@ -70,12 +106,16 @@ const SearchCard = () => {
                 Number of passengers
               </Label>
               <div className="relative py-2">
-                <PassengerNumber />
+                <PassengerNumber
+                  onSelectPassengers={(num) =>
+                    setSearchParams({ ...searchParams, passengers: num })
+                  }
+                />
               </div>
             </div>
           </div>
           <div className="mt-6 flex justify-end">
-            <Button>Search</Button>
+            <Button type="submit">Search</Button>
           </div>
         </form>
       </div>

@@ -9,9 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const PassengerNumber = () => {
+const PassengerNumber = ({ onSelectPassengers }: { onSelectPassengers: (num: number) => void }) => {
   return (
-    <Select>
+    <Select onValueChange={(value) => onSelectPassengers(parseInt(value))}>
       <SelectTrigger className="w-full border-primary">
         <SelectValue placeholder="Select number of passengers" />
       </SelectTrigger>

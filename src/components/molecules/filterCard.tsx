@@ -10,7 +10,7 @@ import { Text } from "../atoms/text";
 
 const FilterCard = () => {
   return (
-    <div className="bg-accent">
+    <div className="bg-accent w-3/4 mx-auto">
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="ghost">

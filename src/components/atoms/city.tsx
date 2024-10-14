@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const City = ({ cities }: { cities: { value: string; label: string }[] }) => {
+const City = ({
+  cities,
+  onSelectCity,
+}: {
+  cities: { value: string; label: string }[];
+  onSelectCity: (city: string) => void;
+}) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -40,6 +46,7 @@ const City = ({ cities }: { cities: { value: string; label: string }[] }) => {
                   value={city.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    onSelectCity(currentValue);
                     setOpen(false);
                   }}
                 >
