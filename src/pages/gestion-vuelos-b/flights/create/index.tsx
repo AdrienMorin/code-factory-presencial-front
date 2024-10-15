@@ -73,13 +73,26 @@ export default function CreateFlightPage() {
     });
   };
 
+  const allFieldsFilled = [
+    flightNumber,
+    airplaneTypeId,
+    flightTypeId,
+    price,
+    surchargePercentage,
+    taxPercentage,
+    departureDate,
+    arrivalDate,
+    originIata,
+    destinationIata,
+  ].every((field) => field !== "");
+
   return (
     <>
       <Navbar />
       <div className="w-full p-4 sm:p-12">
         <h1 className="text-4xl font-bold">Crear vuelo</h1>
       </div>
-      <form className="w-full p-4 sm:p-12 flex flex-col gap-8">
+      <form className="w-full p-4 pt-0 sm:p-12 sm:pt-0 flex flex-col gap-8">
         <div className="flex gap-8">
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label>Número de vuelo</Label>
@@ -195,10 +208,15 @@ export default function CreateFlightPage() {
             </div>
           </div>
         </div>
+        {!allFieldsFilled && (
+          <p className="text-red-500 text-sm">
+            Todos los campos son requeridos
+          </p>
+        )}
         <Button
           className="w-fit"
           onClick={handleSubmit}
-          disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !allFieldsFilled}
         >
           {mutation.isLoading ? (
             <>
