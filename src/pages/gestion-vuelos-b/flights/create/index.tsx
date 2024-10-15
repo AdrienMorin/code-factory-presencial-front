@@ -25,9 +25,6 @@ export default function CreateFlightPage() {
   const airplaneTypesQuery = useQuery({
     queryFn: getAllAirplaneTypes,
     queryKey: "airplaneTypes",
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   const [flightNumber, setFlightNumber] = useState("");
