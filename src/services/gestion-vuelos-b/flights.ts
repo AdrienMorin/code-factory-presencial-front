@@ -108,6 +108,98 @@ export const getFlightById = async (id: string) => {
   return response.getFlightById;
 };
 
+export const createFlight = async (input: {
+  flightNumber: string;
+  originIata: string;
+  destinationIata: string;
+  departureDate: string;
+  arrivalDate: string;
+  departureTime: string;
+  arrivalTime: string;
+  price: number;
+  taxPercentage: number;
+  surchargePercentage: number;
+  flightTypeId: string;
+  airplaneTypeId: string;
+  statusId: string;
+}) => {
+  const mutation = `
+    mutation(
+      $flightNumber: String!, 
+      $originIata: String!, 
+      $destinationIata: String!, 
+      $departureDate: String!, 
+      $arrivalDate: String!, 
+      $departureTime: String!, 
+      $arrivalTime: String!, 
+      $price: Float!, 
+      $taxPercentage: Float!, 
+      $surchargePercentage: Float!, 
+      $flightTypeId: ID!, 
+      $airplaneTypeId: ID!, 
+      $statusId: ID!
+    ) {
+      createFlight(
+        flightNumber: $flightNumber,
+        originIata: $originIata,
+        destinationIata: $destinationIata,
+        departureDate: $departureDate,
+        arrivalDate: $arrivalDate,
+        departureTime: $departureTime,
+        arrivalTime: $arrivalTime,
+        price: $price,
+        taxPercentage: $taxPercentage,
+        surchargePercentage: $surchargePercentage,
+        flightTypeId: $flightTypeId,
+        airplaneTypeId: $airplaneTypeId,
+        statusId: $statusId
+      ) {
+        id
+        flightNumber
+        origin {
+          iataCode
+          airportName
+          country
+        }
+        destination {
+          iataCode
+          airportName
+          country
+        }
+        price
+        taxPercentage
+        surchargePercentage
+        departureDate
+        arrivalDate
+        departureTime
+        arrivalTime
+        flightType {
+          id
+          name
+        }
+        airplaneType {
+          id
+          type {
+            id
+            name
+          }
+          maxSeats
+          seatsDistribution
+        }
+        status {
+          id
+          statusName
+        }
+      }
+    }
+  `;
+  const response: Record<string, string> = await gqlClient.request(
+    mutation,
+    input
+  );
+  return response.createFlight;
+};
+
 export const updateFlight = async (input: string) => {
   const mutation = `
     mutation($input: UpdateFlightInput!) {
