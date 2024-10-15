@@ -6,7 +6,7 @@ type TotalPriceProps = {
 
 const index = ({ total }: TotalPriceProps) => {
   return (
-    <div className='flex justify-between bg-primary w-full h-16 p-5'>
+    <div className='flex justify-between bg-primary rounded-b-[6px] w-full h-16 p-5'>
       <MainText text='Total' color='text-white'/>
       <MainText text={`$${total}COP`} color='text-white'/>
     </div>

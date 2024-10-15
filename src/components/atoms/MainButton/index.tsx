@@ -6,7 +6,7 @@ type propsType = {
 const index = ({ text, handleClick }: propsType) => {
   return (
     <button
-      className="bg-primary text-white py-1 px-3 rounded-[6px]"
+      className="bg-primary text-white py-2 px-3 rounded-[6px]"
       onClick={handleClick}
     >
       {text}

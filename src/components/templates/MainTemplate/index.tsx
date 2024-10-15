@@ -16,7 +16,7 @@ const index = ({ children }: { children: ReactNode }) => {
         <h1 className="ml-4 font-bold">SITAS - Aerolínea</h1>
       </header>
       {children}
-      <footer className="absolute bottom-0 left-0 right-0 h-10 flex justify-center items-center bg-primary text-white">
+      <footer className="fixed bottom-0 right-0 left-0 flex justify-center items-center bg-primary text-white">
         <p>© 2024 CodeFactory - Todos los derechos reservados</p>
       </footer>
     </>
