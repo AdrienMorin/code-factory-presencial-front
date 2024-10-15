@@ -53,6 +53,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 export const columns: ColumnDef<Flight>[] = [
   {
@@ -257,12 +258,14 @@ export default function FlightsPage() {
             className="max-w-sm"
           />
           <div className="flex gap-4 items-center">
-            <Button
-              variant="default"
-              className="inline-flex items-center gap-2"
-            >
-              <PlusIcon className="h-4 w-4" /> Crear vuelo
-            </Button>
+            <Link href="flights/create">
+              <Button
+                variant="default"
+                className="inline-flex items-center gap-2"
+              >
+                <PlusIcon className="h-4 w-4" /> Crear vuelo
+              </Button>
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="ml-auto gap-2">
