@@ -11,15 +11,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useToast } from "@/hooks/use-toast";
 import { getAllAirplaneTypes } from "@/services/gestion-vuelos-b/airplane-types";
 import { createFlight } from "@/services/gestion-vuelos-b/flights";
-import { SaveIcon } from "lucide-react";
+import { LoaderCircleIcon, SaveIcon } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 
 export default function CreateFlightPage() {
+  const { toast } = useToast();
+
   const mutation = useMutation({
     mutationFn: createFlight,
+    onSuccess: () => {
+      toast({
+        title: "¡Éxito!",
+        description: "Vuelo creado exitosamente",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "¡Error!",
+        description: "Ocurrió un error al crear el vuelo, verifica los datos",
+      });
+    },
   });
 
   const airplaneTypesQuery = useQuery({
@@ -179,9 +195,22 @@ export default function CreateFlightPage() {
             </div>
           </div>
         </div>
-        <Button className="w-fit" onClick={handleSubmit}>
-          <SaveIcon size={16} className="mr-2" />
-          Crear vuelo
+        <Button
+          className="w-fit"
+          onClick={handleSubmit}
+          disabled={mutation.isLoading}
+        >
+          {mutation.isLoading ? (
+            <>
+              <LoaderCircleIcon className="animate-spin" />
+              Creando...
+            </>
+          ) : (
+            <>
+              <SaveIcon size={16} className="mr-2" />
+              Crear vuelo
+            </>
+          )}
         </Button>
       </form>
     </>
