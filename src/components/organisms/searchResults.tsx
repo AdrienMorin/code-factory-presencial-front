@@ -39,34 +39,40 @@ export default function SearchResults() {
         <button className="ml-4 bg-gray-200 px-4 py-2 rounded-full text-gray-400">Mejor precio</button>
       </div>
 
-      <ul className="flex flex-col gap-8">
-        {flights.map((flight, index) => (
-          <li key={index} className="bg-white shadow rounded-lg p-4 flex justify-between items-center gap-5">
-            <div className="flex items-center gap-6 w-full">
-              <div className="text-2xl font-bold">{flight.departureTime}</div>
-              <div className="text-sm text-gray-500">  
-                <div>{flight.origin}</div>
-                <div className="text-xs">{searchFieldsCombobox.find(search => flight.origin === search.value)?.label || ''}</div>
-              </div>
-              <div className="flex items-center gap-3 w-full">
-                <hr className="w-full border-t-2 border-gray-300" />
+      {flights.length === 0 ? (
+          <div className="text-center text-gray-500 text-lg mt-10">
+            No hay vuelos disponibles para las fechas seleccionadas.
+          </div>
+      ) : (
+        <ul className="flex flex-col gap-8">
+          {flights.map((flight, index) => (
+            <li key={index} className="bg-white shadow rounded-lg p-4 flex justify-between items-center gap-5">
+              <div className="flex items-center gap-6 w-full">
+                <div className="text-2xl font-bold">{flight.departureTime}</div>
+                <div className="text-sm text-gray-500">  
+                  <div>{flight.origin}</div>
+                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.origin === search.value)?.label || ''}</div>
+                </div>
+                <div className="flex items-center gap-3 w-full">
+                  <hr className="w-full border-t-2 border-gray-300" />
 
-                <PlaneTakeoff className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                <hr className="w-full border-t-2 border-gray-300" />
-              </div> 
-              <div className="text-sm text-gray-500">
-                <div>{flight.destination}</div>  
-                <div className="text-xs">{searchFieldsCombobox.find(search => flight.destination === search.value)?.label || ''}</div>
+                  <PlaneTakeoff className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  <hr className="w-full border-t-2 border-gray-300" />
+                </div> 
+                <div className="text-sm text-gray-500">
+                  <div>{flight.destination}</div>  
+                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.destination === search.value)?.label || ''}</div>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-6">
-              <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">MEJOR PRECIO</div>
-              <div className="text-2xl font-bold">{flight.arrivalTime}</div>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <div className="flex items-center gap-6">
+                <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">MEJOR PRECIO</div>
+                <div className="text-2xl font-bold">{flight.arrivalTime}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
