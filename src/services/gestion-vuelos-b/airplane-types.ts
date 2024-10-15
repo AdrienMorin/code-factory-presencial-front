@@ -58,21 +58,32 @@ export const getAllAirplaneFamilies = async () => {
         name
       }
     }
-  `
+  `;
 
   const response: {
     getAllFamilies: Type[];
   } = await gqlClient.request(query);
   return response.getAllFamilies;
-}
+};
 
-export const createAirplaneType = async (input: string) => {
+export const createAirplaneType = async ({
+  id,
+  typeId,
+  maxSeats,
+  seatsDistribution,
+}: {
+  id: string;
+  typeId: number;
+  maxSeats: number;
+  seatsDistribution: string;
+}) => {
   const mutation = `
-    mutation($input: CreateAirplaneTypeInput!) {
+    mutation CreateAirplaneType($id: String!, $typeId: Int!, $maxSeats: Int!, $seatsDistribution: String!) {
       createAirplaneType(
-        typeId: $input.typeId,
-        maxSeats: $input.maxSeats,
-        seatsDistribution: $input.seatsDistribution
+        id: $id,
+        typeId: $typeId,
+        maxSeats: $maxSeats,
+        seatsDistribution: $seatsDistribution
       ) {
         id
         type {
@@ -84,11 +95,19 @@ export const createAirplaneType = async (input: string) => {
       }
     }
   `;
-  const variables = { input };
-  const response: Record<string, string> = await gqlClient.request(
+
+  const variables = {
+    id,
+    typeId,
+    maxSeats,
+    seatsDistribution,
+  };
+
+  const response: Record<string, string | number> = await gqlClient.request(
     mutation,
     variables
   );
+
   return response.createAirplaneType;
 };
 
