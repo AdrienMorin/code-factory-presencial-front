@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/atoms/button';
 import { Icon } from '@iconify/react';
 import { SubTitle, TextPrincipal, TextSecondary } from '@/components/atoms/titles';
+import Link from 'next/link';
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const Index = () => {
         <SubTitle className='font-black' title='Iniciar Sesión'/>
         <div className='flex flex-row justify-start items-center gap-2'>
           <TextSecondary text='Nuevo Usuario?'/>
-          <a className='text-sky-500 font-medium' href="/createUser">Crear una cuenta</a>
+          <Link className='text-sky-500 font-medium' href="/createUser">Crear una cuenta</Link>
         </div>
         <form className='space-y-1' onSubmit={handleSubmit}>
           <TextPrincipal text='Email'/>

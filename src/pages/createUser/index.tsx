@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/button';
 import { useState } from 'react';
 import { SubTitle, TextPrincipal, TextSecondary } from '@/components/atoms/titles';
 
-const index = () => {
+const Index = () => {
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -180,4 +180,4 @@ const index = () => {
       );
 }
 
-export default index
+export default Index
