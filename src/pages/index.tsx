@@ -1,16 +1,14 @@
-import FloatBadge from "@/components/molecules/floatBadge/index";
-
-import AccordionsSection from '@/components/organisms/AccordionsSection/index'
-import Details from "@/components/organisms/Details";
+import CardTemplates from "@/components/templates/CardTemplate/index";
+import PaymentsMethods from "@/components/organisms/PaymentsSection/index";
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center">
-      <div>
-        <h1 className="text-6xl">Hello World pagos B</h1>
-        <FloatBadge></FloatBadge>
-        <Details/>
-        <AccordionsSection></AccordionsSection>
+    <div className="flex flex-col md:flex-row justify-center items-center">
+      <div className="m-10">
+        <CardTemplates />
+      </div>
+      <div className="m-10">
+        <PaymentsMethods />
       </div>
     </div>
   );
