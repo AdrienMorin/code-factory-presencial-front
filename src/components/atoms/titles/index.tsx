@@ -20,7 +20,7 @@ const TextSecondary = ({text}: { text: string }) => {
 
 const TextSidebar = ({text}: { text: string }) => {
     return (
-        <p className='text-slate-700 font-bold text-sm'>{text}</p>
+        <p className='text-slate-700 font-normal text-normal'>{text}</p>
     )
 }
 

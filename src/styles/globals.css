@@ -79,6 +79,13 @@ body {
   font-optical-sizing: auto;
 }
 
+#sidebar {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 input {
   border: 1px solid #d1d5db;
   padding: 8px;
