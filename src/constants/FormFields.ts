@@ -1,7 +1,8 @@
 import {
   InputSearchField,
   InputSearchFieldCalendar,
-  InputSearchFieldPassenger
+  InputSearchFieldPassenger,
+  InputSearchFieldTypeFlight
 } from "@/types/InputTypes";
 import { OptionsCombobox } from "@/types/OptionTypes";
 import { PlaneTakeoff, PlaneLanding, UserPlus} from "lucide-react";
@@ -33,6 +34,21 @@ export const searchFieldsPassenger: InputSearchFieldPassenger[] = [
   },
 ];
 
+export const searchFieldsTypeFlight: InputSearchFieldTypeFlight[] = [
+  {
+    label: "Ida y vuelta",
+    value: "roundTrip",
+    placeholder: "Ida y vuelta",
+    type: "radio",
+  },
+  {
+    label: "Solo ida",
+    value: "oneWay",
+    placeholder: "Solo ida",
+    type: "radio",
+  },
+]
+
 export const searchFieldsCalendar: InputSearchFieldCalendar[] = [
   {
     label: "Ida",
@@ -47,13 +63,13 @@ export const searchFieldsCalendar: InputSearchFieldCalendar[] = [
 ];
 
 export const searchFieldsCombobox: OptionsCombobox[] = [
-    { label: "Bogota (BOG)", value: "BOG" },
-    { label: "Medellin (MDE)", value: "MDE" },
-    { label: "Cartagena (CTG)", value: "CTG" },
-    { label: "Cali (CLO)", value: "CLO" },
-    { label: "Barranquilla (BAQ)", value: "BAQ" },
-    { label: "Santa Marta (SMR)", value: "SMR" },
-    { label: "San Andres (ADZ)", value: "ADZ" },
-    { label: "Pereira (PEI)", value: "PEI" },
-    { label: "Armenia (AXM)", value: "AXM" },
+    { label: "Bogota", value: "BOG" },
+    { label: "Medellin", value: "MDE" },
+    { label: "Cartagena", value: "CTG" },
+    { label: "Cali", value: "CLO" },
+    { label: "Barranquilla", value: "BAQ" },
+    { label: "Santa Marta", value: "SMR" },
+    { label: "San Andres", value: "ADZ" },
+    { label: "Pereira", value: "PEI" },
+    { label: "Armenia", value: "AXM" },
 ];
