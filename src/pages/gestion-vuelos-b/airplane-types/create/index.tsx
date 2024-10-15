@@ -5,34 +5,51 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from "@/components/ui/select";
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { useMutation, useQuery } from "react-query";
+import { createAirplaneType, getAllAirplaneFamilies } from "@/services/gestion-vuelos-b/airplane-types";
+import { useRouter } from "next/navigation";
 
 const MAX_ALLOWED_SEATS_ROWS = 8;
 
 export default function CreateAirplaneTypePage() {
-
-  const families = [
-    {
-      id: 1,
-      name: "Airbus",
-    },
-    {
-      id: 2,
-      name: "Boeing",
-    },
-    {
-      id: 3,
-      name: "Embraer",
-    },
-    {
-      id: 4,
-      name: "Bombardier",
-    }
-  ];
-
   const [seatsDistribution, setSeatsDistribution] = useState<Record<number, number | null>>({
     0: 1
   }
   );
+
+  const router = useRouter();
+
+  const familiesQuery = useQuery({
+    queryKey: "airplane-families",
+    queryFn: getAllAirplaneFamilies,
+  });
+
+  const createAirplaneTypeMutation = useMutation(createAirplaneType, {
+    onSuccess: () => {
+      router.push("/gestion-vuelos-b/airplane-types");
+    }
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (Object.values(seatsDistribution).some(x => x === null)) {
+      alert("Por favor, completa la distribución de asientos");
+      return;
+    }
+
+    const form = new FormData(event.currentTarget);
+    const name = form.get("name") as string;
+    const familyId = form.get("family") as string;
+    const maxSeats = parseInt(form.get("maxSeats") as string);
+
+    createAirplaneTypeMutation.mutate({
+      id: name,
+      typeId: parseInt(familyId),
+      maxSeats,
+      seatsDistribution: Object.values(seatsDistribution).join("-")
+    });
+  }
 
   const handleSeatsDistributionAdd = () => {
     if (Object.keys(seatsDistribution).length >= MAX_ALLOWED_SEATS_ROWS) {
@@ -70,19 +87,19 @@ export default function CreateAirplaneTypePage() {
         <div
           className="flex relative flex-col items-start gap-8" x-chunk="dashboard-03-chunk-0"
         >
-          <form className="grid w-full items-start gap-6">
+          <form className="grid w-full items-start gap-6" onSubmit={handleSubmit}>
             <fieldset className="grid gap-6 rounded-lg border p-4">
               <legend className="-ml-1 px-1 text-sm font-medium">
                 Características del modelo
               </legend>
               <div className="grid gap-3">
                 <Label htmlFor="name">Nombre</Label>
-                <Input id="name" type="text" placeholder="Ej. A320" />
+                <Input id="name" name="name" type="text" placeholder="Ej. A320" required />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="family">Familia</Label>
-                  <Select>
+                  <Select name="family" required>
                     <SelectTrigger
                       id="family"
                       className="items-start [&_[data-description]]:hidden"
@@ -90,17 +107,23 @@ export default function CreateAirplaneTypePage() {
                       <SelectValue placeholder="Selecciona una familia" />
                     </SelectTrigger>
                     <SelectContent>
-                      {families.map((family) => (
-                        <SelectItem key={family.id} value={family.id.toString()}>
-                          {family.name}
-                        </SelectItem>
-                      ))}
+                      {
+                        familiesQuery.isLoading ? (
+                          <SelectItem disabled value="loading">Loading...</SelectItem>
+                        ) : familiesQuery.isError ? (
+                          <SelectItem disabled value="error">Error loading families</SelectItem>
+                        ) : familiesQuery.data?.map((family) => (
+                          <SelectItem key={family.id} value={family.id.toString()}>
+                            {family.name}
+                          </SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="maxSeats">Número de asientos</Label>
-                  <Input id="maxSeats" type="number" placeholder="Ej. 100" min={1} max={10000} />
+                  <Input id="maxSeats" name="maxSeats" type="number" placeholder="Ej. 100" min={1} max={10000} required />
                 </div>
               </div>
               <div className="flex justify-between items-center">
@@ -132,6 +155,7 @@ export default function CreateAirplaneTypePage() {
                         value={value ?? ''}
                         className="text-center text-2xl"
                         onChange={(e) => handleSeatsDistributionChange(parseInt(index), e.target.value)}
+                        required
                       />
                       <Button
                         type="button"
@@ -148,7 +172,9 @@ export default function CreateAirplaneTypePage() {
               </div>
             </fieldset>
             <div className="flex justify-end gap-4">
-              <Button type="button" variant="secondary">Cancelar</Button>
+              <Button type="button" variant="secondary"
+                onClick={() => router.push("/gestion-vuelos-b/airplane-types")}
+              >Cancelar</Button>
               <Button type="submit" variant="default">Crear aeronave</Button>
             </div>
           </form>
