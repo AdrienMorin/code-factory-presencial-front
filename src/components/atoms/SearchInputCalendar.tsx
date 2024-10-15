@@ -45,6 +45,7 @@ export function SearchInputCalendar({ inputSearchField, handleInputChange }: Sea
                   !dates[field.value] && "text-black"
                 )}
                 onClick={() => setActiveField(field.value)}
+                type="button"
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {dates[field.value] ? format(dates[field.value], "yyyy-MM-dd") : <span>{field.placeholder}</span>}

@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <div className='w-full'>
-      <div className='flex justify-between max-h-24 items-center p-3 border-b-2 shadow-sm'>
+      <div className='flex justify-between max-h-24 items-center p-3 border-b-2 border-chart-5 shadow-sm'>
         {/* Hamburger = only show in small screens */}
         <div className='block md:hidden'>
           <Sheet>

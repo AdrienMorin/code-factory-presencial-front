@@ -31,16 +31,16 @@ type ComboboxProps = {
 }
 
 export default function Combobox({field, options, selectedValue, onSelectValue, open, onOpenChange}: ComboboxProps) {
+
+    
     return (
         <Popover open={open} onOpenChange={onOpenChange}>
           
           <PopoverTrigger asChild>
             <div className="relative flex flex-col justify-center items-center gap-1.5">
               <Label htmlFor={field.value}>{field.label}</Label>
-              <Button variant="outline" className="bg-input xl:pl-10 text-sm xl:text-base">
-                {selectedValue
-                  ? options.find((option) => option.value === selectedValue)?.label
-                  : field.placeholder}
+              <Button variant="outline" type='button' className="bg-input xl:pl-10 text-sm xl:text-base">
+                {selectedValue ? options.find((option) => option.value === selectedValue)?.label : field.placeholder}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
               <span className="absolute hidden xl:block left-2 top-1/2">
