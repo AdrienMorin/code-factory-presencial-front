@@ -16,6 +16,7 @@ const PaymentMethod = ({ id, name, value, selected, onSelect }: PaymentMethodPro
         ${selected ? 'bg-blue-200 scale-105' : 'bg-white scale-100'}`}
     >
       <input
+        id={`${id}`}
         type="radio"
         name="paymentMethod"
         value={value}

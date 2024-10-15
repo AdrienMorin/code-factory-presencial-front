@@ -7,7 +7,7 @@ import TotalPrice from "@/components/molecules/TotalPrice/index";
 const index = () => {
   return (
     <div className="shadow-lg rounded-[6px]">
-      <div className="p-16">
+      <div className="p-16 py-6">
         <div className="p-4">
           <CardHeader />
         </div>
