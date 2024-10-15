@@ -2,6 +2,7 @@ import {PaymentModule} from "@/components/organisms/paymentModule";
 import React from "react";
 import Header from "@/components/molecules/header";
 import OrderSummary from "@/components/organisms/orderSummary";
+import Image from "next/image";
 
 export default function Pagos() {
   return (
