@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { AirplaneType } from "./types";
+import { AirplaneType, Type } from "./types";
 
 // You can replace this with your actual backend GraphQL API endpoint
 const API_URL =
@@ -49,6 +49,22 @@ export const getAirplaneTypeById = async (id: string) => {
   );
   return response.getAirplaneTypeById;
 };
+
+export const getAllAirplaneFamilies = async () => {
+  const query = `
+    query {
+      getAllFamilies {
+        id
+        name
+      }
+    }
+  `
+
+  const response: {
+    getAllFamilies: Type[];
+  } = await gqlClient.request(query);
+  return response.getAllFamilies;
+}
 
 export const createAirplaneType = async (input: string) => {
   const mutation = `
