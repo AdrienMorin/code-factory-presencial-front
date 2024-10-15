@@ -7,6 +7,7 @@ import { Button } from '../ui/button'
 import SearchCombobox from './SearchCombobox'
 import { searchFieldsCombobox } from '@/constants/FormFields'
 import SearchInputPassenger from '../atoms/SearchInputPassenger'
+import { useRouter } from 'next/router';
 
 type SearchFormProps = {
   inputFields: InputSearchField[],
@@ -15,6 +16,8 @@ type SearchFormProps = {
 }
 
 export default function SearchForm( { inputFields, inputFieldsCalendar, InputSearchFieldPassenger }: SearchFormProps ) {
+
+  const router = useRouter();
 
   const [tripType, setTripType] = useState('roundTrip'); 
   const [searchParams, setSearchParams] = useState({
@@ -28,6 +31,10 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // TO DO: logica para enviar los datos al Backend
+    router.push({
+      pathname: '/BusquedaDeVuelosA/search',
+      query: { ...searchParams, tripType }
+    });
   };
 
   const handleInputChange = (name: string, value: string) => {
@@ -37,6 +44,7 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
     });
   };
 
+  console.log(searchParams, tripType);
   return (
     <form onSubmit={handleSubmit} className='flex w-auto xl:w-11/12 p-4 rounded-lg shadow-md border justify-around items-center gap-3'>
         <RadioGroup
@@ -72,7 +80,6 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
         <Button 
           type="submit" 
           className="bg-primary lg:w-32 xl:w-52 h-10 text-white rounded-2xl p-2"
-          onClick={() => console.log(searchParams, tripType)}
         >Buscar</Button>
     </form>
   )
