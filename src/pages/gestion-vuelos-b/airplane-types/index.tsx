@@ -1,5 +1,5 @@
 import React from "react";
-import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon, DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 
 import {
   ColumnDef,
@@ -46,6 +46,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<AirplaneType>[] = [
   {
@@ -72,8 +73,8 @@ export const columns: ColumnDef<AirplaneType>[] = [
   },
   {
     accessorKey: "id",
-    id: "identificador",
-    header: "Identificador",
+    id: "modelo",
+    header: "Modelo",
     cell: ({ row }) => <div>{row.original.id}</div>,
   },
   {
@@ -105,46 +106,50 @@ export const columns: ColumnDef<AirplaneType>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({}) => {
+    cell: ({ }) => {
       // cell: ({ row }) => {
       // TODO: Implementar eliminación y edición de tipos de aviones
       // const airplaneType = row.original.id;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir Menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem className="inline-flex items-center w-full">
-              <PenIcon className="h-4 w-4 mr-2" />
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem className="inline-flex items-center w-full">
-              <EyeIcon className="h-4 w-4 mr-2" />
-              Ver detalles
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="inline-flex items-center w-full text-red-500 sm:hover:text-red-700 sm:hover:bg-red-100">
-              <TrashIcon className="h-4 w-4 mr-2" />
-              Eliminar
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Abrir Menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DropdownMenuItem className="inline-flex items-center w-full">
+                <PenIcon className="h-4 w-4 mr-2" />
+                Editar
+              </DropdownMenuItem>
+              <DropdownMenuItem className="inline-flex items-center w-full">
+                <EyeIcon className="h-4 w-4 mr-2" />
+                Ver detalles
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="inline-flex items-center w-full text-red-500 sm:hover:text-red-700 sm:hover:bg-red-100">
+                <TrashIcon className="h-4 w-4 mr-2" />
+                Eliminar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },
 ];
 
-export default function DataTableDemo() {
+export default function AirplaneTypesPage() {
   const query = useQuery({
     queryKey: "airplane-types",
     queryFn: getAllAirplaneTypes,
   });
+
+  const router = useRouter();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -177,8 +182,8 @@ export default function DataTableDemo() {
     <>
       <Navbar />
       <div className="w-full p-4 sm:p-12">
-        <h1 className="text-4xl font-bold">Tipos de aviones</h1>
-        <div className="flex items-center py-4">
+        <h1 className="text-4xl font-bold">Aeronaves</h1>
+        <div className="flex items-center py-4 gap-4 justify-between">
           <Input
             placeholder="Filtrar por nombre"
             value={
@@ -189,32 +194,41 @@ export default function DataTableDemo() {
             }
             className="max-w-sm"
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto gap-2">
-                <Settings2Icon className="h-4 w-4" /> Configurar vista
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.columnDef.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex gap-4 items-center">
+            <Button
+              variant="default"
+              className="inline-flex items-center gap-2"
+              onClick={() => router.push("/gestion-vuelos-b/airplane-types/create")}
+            >
+              <PlusIcon className="h-4 w-4" /> Agregar aeronave
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto gap-2">
+                  <Settings2Icon className="h-4 w-4" /> Configurar vista
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.columnDef.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
         <div className="rounded-md border">
           <Table>
@@ -227,9 +241,9 @@ export default function DataTableDemo() {
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                       </TableHead>
                     );
                   })}
@@ -259,7 +273,7 @@ export default function DataTableDemo() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No hay datos para mostrar.
+                    {query.isLoading ? "Cargando..." : "No hay datos para mostrar."}
                   </TableCell>
                 </TableRow>
               )}
