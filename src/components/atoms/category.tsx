@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CategoryProps from "@/utils/interface/category";
 import { DialogClose } from "../ui/dialog";
 
-const Category = ({ categories, setSelectedCategory }: CategoryProps) => {
+const Category = ({ categories, setSelectedCategory, prices }: CategoryProps) => {
   const [selectedTab, setSelectedTab] = useState(categories[0].value);
 
   return (
@@ -40,7 +40,9 @@ const Category = ({ categories, setSelectedCategory }: CategoryProps) => {
             </CardHeader>
             <CardContent className="space-y-2">
               <div>
-                <p className="text-xl font-bold">Price: {category.price}</p>
+                <p className="text-xl font-bold">
+                  Price: ${prices[category.value as keyof typeof prices]}
+                </p>
               </div>
               <div>
                 <p className="font-semibold">Benefits:</p>

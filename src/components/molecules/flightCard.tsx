@@ -10,6 +10,10 @@ import Flight from "@/utils/interface/flight";
 const FlightCard: React.FC<{ flight: Flight }> = ({ flight }) => {
   const [selectedCategory, setSelectedCategory] = useState(categoriesData[0]);
 
+  const getCategoryPrice = () => {
+    return flight.prices[selectedCategory.value as keyof typeof flight.prices];
+  };
+
   return (
     <div className="w-3/4 mx-auto bg-white shadow-md rounded-lg px-6 py-6 sm:py-8 lg:px-8 grid grid-cols-2 transition-colors shadow-primary">
       <div className="grid grid-rows-1 items-center space-y-3">
@@ -48,7 +52,20 @@ const FlightCard: React.FC<{ flight: Flight }> = ({ flight }) => {
             </DialogTrigger>
             <DialogContent>
               <div className="flex justify-center items-center">
-                <Category categories={categoriesData} setSelectedCategory={setSelectedCategory} />
+                <Category
+                  categories={categoriesData}
+                  setSelectedCategory={(category) =>
+                    setSelectedCategory(
+                      category as {
+                        value: "economy" | "business" | "first";
+                        title: string;
+                        description: string;
+                        benefits: string[];
+                      }
+                    )
+                  }
+                  prices={flight.prices}
+                />
               </div>
             </DialogContent>
           </Dialog>
@@ -56,7 +73,7 @@ const FlightCard: React.FC<{ flight: Flight }> = ({ flight }) => {
       </div>
       <div className="grid grid-rows-1 justify-end">
         <div className="flex justify-end font-bold">
-          <Text text={`USD ${selectedCategory.price}`} />
+          <Text text={`USD ${getCategoryPrice()}`} />
         </div>
         <div className="flex mt-2">
           <Button>Reserve</Button>

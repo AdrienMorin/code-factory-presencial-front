@@ -5,6 +5,11 @@ const FlightsAvailable = [
     date: "2024-10-15",
     time: "08:00 AM",
     scales: 0,
+    prices: {
+      economy: 100,
+      business: 200,
+      first: 300,
+    },
   },
   {
     origin: "New York",
@@ -12,6 +17,11 @@ const FlightsAvailable = [
     date: "2024-10-20",
     time: "07:45 AM",
     scales: 1,
+    prices: {
+      economy: 80,
+      business: 160,
+      first: 240,
+    },
   },
   {
     origin: "New York",
@@ -19,6 +29,11 @@ const FlightsAvailable = [
     date: "2024-10-17",
     time: "02:30 PM",
     scales: 2,
+    prices: {
+      economy: 90,
+      business: 180,
+      first: 270,
+    },
   },
   {
     origin: "Los Angeles",
@@ -26,6 +41,11 @@ const FlightsAvailable = [
     date: "2024-10-22",
     time: "05:00 PM",
     scales: 1,
+    prices: {
+      economy: 120,
+      business: 240,
+      first: 360,
+    },
   },
   {
     origin: "Chicago",
@@ -33,6 +53,11 @@ const FlightsAvailable = [
     date: "2024-10-18",
     time: "09:30 AM",
     scales: 1,
+    prices: {
+      economy: 70,
+      business: 140,
+      first: 210,
+    },
   },
   {
     origin: "Miami",
@@ -40,6 +65,11 @@ const FlightsAvailable = [
     date: "2024-10-24",
     time: "07:45 PM",
     scales: 0,
+    prices: {
+      economy: 75,
+      business: 150,
+      first: 225,
+    },
   },
   {
     origin: "San Francisco",
@@ -47,6 +77,11 @@ const FlightsAvailable = [
     date: "2024-10-16",
     time: "12:15 PM",
     scales: 0,
+    prices: {
+      economy: 65,
+      business: 130,
+      first: 195,
+    },
   },
   {
     origin: "San Francisco",
@@ -54,6 +89,11 @@ const FlightsAvailable = [
     date: "2024-10-17",
     time: "09:00 AM",
     scales: 2,
+    prices: {
+      economy: 110,
+      business: 220,
+      first: 330,
+    },
   },
   {
     origin: "San Francisco",
@@ -61,6 +101,11 @@ const FlightsAvailable = [
     date: "2024-10-19",
     time: "04:00 PM",
     scales: 1,
+    prices: {
+      economy: 85,
+      business: 170,
+      first: 255,
+    },
   },
   {
     origin: "Seattle",
@@ -68,6 +113,11 @@ const FlightsAvailable = [
     date: "2024-10-20",
     time: "06:00 AM",
     scales: 1,
+    prices: {
+      economy: 70,
+      business: 140,
+      first: 210,
+    },
   },
   {
     origin: "Houston",
@@ -75,6 +125,11 @@ const FlightsAvailable = [
     date: "2024-10-19",
     time: "10:00 AM",
     scales: 0,
+    prices: {
+      economy: 60,
+      business: 120,
+      first: 180,
+    },
   },
   {
     origin: "Dallas",
@@ -82,6 +137,11 @@ const FlightsAvailable = [
     date: "2024-10-21",
     time: "03:00 PM",
     scales: 0,
+    prices: {
+      economy: 55,
+      business: 110,
+      first: 165,
+    },
   },
   {
     origin: "Atlanta",
@@ -89,6 +149,11 @@ const FlightsAvailable = [
     date: "2024-10-17",
     time: "07:00 AM",
     scales: 1,
+    prices: {
+      economy: 80,
+      business: 160,
+      first: 240,
+    },
   },
   {
     origin: "Orlando",
@@ -96,6 +161,11 @@ const FlightsAvailable = [
     date: "2024-10-25",
     time: "11:00 AM",
     scales: 0,
+    prices: {
+      economy: 75,
+      business: 150,
+      first: 225,
+    },
   },
   {
     origin: "Boston",
@@ -103,6 +173,11 @@ const FlightsAvailable = [
     date: "2024-10-16",
     time: "04:30 PM",
     scales: 0,
+    prices: {
+      economy: 65,
+      business: 130,
+      first: 195,
+    },
   },
   {
     origin: "Philadelphia",
@@ -110,6 +185,11 @@ const FlightsAvailable = [
     date: "2024-10-23",
     time: "09:00 AM",
     scales: 1,
+    prices: {
+      economy: 70,
+      business: 140,
+      first: 210,
+    },
   },
   {
     origin: "Denver",
@@ -117,6 +197,11 @@ const FlightsAvailable = [
     date: "2024-10-14",
     time: "11:45 AM",
     scales: 0,
+    prices: {
+      economy: 100,
+      business: 200,
+      first: 300,
+    },
   },
   {
     origin: "Las Vegas",
@@ -124,6 +209,11 @@ const FlightsAvailable = [
     date: "2024-10-20",
     time: "05:30 PM",
     scales: 2,
+    prices: {
+      economy: 105,
+      business: 210,
+      first: 315,
+    },
   },
   {
     origin: "Phoenix",
@@ -131,6 +221,11 @@ const FlightsAvailable = [
     date: "2024-10-17",
     time: "02:00 PM",
     scales: 0,
+    prices: {
+      economy: 80,
+      business: 160,
+      first: 240,
+    },
   },
   {
     origin: "San Diego",
@@ -138,6 +233,11 @@ const FlightsAvailable = [
     date: "2024-10-21",
     time: "08:00 AM",
     scales: 0,
+    prices: {
+      economy: 75,
+      business: 150,
+      first: 225,
+    },
   },
   {
     origin: "Detroit",
@@ -145,6 +245,11 @@ const FlightsAvailable = [
     date: "2024-10-18",
     time: "06:30 AM",
     scales: 1,
+    prices: {
+      economy: 90,
+      business: 180,
+      first: 270,
+    },
   },
   {
     origin: "Cleveland",
@@ -152,6 +257,11 @@ const FlightsAvailable = [
     date: "2024-10-22",
     time: "01:00 PM",
     scales: 0,
+    prices: {
+      economy: 85,
+      business: 170,
+      first: 255,
+    },
   },
   {
     origin: "New Orleans",
@@ -159,6 +269,11 @@ const FlightsAvailable = [
     date: "2024-10-16",
     time: "03:15 PM",
     scales: 0,
+    prices: {
+      economy: 75,
+      business: 150,
+      first: 225,
+    },
   },
   {
     origin: "Nashville",
@@ -166,6 +281,11 @@ const FlightsAvailable = [
     date: "2024-10-25",
     time: "06:45 PM",
     scales: 1,
+    prices: {
+      economy: 70,
+      business: 140,
+      first: 210,
+    },
   },
   {
     origin: "New York",
@@ -173,6 +293,11 @@ const FlightsAvailable = [
     date: "2024-10-23",
     time: "11:00 AM",
     scales: 2,
+    prices: {
+      economy: 130,
+      business: 260,
+      first: 390,
+    },
   },
 ];
 

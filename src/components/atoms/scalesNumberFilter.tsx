@@ -9,9 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const ScalesNumberFilter = () => {
+const ScalesNumberFilter = ({ onChange }: { onChange: (scales: number) => void }) => {
   return (
-    <Select>
+    <Select onValueChange={(value) => onChange(parseInt(value))}>
       <SelectTrigger className="w-[250px] border-primary">
         <SelectValue placeholder="Select number of scales" />
       </SelectTrigger>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import FlightCard from "../molecules/flightCard";
 import FilterCard from "../molecules/filterCard";
@@ -6,6 +7,8 @@ import FlightsAvailable from "@/utils/const/flightList";
 const FlightList = () => {
   const router = useRouter();
   const { origin, destination, startDate, endDate, tripType } = router.query;
+
+  const [selectedScales, setSelectedScales] = useState<number | null>(null);
 
   const normalizeString = (str: string | string[] | undefined) => {
     return Array.isArray(str) ? str[0].toLowerCase() : (str || "").toLowerCase();
@@ -25,9 +28,10 @@ const FlightList = () => {
     const matchesStartDate = startDateString ? flight.date === startDateString.split("T")[0] : true;
     const matchesEndDate = endDateString ? flight.date === endDateString.split("T")[0] : true;
 
+    const matchesScales = selectedScales !== null ? flight.scales === selectedScales : true;
+
     if (tripTypeString === "departure") {
-      if (matchesOrigin && matchesDestination && matchesStartDate) return true;
-      else return false;
+      return matchesOrigin && matchesDestination && matchesStartDate && matchesScales;
     }
 
     if (tripTypeString === "roundtrip") {
@@ -37,7 +41,7 @@ const FlightList = () => {
 
       return (
         (matchesOrigin && matchesDestination && matchesStartDate) ||
-        (matchesReturn && matchesEndDate)
+        (matchesReturn && matchesEndDate && matchesScales)
       );
     }
 
@@ -48,7 +52,7 @@ const FlightList = () => {
     <div className="flex flex-col justify-center bg-accent h-screen">
       <div className="flex flex-col">
         <div className="mb-2">
-          <FilterCard />
+          <FilterCard onScalesChange={setSelectedScales} />
         </div>
         <div className="grid grid-cols-1 gap-6 overflow-y-auto max-h-[90vh] pb-2 mb-2">
           {filteredFlights.length > 0 ? (
@@ -61,6 +65,7 @@ const FlightList = () => {
                   date: flight.date,
                   time: flight.time,
                   scales: flight.scales,
+                  prices: flight.prices,
                 }}
               />
             ))
