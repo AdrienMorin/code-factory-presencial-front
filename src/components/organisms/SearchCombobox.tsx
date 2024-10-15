@@ -20,8 +20,15 @@ export default function SearchCombobox({inputSearchField, options, handleInputCh
   const [destinationValue, setDestinationValue] = useState("");
 
   const handleSelectValue = (field: string, value: string) => {
-      field === "origin" ? setOriginValue(value) : setDestinationValue(value);
+    if(field === "origin") {
+        setOriginValue(value);
+        setOpenOrigin(false);
+        handleInputChange(field, value);
+    } else {
+      setDestinationValue(value);
+      setOpenDestination(false);
       handleInputChange(field, value);
+    }
   }
 
   const filterDestination = (field: string) => {
