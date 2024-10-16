@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import SearchCard from "../components/molecules/searchCard";
-import "@testing-library/jest-dom";
 
 const searchFnMock = jest.fn();
 
