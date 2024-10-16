@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/jest-globals";
 import "@testing-library/jest-dom";
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
