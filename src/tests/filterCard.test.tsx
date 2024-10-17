@@ -1,6 +1,6 @@
 import React from "react";
 import FilterCard from "../components/molecules/filterCard";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 const onScalesChangeFn = jest.fn();
 
