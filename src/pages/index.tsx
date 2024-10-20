@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
+import Search from "@/components/organisms/search";
 
 export default function Home() {
   return (
-    <div className='flex justify-center items-center'>
-      <Button>Button</Button>
+    <div>
+      <Search />
     </div>
   );
 }
