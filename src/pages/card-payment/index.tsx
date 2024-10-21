@@ -8,12 +8,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useRouter } from 'next/navigation'
 
 const index = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const paymentMethods = [
     { id: 1, name: "Bancolombia ****0000", value: "pse" },
   ];
+
+  const router = useRouter();
+
+  const goToSucces = () => {
+    router.push('/card-payment/payment-success'); 
+  };
 
   const handleSelection = (id: number) => setSelectedId(id);
 
@@ -48,7 +55,7 @@ const index = () => {
         <Link href="/">
           <SecundaryButton text="Regresar" handleClick={() => {}} />
         </Link>
-        <MainButton text="Continuar" handleClick={() => {}} />
+        <MainButton text="Pagar" handleClick={() => goToSucces()} />
       </div>
     </main>
   );
