@@ -1,5 +1,4 @@
 import React from 'react'
-import MainButton from '@/components/atoms/MainButton/index'
 import MainText from '@/components/atoms/MainText/index'
 import { MainTitle } from '@/components/atoms/Title/index'
 
