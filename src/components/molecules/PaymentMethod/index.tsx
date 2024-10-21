@@ -6,6 +6,7 @@ type PaymentMethodProps = {
   value: string;
   selected: boolean;
   onSelect: () => void;
+  children?: React.ReactNode;
 };
 
 const PaymentMethod = ({
@@ -14,6 +15,7 @@ const PaymentMethod = ({
   value,
   selected,
   onSelect,
+  children
 }: PaymentMethodProps) => {
   return (
     <label
@@ -31,6 +33,7 @@ const PaymentMethod = ({
         className="mr-3 hidden"
       />
       <MainText text={name} color={selected ? "text-white" : "text-black"} />
+      {children}
     </label>
   );
 };

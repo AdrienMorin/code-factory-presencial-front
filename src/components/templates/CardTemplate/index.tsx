@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
 import AccordionsSection from "@/components/organisms/AccordionsSection/index";
 import Details from "@/components/organisms/Details";
 import MainButton from "@/components/atoms/MainButton/index";
-import Modal from '@/components/templates/Modal/index'
+import Modal from "@/components/templates/Modal/index";
 
 import CardHeader from "@/components/molecules/CardHeader/index";
 import TotalPrice from "@/components/molecules/TotalPrice/index";
 import { useState } from "react";
+import ModalDetails from "@/components/organisms/ModalDetails";
 
 const index = () => {
-  const [modalState, setModalState] = useState(true);
+  const [modalState, setModalState] = useState(false);
 
   const {
     origin,
@@ -20,6 +21,7 @@ const index = () => {
     adultsNumber,
     childrenNumber,
     goBack,
+    flyNumber,
   } = {
     origin: {
       city: "Bogotá",
@@ -58,6 +60,7 @@ const index = () => {
     adultsNumber: 2,
     childrenNumber: 1,
     goBack: true,
+    flyNumber: "AV 120",
   };
 
   return (
@@ -67,7 +70,7 @@ const index = () => {
           <CardHeader />
           <MainButton
             text="Ver mas"
-            handleClick={() => console.log("Button clicked")}
+            handleClick={() => setModalState(true)}
           />
         </div>
         <div className="p-4">
@@ -86,8 +89,17 @@ const index = () => {
         </div>
       </div>
       <TotalPrice total={243.408} />
-      <Modal modalState={modalState} onClose={() => setModalState(false)} >
-        MOdal
+      <Modal modalState={modalState} onClose={() => setModalState(false)}>
+        <ModalDetails
+          origin={origin}
+          originBack={originBack}
+          destination={destination}
+          destinationBack={destinationBack}
+          adultsNumber={adultsNumber}
+          childrenNumber={childrenNumber}
+          goBack={goBack}
+          flyNumber={flyNumber}
+        />
       </Modal>
     </div>
   );
