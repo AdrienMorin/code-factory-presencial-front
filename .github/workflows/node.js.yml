@@ -40,7 +40,6 @@ jobs:
           overwrite: true
 
   test:
-    name: test and analyze with SonarCloud
     runs-on: ubuntu-latest
     needs: build # This job depends on the build job
 
@@ -67,9 +66,28 @@ jobs:
           path: coverage
           overwrite: true
           
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install NodeJS 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Intall dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+          
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      
