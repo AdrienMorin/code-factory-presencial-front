@@ -23,15 +23,13 @@ export const ALL_FLIGHTS = gql`
 export const FLIGHT_BY_ID = gql`
   query FlightById($id: ID!) {
     flightById(id: $id) {
-      id
       flightNumber
-      departureCity
-      destinationCity
+      flightType
       aircraftId
+      departureCity
       departureDate
-      departureTime
+      destinationCity
       arrivalDate
-      arrivalTime
       price
       taxPercentage
       surcharge

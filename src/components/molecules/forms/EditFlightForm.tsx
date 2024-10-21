@@ -39,13 +39,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TimePicker } from "@/components/ui/time-picker/time-picker";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { CREATE_FLIGHT } from "@/graphql/mutations/flightMutations";
+import { UPDATE_FLIGHT } from "@/graphql/mutations/flightMutations";
 import Head from "next/head";
 import {
   colombiaAirports,
   getAirports,
   internationalAirports,
 } from "@/utils/AirportsUtils";
+import { useRouter } from "next/router";
+import { FLIGHT_BY_ID } from "@/graphql/queries/flightQueries";
 
 export interface Aircraft {
   id: string;
@@ -61,22 +63,37 @@ export const GET_AIRCRAFTS = gql`
   }
 `;
 
+export const GET_AIRCRAFT_BY_ID = gql`
+  query GetAircraftById($id: ID!) {
+    aircraftById(id: $id) {
+      aircraftModel
+    }
+  }
+`;
+
 type AircraftType = {
   getAircraftsByFilters: Aircraft[];
 };
 
-function FlightForm() {
-  // Traemos la data de las aeronaves disponibles
-  const { data } = useQuery<AircraftType>(GET_AIRCRAFTS);
-
-  // Utilizamos la función useMutation para crear un vuelo
-  const [createFlight] = useMutation(CREATE_FLIGHT);
+function EditFlightForm() {
+  const router = useRouter();
+  const { flightId } = router.query; // Obtener el ID del vuelo de los parámetros de la URL
+  const { data: aircraftData } = useQuery<AircraftType>(GET_AIRCRAFTS);
+  const { data: aircraftFlight } = useQuery<Aircraft>(GET_AIRCRAFT_BY_ID);
+  const { data: flightData } = useQuery(FLIGHT_BY_ID, {
+    variables: { id: flightId },
+    skip: !flightId, // Evita la consulta si no hay flightId
+  });
 
   // Estado para controlar el diálogo de alerta
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertTitle, setAlertTitle] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [availableDestinations, setAvailableDestinations] = useState(
+    internationalAirports
+  );
 
   // Utilizamos el hook useForm para manejar el formulario
   const form = useForm<FlightSchema>({
@@ -98,18 +115,45 @@ function FlightForm() {
   });
 
   // Función para observar el tipo de vuelo para cambiar las opciones de origen y destino
-  const { watch } = form; // Esto obtiene el estado del formulario
+  const { watch } = form;
   const flightType = watch("flightType");
   const departureCity = watch("departureCity");
-
-  const [availableDestinations, setAvailableDestinations] = useState(
-    internationalAirports
-  );
 
   useEffect(() => {
     const airports = getAirports(flightType, departureCity);
     setAvailableDestinations(airports);
   }, [flightType, departureCity]);
+
+  useEffect(() => {
+    // Verifica si los datos del vuelo existen y si han sido cargados
+    if (flightData?.flightById) {
+      // Resetea los valores del formulario con los datos del vuelo
+      form.reset({
+        flightNumber: flightData.flightById.flightNumber || "",
+        flightType: flightData.flightById.flightType || undefined,
+        aircraftId: flightData.flightById.aircraftId || "",
+        price: flightData.flightById.price || 0,
+        taxPercentage: flightData.flightById.taxPercentage || 0,
+        surcharge: flightData.flightById.surcharge || 0,
+        departureCity: flightData.flightById.departureCity || "",
+        departureDate: flightData.flightById.departureDate || undefined,
+        departureTime: undefined,
+        destinationCity: flightData.flightById.destinationCity || "",
+        arrivalDate: flightData.flightById.arrivalDate || undefined,
+        arrivalTime: undefined,
+      });
+    }
+  }, [flightData, form]);
+
+  // Función para cargar los datos del vuelo existente
+  useEffect(() => {
+    if (flightData && flightData.getFlightById) {
+      form.reset(flightData.getFlightById);
+    }
+  }, [flightData, form]);
+
+  // Función para enviar los datos del formulario
+  const [updateFlight] = useMutation(UPDATE_FLIGHT);
 
   // Función para enviar los datos del formulario
   async function onSubmit(data: FlightSchema) {
@@ -130,25 +174,18 @@ function FlightForm() {
     };
 
     try {
-      const { data } = await createFlight({
-        variables: { input: formattedData },
+      await updateFlight({
+        variables: { id: flightId, input: formattedData },
       });
-      // Establecer mensaje de éxito
       setAlertTitle("¡Éxito!");
-      setAlertMessage(
-        `El vuelo ha sido registrado exitosamente: ${data.createFlight.departureCity} - ${data.createFlight.destinationCity}.`
-      );
+      setAlertMessage(`El vuelo ha sido actualizado exitosamente.`);
       setAlertType("success");
     } catch (error) {
-      // Establecer mensaje de error
       setAlertTitle("Error");
-      setAlertMessage("Hubo un problema al registrar el vuelo.");
+      setAlertMessage("Hubo un problema al actualizar el vuelo.");
       setAlertType("error");
     }
 
-    form.reset();
-
-    // Abrir el diálogo de alerta
     setIsDialogOpen(true);
   }
 
@@ -178,6 +215,7 @@ function FlightForm() {
                     placeholder="SA666"
                     value={field.value}
                     onChange={field.onChange}
+                    disabled={true}
                   />
                 </FormControl>
                 <FormMessage />
@@ -222,7 +260,12 @@ function FlightForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {data?.getAircraftsByFilters.map((aircraft) => (
+                    {aircraftFlight && (
+                      <SelectItem value={aircraftFlight?.aircraftModel}>
+                        {aircraftFlight?.aircraftModel}
+                      </SelectItem>
+                    )}
+                    {aircraftData?.getAircraftsByFilters.map((aircraft) => (
                       <SelectItem key={aircraft.id} value={aircraft.id}>
                         {aircraft.aircraftModel}
                       </SelectItem>
@@ -375,8 +418,9 @@ function FlightForm() {
                         className={cn(!field.value && "text-muted-foreground")}
                       >
                         <CalendarClock className="mr-2 h-4 w-4" />
-                        {field.value ? (
-                          format(field.value, "HH:mm")
+                        {field.value &&
+                        !isNaN(new Date(field.value).getTime()) ? (
+                          format(new Date(field.value), "HH:mm")
                         ) : (
                           <span>Escribe la hora</span>
                         )}
@@ -480,8 +524,9 @@ function FlightForm() {
                         className={cn(!field.value && "text-muted-foreground")}
                       >
                         <CalendarClock className="mr-2 h-4 w-4" />
-                        {field.value ? (
-                          format(field.value, "HH:mm")
+                        {field.value &&
+                        !isNaN(new Date(field.value).getTime()) ? (
+                          format(new Date(field.value), "HH:mm")
                         ) : (
                           <span>Escribe la hora</span>
                         )}
@@ -504,8 +549,8 @@ function FlightForm() {
             )}
           />
           <div className="col-start-2 flex justify-center items-center">
-            <Button type="submit" id="sendButton" className="text-base">
-              Registrar vuelo
+            <Button type="submit" className="text-base">
+              Actualizar vuelo
             </Button>
           </div>
         </form>
@@ -546,4 +591,4 @@ function FlightForm() {
   );
 }
 
-export default FlightForm;
+export default EditFlightForm;

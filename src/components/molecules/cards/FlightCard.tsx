@@ -4,8 +4,9 @@ import { ALL_FLIGHTS } from "@/graphql/queries/flightQueries";
 import { toast } from "@/hooks/use-toast";
 import { FlightType } from "@/types/FlighTypes";
 import { useMutation, useQuery } from "@apollo/client";
-import { CircleEllipsis, Pencil, X } from "lucide-react";
-import React from "react";
+import { Pencil, X } from "lucide-react";
+import FlightCardDetail from "./FlightCardDetail";
+import { useRouter } from "next/router";
 
 type FlightCardProps = {
   searchValue: string;
@@ -15,6 +16,7 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
   const { data } = useQuery<FlightType>(ALL_FLIGHTS);
   const flights = data?.getFlightsByFilters || [];
   const lowerSearchValue = searchValue.toLowerCase();
+  const router = useRouter();
 
   // Mutación para eliminar un vuelo
   const [deleteFlight] = useMutation(DELETE_FLIGHT, {
@@ -34,6 +36,10 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
         description: "Ha ocurrido un error al eliminar el vuelo.",
       });
     }
+  };
+
+  const handleEditFlight = (flightId: string) => {
+    router.push(`/gestion-de-vuelos-A/vuelos/edit?flightId=${flightId}`);
   };
 
   // Filtrar los vuelos según el valor de búsqueda
@@ -85,16 +91,11 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
 
           {/* Botones al final */}
           <div className="flex justify-end gap-2">
-            <Button
-              variant="secondary"
-              className="flex gap-1 items-center justify-center"
-            >
-              <CircleEllipsis />
-              Ver más
-            </Button>
+            <FlightCardDetail flight={flight} />
             <Button
               variant="default"
               className="flex gap-1 items-center justify-center"
+              onClick={() => handleEditFlight(flight.id)}
             >
               <Pencil /> Editar
             </Button>
