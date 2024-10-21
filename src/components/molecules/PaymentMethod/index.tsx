@@ -19,7 +19,7 @@ const PaymentMethod = ({
     <label
       onClick={onSelect}
       className={`flex justify-start items-center p-5 mt-3 rounded-[6px] shadow-lg cursor-pointer transition-all duration-300 
-        ${selected ? "bg-primary  scale-105" : "bg-white scale-100"}`}
+        ${selected ? "bg-primary border-primary" : "bg-white"}`}
     >
       <input
         id={`${id}`}
