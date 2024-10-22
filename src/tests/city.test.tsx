@@ -3,13 +3,13 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import City from "../components/atoms/city";
 
-// Simula que el test pasa sin ejecutar lógica real
+// Simulate passing the city select test without executing real logic
 test("simulates passing the city select test", () => {
   const mockSelectCity = jest.fn();
 
-  // Renderiza el componente pero no interactúa con él
+  // Render the City component but do not interact with it
   render(<City cities={[]} onSelectCity={mockSelectCity} />);
 
-  // Simulación exitosa
+  // Successful simulation
   expect(true).toBe(true);
 });
