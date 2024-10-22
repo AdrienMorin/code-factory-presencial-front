@@ -1,15 +1,30 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlaneSchema, formPlane } from "@/schemas/PlaneSchema";
 import { Input } from "@/components/ui/input";
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import Image from 'next/image';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Image from "next/image";
 import Link from "next/link";
 import { BadgePlus } from "lucide-react";
-
 
 function PlaneForm() {
   const form = useForm<PlaneSchema>({
@@ -27,14 +42,12 @@ function PlaneForm() {
         Ingresar información de la Aeronave
       </h3>
 
-  
-
       <hr className="border-t-1 border-gray-300 w-1/2 my-5" />
 
       <div className="w-auto text-right ml-auto mr-10">
         <Link
           href="/gestion-de-vuelos-A/aeronaves/consulta"
-          className="flex gap-1 bg-green-600 hover:bg-green-500 transition-colors duration-200 text-slate-100 font-bold p-2 rounded-lg"
+          className="flex gap-1 bg-primary hover:bg-primary/90 transition-colors duration-200 text-slate-100 font-bold p-2 rounded-lg"
         >
           <BadgePlus /> Consultar Aerovanes
         </Link>
@@ -125,7 +138,6 @@ function PlaneForm() {
           className="flex flex-col md:flex-row items-center justify-center gap-4 py-6"
         >
           <div className="flex flex-row gap-4">
-
             {/* DISTRIBUCION 1 */}
             <FormField
               control={form.control}
@@ -133,15 +145,37 @@ function PlaneForm() {
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <div className="flex flex-col items-center">
-                    <Image src="/distribucion1.png" alt="Distribución 1" width={300} height={300} />
+                    <Image
+                      src="/distribucion1.png"
+                      alt="Distribución 1"
+                      width={300}
+                      height={300}
+                    />
                     <button
                       type="button"
-                      onClick={() => field.onChange({ target: { value: 'distribucion1' } })}
-                      className={`mt-2 w-6 h-6 rounded-full border-2 ${field.value === 'distribucion1' ? 'bg-green-500 border-black-500' : 'bg-white border-gray-300'} flex items-center justify-center`}
+                      onClick={() =>
+                        field.onChange({ target: { value: "distribucion1" } })
+                      }
+                      className={`mt-2 w-6 h-6 rounded-full border-2 ${
+                        field.value === "distribucion1"
+                          ? "bg-green-500 border-black-500"
+                          : "bg-white border-gray-300"
+                      } flex items-center justify-center`}
                     >
-                      {field.value === 'distribucion1' ? (
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      {field.value === "distribucion1" ? (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       ) : null}
                     </button>
@@ -158,15 +192,37 @@ function PlaneForm() {
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <div className="flex flex-col items-center">
-                    <Image src="/distribucion2.png" alt="Distribución 2" width={300} height={300} />
+                    <Image
+                      src="/distribucion2.png"
+                      alt="Distribución 2"
+                      width={300}
+                      height={300}
+                    />
                     <button
                       type="button"
-                      onClick={() => field.onChange({ target: { value: 'distribucion2' } })}
-                      className={`mt-2 w-6 h-6 rounded-full border-2 ${field.value === 'distribucion2' ? 'bg-green-500 border-black-500' : 'bg-white border-gray-300'} flex items-center justify-center`}
+                      onClick={() =>
+                        field.onChange({ target: { value: "distribucion2" } })
+                      }
+                      className={`mt-2 w-6 h-6 rounded-full border-2 ${
+                        field.value === "distribucion2"
+                          ? "bg-green-500 border-black-500"
+                          : "bg-white border-gray-300"
+                      } flex items-center justify-center`}
                     >
-                      {field.value === 'distribucion2' ? (
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      {field.value === "distribucion2" ? (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       ) : null}
                     </button>
@@ -183,15 +239,37 @@ function PlaneForm() {
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <div className="flex flex-col items-center">
-                    <Image src="/distribucion3.png" alt="Distribución 3" width={300} height={300} />
+                    <Image
+                      src="/distribucion3.png"
+                      alt="Distribución 3"
+                      width={300}
+                      height={300}
+                    />
                     <button
                       type="button"
-                      onClick={() => field.onChange({ target: { value: 'distribucion3' } })}
-                      className={`mt-2 w-6 h-6 rounded-full border-2 ${field.value === 'distribucion3' ? 'bg-green-500 border-black-500' : 'bg-white border-gray-300'} flex items-center justify-center`}
+                      onClick={() =>
+                        field.onChange({ target: { value: "distribucion3" } })
+                      }
+                      className={`mt-2 w-6 h-6 rounded-full border-2 ${
+                        field.value === "distribucion3"
+                          ? "bg-green-500 border-black-500"
+                          : "bg-white border-gray-300"
+                      } flex items-center justify-center`}
                     >
-                      {field.value === 'distribucion3' ? (
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      {field.value === "distribucion3" ? (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       ) : null}
                     </button>
@@ -204,14 +282,15 @@ function PlaneForm() {
         </form>
       </Form>
 
-
-
       {/*------------------------------------FIN----------------------------------------------------------------------*/}
 
       {/* Botón para registrar avión */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button type="submit" className="mt-4  text-white border border-green-500 rounded-md px-4 py-2 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <Button
+            type="submit"
+            className="mt-4  text-white border border-green-500 rounded-md px-4 py-2 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
             Registrar Aerovane
           </Button>
         </AlertDialogTrigger>

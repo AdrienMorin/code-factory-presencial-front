@@ -8,7 +8,7 @@ import React from "react";
 
 function HomePage() {
   return (
-    <main className="h-screen bg-gradient-to-b from-emerald-600 to-emerald-900 to-95% font-sans text-white flex flex-col justify-between">
+    <main className="h-screen bg-gradient-to-b from-slate-400 to-slate-900 to-95% font-sans text-white flex flex-col justify-between">
       <Head>
         <title>Gestión de vuelos A</title>
       </Head>
@@ -17,30 +17,27 @@ function HomePage() {
       </header>
 
       <div className="flex flex-col items-center justify-center gap-6">
-        <figure className="w-48 h-48">
+        <figure className="w-full h-64 flex justify-center">
           <Image
-            src="/avion.png"
+            src="/avion-logo.png"
             height={200}
-            width={200}
+            width={800}
             alt="Logo de Singapur Airlines"
-            className="object-contain w-full"
-            quality={100}
+            className="object-contain"
+            sizes="100%"
             priority
           />
         </figure>
-        <h1 className="text-5xl font-extrabold select-none">
-          Singapur Airlines
-        </h1>
         <h4 className="text-xl font-semibold select-none">
           Gestión de vuelos A
         </h4>
         <div className="flex gap-8">
-          <Button className="w-36">
-            <Link href="/gestion-de-vuelos-A/vuelos">Vuelos</Link>
-          </Button>
-          <Button className="w-36">
-            <Link href="/gestion-de-vuelos-A/aeronaves">Aeronaves</Link>
-          </Button>
+          <Link href="/gestion-de-vuelos-A/vuelos">
+            <Button className="w-36">Vuelos</Button>
+          </Link>
+          <Link href="/gestion-de-vuelos-A/aeronaves">
+            <Button className="w-36">Aeronaves</Button>
+          </Link>
         </div>
       </div>
 

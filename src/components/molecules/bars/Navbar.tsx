@@ -30,7 +30,7 @@ function Navbar() {
       <div className=" flex items-center justify-center gap-8">
         {navigationOptions.map((option, index) => (
           <span
-            className="text-center py-2 w-24 text-slate-900 border-b-2 border-transparent hover:border-emerald-500 duration-300 text-base font-medium"
+            className="text-center py-2 w-24 text-slate-900 border-b-2 border-transparent hover:border-primary duration-300 text-base font-medium"
             key={index}
           >
             <Link href={option.path}>{option.name}</Link>

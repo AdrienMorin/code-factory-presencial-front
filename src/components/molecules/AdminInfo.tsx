@@ -6,7 +6,7 @@ import { LogOut } from "lucide-react";
 function AdminInfo() {
   return (
     <>
-      <Avatar className="shadow-md bg-primary">
+      <Avatar className="bg-transparent">
         <AvatarImage src="/admin.png" alt="Imagen administrador" />
         <AvatarFallback>SA</AvatarFallback>
       </Avatar>
@@ -16,7 +16,7 @@ function AdminInfo() {
         <span className="text-xs text-orange-400">Administrador</span>
       </div>
 
-      <Button size="icon" className="rounded-full h-10 w-10 shadow-md">
+      <Button size="icon" className="rounded-full h-10 w-10 bg-primary">
         <abbr title="Cerrar sesión">
           <LogOut />
         </abbr>
