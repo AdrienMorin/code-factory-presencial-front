@@ -7,7 +7,7 @@ export default function Document() {
         <meta charSet="UTF-8" />
         <meta
           name="description"
-          content="Página para gestionar vuelos y aeronaves de Singapur airlines del proyecto Code-Factory"
+          content="Página para gestionar vuelos y aeronaves de UdeAirlines del proyecto Code-Factory"
         />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>

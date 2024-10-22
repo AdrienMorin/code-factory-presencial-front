@@ -22,7 +22,7 @@ function HomePage() {
             src="/avion-logo.png"
             height={200}
             width={800}
-            alt="Logo de Singapur Airlines"
+            alt="Logo de UdeAirlines"
             className="object-contain"
             sizes="100%"
             priority

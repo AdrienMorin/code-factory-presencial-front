@@ -6,14 +6,13 @@ function Logo() {
     <>
       <Image
         src="/avion.png"
-        width={64}
-        height={64}
+        width={200}
+        height={80}
         sizes="100%"
         className="object-contain"
         alt="Logo de la página"
         priority
       />
-      <h2 className="text-3xl font-semibold text-primary">Singapur Airlines</h2>
     </>
   );
 }

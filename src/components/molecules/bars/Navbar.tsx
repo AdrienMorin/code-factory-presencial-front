@@ -24,7 +24,7 @@ function Navbar() {
 
   return (
     <nav className="flex justify-between items-center gap-4 border-b-2 border-gray-500 px-4 py-1 w-full h-full">
-      <div className="flex flex-row justify-center items-center gap-2">
+      <div className="flex flex-row justify-center items-center gap-2 py-2">
         <Logo />
       </div>
       <div className=" flex items-center justify-center gap-8">
