@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import ModalAlert from "@/components/templates/ModalAlert";
 import AlertMessage from "@/components/molecules/AlertMessage";
 
-const index = () => {
+const Index = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [modalState, setModalState] = useState(false);
 
@@ -22,11 +22,6 @@ const index = () => {
 
   const router = useRouter();
 
-  const handleContinue = () => {
-    if (selectedId === null) {
-      setModalState(true);
-    }
-  };
   const goToSucces = () => {
     if (selectedId === null) {
       setModalState(true);
@@ -82,4 +77,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

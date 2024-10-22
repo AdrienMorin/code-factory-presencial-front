@@ -10,7 +10,7 @@ import TotalPrice from "@/components/molecules/TotalPrice/index";
 import { useState } from "react";
 import ModalDetails from "@/components/organisms/ModalDetails";
 
-const index = () => {
+const Index = () => {
   const [modalState, setModalState] = useState(false);
 
   const {
@@ -105,4 +105,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
