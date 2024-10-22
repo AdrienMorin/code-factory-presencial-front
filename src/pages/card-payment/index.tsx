@@ -9,20 +9,34 @@ import { useState } from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useRouter } from 'next/navigation'
+import ModalAlert from "@/components/templates/ModalAlert";
+import AlertMessage from "@/components/molecules/AlertMessage";
 
 const index = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [modalState, setModalState] = useState(false);
+
   const paymentMethods = [
     { id: 1, name: "Bancolombia ****0000", value: "pse" },
   ];
 
   const router = useRouter();
 
+  const handleContinue = () => {
+    if (selectedId === null) {
+      setModalState(true);
+    }
+  };
   const goToSucces = () => {
-    router.push('/card-payment/payment-success'); 
+    if (selectedId === null) {
+      setModalState(true);
+    } else if (selectedId){
+      router.push('/card-payment/payment-success'); 
+    }
   };
 
   const handleSelection = (id: number) => setSelectedId(id);
+
 
   return (
     <main className="w-[500px] mx-auto bg-white shadow-xl mt-6 py-10 px-8 rounded-[6px]">
@@ -57,6 +71,13 @@ const index = () => {
         </Link>
         <MainButton text="Pagar" handleClick={() => goToSucces()} />
       </div>
+      <ModalAlert modalState={modalState} onClose={() => setModalState(false)}>
+        <AlertMessage
+          title="Lo sentimos"
+          text="Por favor selecciona tarjeta antes de continuar."
+          
+        />
+      </ModalAlert>
     </main>
   );
 };
