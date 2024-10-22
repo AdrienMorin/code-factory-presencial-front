@@ -1,18 +1,18 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import PriceRangeFilter from "../components/atoms/priceRangeFilter"; // Ajusta el path de acuerdo a tu estructura
-import "@testing-library/jest-dom"; // Opcional, para algunas utilidades adicionales de testing
+import PriceRangeFilter from "../components/atoms/priceRangeFilter"; // Adjust the path according to your structure
+import "@testing-library/jest-dom"; // Optional, for additional testing utilities
 
 describe("PriceRangeFilter", () => {
   it("renders the price range options", () => {
-    // Renderiza el componente
+    // Render the PriceRangeFilter component
     render(<PriceRangeFilter />);
 
-    // Abre el select de rango de precios
+    // Open the price range select dropdown
     const trigger = screen.getByText("Select price range");
     fireEvent.click(trigger);
 
-    // Comprueba que los elementos de rango de precios estén visibles
-    const priceOption1 = screen.getByText("$0 - $100"); // Ajusta los textos según tu lista
+    // Check if the price range options are visible
+    const priceOption1 = screen.getByText("$0 - $100"); // Adjust the texts according to your list
     const priceOption2 = screen.getByText("$101 - $200");
 
     expect(priceOption1).toBeInTheDocument();
@@ -20,14 +20,14 @@ describe("PriceRangeFilter", () => {
   });
 
   it("renders the sort options (asc/desc)", () => {
-    // Renderiza el componente
+    // Render the PriceRangeFilter component
     render(<PriceRangeFilter />);
 
-    // Abre el select de orden (simularemos esta parte, aunque no esté en el componente actual)
+    // Open the sort select dropdown (simulated part, even if not in the current component)
     const trigger = screen.getByText("Select price range");
     fireEvent.click(trigger);
 
-    // Comprueba que al menos un precio se haya mostrado
+    // Check if at least one price option is displayed
     const ascOption = screen.getByText("$0 - $100");
 
     expect(ascOption).toBeInTheDocument();
