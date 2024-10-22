@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Icon } from '@iconify/react'; // Iconos de Iconify
+import { Icon } from '@iconify/react';
+import {transformDate} from "@/utils/dateUtils"; // Iconos de Iconify
 
 interface FlightDetails {
   date: string;
@@ -50,206 +51,130 @@ const getStopDescription = (stops: string) => {
   return stops; // Si es un vuelo con múltiples paradas, retorna el texto tal cual
 };
 
-export function OrderSummary() {
-  const [orderData, setOrderData] = useState<{ orderSummary: OrderSummaryData } | null>(null);
+interface FlightInfo {
+  id: number;
+  flight: {
+    id: number;
+    departure_date: string;
+    departure_time: string;
+    arrival_time: string;
+    departure_airport: string;
+    arrival_airport: string;
+    duration: string;
+    flight_number: string;
+    flight_class: string;
+    stops: string;
+  };
+}
 
-  // Simulación de petición HTTP (Mock API)
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      // Mock de respuesta de API
-      const response = {
-        orderSummary: {
-          prices: {
-            ticketPrice: 349900,
-            taxes: 50000,
-            otherServices: 10000,
-            total: 409900
-          },
-          flightInfo: {
-            departure: {
-              date: "2024-09-20",
-              departureTime: "10:30 AM",
-              arrivalTime: "11:30 AM",
-              departureAirport: "MDE",
-              arrivalAirport: "BOG",
-              duration: "1h 00m",
-              flightNumber: "AV9617",
-              class: "Básico",
-              stops: "directFly"
-            },
-            return: {
-              date: "2024-09-24",
-              departureTime: "7:30 PM",
-              arrivalTime: "8:30 PM",
-              departureAirport: "BOG",
-              arrivalAirport: "MDE",
-              duration: "1h 45m",
-              stops: "1 parada | CAR",
-              flightNumber: "AV8902395",
-              class: "Golden"
-            }
-          }
-        }
-      };
+interface BookingCardProps {
+  id: number;
+  is_paid: boolean;
+  price: number;
+  additional_charge: number;
+  flight_infos: FlightInfo[];
+}
 
-      // Simulación de demora de la API
-      setTimeout(() => {
-        setOrderData(response);
-      }, 1000);
-    };
+interface OrderSummaryProps {
+  orderData: BookingCardProps;
+}
 
-    fetchOrderData();
-  }, []);
+// Funcion para generar la información de un vuelo
+const renderFlight = (flightInfo: FlightInfo) => {
+  return (
+      <div className="bg-gray-200 p-4 rounded-lg shadow-md">
+        {/* Header for the flight */}
+        <div className="flex items-center justify-center">
+          <div className="flex items-center">
+            <p className="font-medium">{transformDate(flightInfo.flight.departure_date)}</p>
+          </div>
+        </div>
+
+        {/* Main Flight Info with 3 sections */}
+        <div className="flex justify-between items-center mt-4">
+          {/* Parte 1 - Salida */}
+          <div className="flight-part-1 text-center">
+            <p className="font-semibold">{flightInfo.flight.departure_airport}</p>
+            <p className="text-lg">{flightInfo.flight.departure_time}</p>
+          </div>
+
+          {/* Parte 2 - Central (Íconos y descripción) */}
+          <div className="flight-part-2 flex items-center justify-center">
+            {/* Iconos de los aviones */}
+            <div className="flex items-center flex-col">
+              <div className='flex flex-row w-full justify-between'>
+                <Icon icon="arcticons:emoji-airplane-departure" className="text-4xl text-black text-left" />
+                <Icon icon="arcticons:emoji-airplane-arriving" className="text-4xl text-black text-right" />
+              </div>
+              <div className="flex flex-col items-center mx-2">
+                <p className="text-sm">{getStopDescription(flightInfo.flight.stops)}</p>
+                <p className="text-sm">{flightInfo.flight.duration}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Parte 3 - Llegada */}
+          <div className="flight-part-3 text-center">
+            <p className="font-semibold">{flightInfo.flight.arrival_airport}</p>
+            <p className="text-lg">{flightInfo.flight.arrival_time}</p>
+          </div>
+        </div>
+
+        {/* Class and Flight Number */}
+        <div className="flex items-center mt-4 justify-center">
+        <span className={`rounded-full px-3 py-1 text-xs ${getClassColor(flightInfo.flight.flight_class)}`}>
+          {flightInfo.flight.flight_class}
+        </span>
+          <p className="font-semibold ml-2">
+            {flightInfo.flight.flight_number}
+          </p>
+        </div>
+      </div>
+  );
+};
+
+export function OrderSummary({ orderData }: OrderSummaryProps) {
+  console.log(orderData);
 
   if (!orderData) {
-    return <div>Cargando resumen de compra...</div>; // Simulación de loading
+    return <div>Loading...</div>;
   }
 
-  const { prices, flightInfo } = orderData.orderSummary;
-
   return (
-    <Card className="w-full bg-gray-200 p-4">
-      <CardHeader>
-        <CardTitle className="text-lg font-bold">Resumen de compra</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ul className="space-y-2">
-          <li className="flex justify-between">
-            <span>Precio de tickets</span>
-            <span>{prices.ticketPrice.toLocaleString('es-CO')} COP</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Impuestos y cargos</span>
-            <span>{prices.taxes.toLocaleString('es-CO')} COP</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Otros servicios</span>
-            <span>{prices.otherServices.toLocaleString('es-CO')} COP</span>
-          </li>
-          <Separator className="my-2" />
-          <li className="flex justify-between font-bold">
-            <span>Total</span>
-            <span>{prices.total.toLocaleString('es-CO')} COP</span>
-          </li>
-        </ul>
-        <Separator className="my-4" />
-        <div>
-          <h4 className="font-semibold text-lg">INFO</h4>
-          <div className="mt-2 text-sm space-y-4">
-            
-          <div className="mt-2 text-sm space-y-4">
-          {/* Vuelo de salida */}
-          <div className="bg-gray-200 p-4 rounded-lg shadow-md">
-            {/* Header for the departure flight */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <p className="font-medium">Vuelo de salida | {flightInfo.departure.date}</p>
-              </div>
-            </div>
-
-            {/* Main Flight Info with 3 sections */}
-            <div className="flex justify-between items-center mt-4">
-              {/* Parte 1 - Salida */}
-              <div className="flight-part-1 text-center">
-                <p className="font-semibold">{flightInfo.departure.departureAirport}</p>
-                <p className="text-lg">{flightInfo.departure.departureTime}</p>
-              </div>
-
-              {/* Parte 2 - Central (Íconos y descripción) */}
-              <div className="flight-part-2 flex items-center justify-center">
-                {/* Iconos de los aviones */}
-                <div className="flex items-center flex-col">
-                  <div className='flex flex-row w-full justify-between'>
-                    <Icon icon="arcticons:emoji-airplane-departure" className="text-4xl text-black text-left" />
-                    <Icon icon="arcticons:emoji-airplane-arriving" className="text-4xl text-black text-right" />
-                  </div>
-                  <div className="flex flex-col items-center mx-2">
-                    <p className="text-sm">{getStopDescription(flightInfo.departure.stops)}</p>
-                    <p className="text-sm">{flightInfo.departure.duration}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Parte 3 - Llegada */}
-              <div className="flight-part-3 text-center">
-                <p className="font-semibold">{flightInfo.departure.arrivalAirport}</p>
-                <p className="text-lg">{flightInfo.departure.arrivalTime}</p>
-              </div>
-            </div>
-
-            {/* Class and Flight Number */}
-            <div className="flex items-center mt-4">
-              <span className={`rounded-full px-3 py-1 text-xs ${getClassColor(flightInfo.departure.class)}`}>
-                {flightInfo.departure.class}
-              </span>
-              <p className="font-semibold ml-2">
-                {flightInfo.departure.flightNumber}
-              </p>
-            </div>
-          </div>
-        </div>
-
-
+      <Card className="w-full bg-gray-200 p-4">
+        <CardHeader>
+          <CardTitle className="text-lg font-bold">Resumen de compra</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            <li className="flex justify-between">
+              <span>Precio de tickets</span>
+              <span>{orderData.price.toLocaleString('es-CO')} COP</span>
+            </li>
+            <li className="flex justify-between">
+              <span>Impuestos y cargos</span>
+              <span>{orderData.additional_charge.toLocaleString('es-CO')} COP</span>
+            </li>
             <Separator className="my-2" />
-
-            {/* Check if the return flight exists */}
-            {flightInfo.return && (
-              <div className="bg-gray-200 p-4 rounded-lg shadow-md">
-                {/* Header for the return flight */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <p className="font-medium">Vuelo de regreso | {flightInfo.return.date}</p>
-                  </div>
-                </div>
-
-                {/* Main Flight Info with 3 sections */}
-                <div className="flex justify-between items-center mt-4">
-                  {/* Parte 1 - Salida */}
-                  <div className="flight-part-1 text-center">
-                    <p className="font-semibold">{flightInfo.return.departureAirport}</p>
-                    <p className="text-lg">{flightInfo.return.departureTime}</p>
-                  </div>
-
-                  {/* Parte 2 - Central (Íconos y descripción) */}
-                  <div className="flight-part-2 flex items-center justify-center ">
-                    {/* Iconos de los aviones */}
-                    
-                    <div className="flex items-center flex-col w-full">
-                      <div className='flex flex-row w-full justify-between'>
-                        <Icon icon="arcticons:emoji-airplane-departure" className="text-4xl text-black text-left" />
-                        <Icon icon="arcticons:emoji-airplane-arriving" className="text-4xl text-black text-right" />
-                      </div>
-                      <div className="flex flex-col items-center mx-2">
-                        <p className="text-sm">{getStopDescription(flightInfo.return.stops)}</p>
-                        <p className="text-sm">{flightInfo.return.duration}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Parte 3 - Llegada */}
-                  <div className="flight-part-3 text-center">
-                    <p className="font-semibold">{flightInfo.return.arrivalAirport}</p>
-                    <p className="text-lg">{flightInfo.return.arrivalTime}</p>
-                  </div>
-                </div>
-
-                {/* Class and Flight Number */}
-                <div className="flex items-center mt-4">
-                  <span className={`rounded-full px-3 py-1 text-xs ${getClassColor(flightInfo.return.class)}`}>
-                    {flightInfo.return.class}
-                  </span>
-                  <p className="font-semibold ml-2">
-                    {flightInfo.return.flightNumber}
-                  </p>
-                </div>
-              </div>
-            )}
-
-
+            <li className="flex justify-between font-bold">
+              <span>Total</span>
+              <span>{(orderData.price + orderData.additional_charge).toLocaleString('es-CO')} COP</span>
+            </li>
+          </ul>
+          <Separator className="my-4" />
+          <div>
+            <h4 className="font-semibold text-lg">INFO</h4>
+            <div className="mt-2 text-sm space-y-4">
+              {orderData.flight_infos.map((flightInfo, index) => (
+                  <React.Fragment key={index}>
+                    {renderFlight(flightInfo)}
+                    {index < orderData.flight_infos.length - 1 && <Separator className="my-2" />}
+                  </React.Fragment>
+              ))}
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
   );
 }
 

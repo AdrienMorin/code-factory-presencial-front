@@ -4,17 +4,20 @@ import PayButton from "@/components/atoms/payButton";
 import { useState } from "react";
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_TRANSACTION } from "@/utils/graphql/mutations/transactions";
-import { CREATE_MERCADO_PAGO_PAYMENT, CREATE_STRIPE_PAYMENT } from "@/utils/graphql/mutations/payments";
 import Image from "next/image";
+import {useRouter} from "next/router";
 
-export function PaymentModule() {
-    const amount = 49.99;
+interface PaymentModuleProps {
+    amount: number;
+}
+
+export function PaymentModule(props: PaymentModuleProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [payment, setPayment] = useState(null);
     const [transaction, setTransaction] = useState(null);
-    const [selectedMethod, setSelectedMethod] = useState("1");
-
+    const [selectedGateway, setSelectedGateway] = useState("1");
+    const router = useRouter();
+    const { id } = router.query;
 
     const [createTransaction] = useMutation(CREATE_TRANSACTION, {
         onCompleted: data => {
@@ -26,26 +29,6 @@ export function PaymentModule() {
         }
     });
 
-    const [createStripePayment] = useMutation(CREATE_STRIPE_PAYMENT, {
-        onCompleted: data => {
-            setPayment(data.createStripePaymentSession);
-            console.log('Stripe Payment created:', data.createStripePaymentSession);
-        },
-        onError: error => {
-            console.error('Error creating payment:', error);
-        }
-    });
-
-    const [createMercadoPagoPayment] = useMutation(CREATE_MERCADO_PAGO_PAYMENT, {
-        onCompleted: data => {
-            setPayment(data.createMercadoPagoPreference);
-            console.log('Mercado Pago Payment created:', data.createMercadoPagoPreference);
-        },
-        onError: error => {
-            console.error('Error creating payment:', error);
-        }
-    });
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
@@ -54,33 +37,13 @@ export function PaymentModule() {
             const { data } = await createTransaction({
                 variables: {
                     inputTransaction: {
-                        additional_charge: 10000.0,
-                        booking_id: "2",
-                        payment_method_id: selectedMethod
+                        booking_id: id,
+                        gateway_payment_id: selectedGateway
                     }
                 }
             });
-            const transactionId = data.createTransaction.id;
-
-            if (selectedMethod === "1") {
-                const { data: paymentData } = await createStripePayment({
-                    variables: {
-                        transactionId: transactionId
-                    }
-                });
-                if (paymentData.createStripePaymentSession) {
-                    window.location.href = paymentData.createStripePaymentSession; // Remplace "url" par le champ correct
-                }
-            } else if (selectedMethod === "2") {
-                const { data: paymentData } = await createMercadoPagoPayment({
-                    variables: {
-                        transactionId: transactionId,
-                        amount: 20000
-                    }
-                });
-                if (paymentData.createMercadoPagoPreference) {
-                    window.location.href = paymentData.createMercadoPagoPreference; // Remplace "url" par le champ correct
-                }
+            if (data.createTransaction) {
+                window.location.href = data.createTransaction;
             }
         } catch (err: any) {
             console.error('Error creating transaction:', err);
@@ -95,7 +58,7 @@ export function PaymentModule() {
             <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md">
                 <RadioGroup
                     defaultValue="1"
-                    onValueChange={(value) => setSelectedMethod(value)}
+                    onValueChange={(value) => setSelectedGateway(value)}
                     className={"mb-4"}
                 >
                     <div className="flex items-center justify-between bg-gray-200 h-14 p-6 rounded-full">
@@ -130,7 +93,7 @@ export function PaymentModule() {
                         </div>
                         </div>
                 </RadioGroup>
-                <PayButton usesStripe={selectedMethod === "Stripe"} stripe={false} loading={loading} amount={amount} />
+                <PayButton usesStripe={selectedGateway === "Stripe"} stripe={false} loading={loading} amount={props.amount} />
             </form>
             {error && <p>Error: {error}</p>}
         </div>

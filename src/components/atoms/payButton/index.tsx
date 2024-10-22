@@ -14,7 +14,7 @@ const PayButton: React.FC<PayButtonProps> = ({ usesStripe, amount, stripe, loadi
             disabled={usesStripe && (!stripe || loading)}
             className="text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse flex gap-3 items-center justify-center"
         >
-            {!loading ? `Pagar $${amount}` : "Tratamiento..."}
+            {!loading ? `Pagar $${amount.toLocaleString('es-CO')} COP` : "Tratamiento..."}
             <InlineIcon className="white-icon text-xl" icon="mdi:secure" />
         </button>
     );
