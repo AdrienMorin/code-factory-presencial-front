@@ -16,18 +16,20 @@ import { useRouter } from "next/router";
 const NUMBER_OF_PASSENGERS = 2;
 
 const formSchema = z.object({
-  fullName: z.string(),
-  birthDate: z.string(),
-  nationality: z.string(),
-  baggageAddress: z.string(),
+  fullName: z.string().min(1, "El nombre es obligatorio"),
+  birthDate: z.string().min(1, "La fecha de nacimiento es obligatoria"),
+  nationality: z.string().min(1, "La nacionalidad es obligatoria"),
+  baggageAddress: z.string().min(1, "La dirección de equipaje es obligatoria"),
   autoBaggageAddress: z.boolean(),
-  health: z.string(),
-  travel: z.string(),
-  document: z.string(),
-  contactName: z.string(),
-  contactPhone: z.string(),
-  contactRelationship: z.string(),
-  contactAddress: z.string(),
+  health: z.string().min(1, "La información de salud es obligatoria"),
+  travel: z.string().min(1, "La información de viaje es obligatoria"),
+  document: z.string().min(1, "El documento es obligatorio"),
+  contactName: z.string().min(1, "El nombre del contacto es obligatorio"),
+  contactPhone: z.string().min(1, "El teléfono del contacto es obligatorio"),
+  contactRelationship: z
+    .string()
+    .min(1, "La relación con el contacto es obligatoria"),
+  contactAddress: z.string().min(1, "La dirección de contacto es obligatoria"),
   autoContactAddress: z.boolean(),
 });
 
