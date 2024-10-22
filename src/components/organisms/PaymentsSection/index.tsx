@@ -13,10 +13,10 @@ const Index = () => {
   const [modalState, setModalState] = useState(false);
 
   const paymentMethods = [
-    { id: 1, name: "PSE", value: "pse" },
     { id: 2, name: "Bancolombia", value: "bancolombia" },
-    { id: 3, name: "Pay U", value: "pay_u" },
     { id: 4, name: "PayPal", value: "paypal" },
+    { id: 3, name: "Pay U", value: "pay_u" },
+    { id: 1, name: "PSE", value: "pse" },
   ];
 
   const handleSelection = (id: number) => setSelectedId(id);
