@@ -51,7 +51,7 @@ export default function SearchResults() {
                 <div className="text-2xl font-bold">{flight.departureTime}</div>
                 <div className="text-sm text-gray-500">  
                   <div>{flight.origin}</div>
-                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.origin === search.value)?.label || ''}</div>
+                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.origin === search.value)?.label}</div>
                 </div>
                 <div className="flex items-center gap-3 w-full">
                   <hr className="w-full border-t-2 border-gray-300" />
@@ -61,7 +61,7 @@ export default function SearchResults() {
                 </div> 
                 <div className="text-sm text-gray-500">
                   <div>{flight.destination}</div>  
-                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.destination === search.value)?.label || ''}</div>
+                  <div className="text-xs">{searchFieldsCombobox.find(search => flight.destination === search.value)?.label}</div>
                 </div>
               </div>
 
