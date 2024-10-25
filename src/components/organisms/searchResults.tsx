@@ -7,9 +7,26 @@ import { flightsData } from '../../../data/flightsData';
 
 export default function SearchResults() {
   const router = useRouter();
+  
   const { origin, destination, departureDate, returnDate, passengers, tripType } = router.query;
-
   const [flights, setFlights] = useState<Flight[]>([]);
+  const [filtroSeleccionado, setFiltroSeleccionado] = useState({
+    mejorPrecio: false,
+    vuelosDirectos: false,
+    vuelosConEscala: false
+  });
+  const [datosFiltrados, setDatosFiltrados] = useState<Flight[]>([]);
+
+  const handleFiltroSeleccionado = (filtro: string) => {
+    setFiltroSeleccionado({
+      ...filtroSeleccionado,
+    });
+
+    if(filtro === "mejorPrecio") {
+      const flightsWithPrice = flights.filter(flight => flight.price);
+      setDatosFiltrados(flightsWithPrice.sort((a, b) => (a.price ?? 0) - (b.price ?? 0)));
+    } 
+  };
 
   useEffect(() => {
     // Simulación de vuelos
@@ -35,7 +52,7 @@ export default function SearchResults() {
 
       <div className="mb-4">
         <span className="font-semibold">Recomendado:</span>
-        <button className="ml-4 bg-gray-200 px-4 py-2 rounded-full text-gray-700 font-medium">Vuelos directos</button>
+        <button className="ml-4 bg-gray-200 px-4 py-2 rounded-full text-gray-400 font-medium">Vuelos directos</button>
         <button className="ml-4 bg-gray-200 px-4 py-2 rounded-full text-gray-400">Mejor precio</button>
       </div>
 
