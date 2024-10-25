@@ -2,10 +2,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { InputSearchFieldPassenger } from "@/types/InputTypes"
 
-type SearchInputProps = {
+type SearchInputProps = Readonly<{
   inputSearchField: InputSearchFieldPassenger[],
   handleInputChange: (name: string, value: string) => void
-}
+}>
 
 export default function SearchInputPassenger({ inputSearchField, handleInputChange }: SearchInputProps) {
   return (
@@ -17,7 +17,7 @@ export default function SearchInputPassenger({ inputSearchField, handleInputChan
             <Input
               type="number"
               placeholder={field.placeholder}
-              className="bg-input xl:pl-10 w-20 text-sm xl:text-base" // Añade padding a la izquierda para el icono
+              className="bg-input xl:pl-10 w-20 text-sm xl:text-base" 
               onChange={(e) => handleInputChange(field.value, e.target.value)}
             />
             <span className="absolute hidden xl:block left-2 top-1/2 transform -translate-y-1/2">
