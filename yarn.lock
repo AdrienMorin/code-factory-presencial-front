@@ -795,6 +795,24 @@
   dependencies:
     "@radix-ui/react-compose-refs" "1.1.0"
 
+"@radix-ui/react-toast@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-toast/-/react-toast-1.2.2.tgz#fdd8ed0b80f47d6631dfd90278fee6debc06bf33"
+  integrity sha512-Z6pqSzmAP/bFJoqMAston4eSNa+ud44NSZTiZUmUen+IOZ5nBY8kzuU5WDBVyFXPtcW6yUalOHsxM/BP6Sv8ww==
+  dependencies:
+    "@radix-ui/primitive" "1.1.0"
+    "@radix-ui/react-collection" "1.1.0"
+    "@radix-ui/react-compose-refs" "1.1.0"
+    "@radix-ui/react-context" "1.1.1"
+    "@radix-ui/react-dismissable-layer" "1.1.1"
+    "@radix-ui/react-portal" "1.1.2"
+    "@radix-ui/react-presence" "1.1.1"
+    "@radix-ui/react-primitive" "2.0.0"
+    "@radix-ui/react-use-callback-ref" "1.1.0"
+    "@radix-ui/react-use-controllable-state" "1.1.0"
+    "@radix-ui/react-use-layout-effect" "1.1.0"
+    "@radix-ui/react-visually-hidden" "1.1.0"
+
 "@radix-ui/react-use-callback-ref@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.1.tgz#f4bb1f27f2023c984e6534317ebc411fc181107a"
@@ -867,6 +885,13 @@
   integrity sha512-XW3/vWuIXHa+2Uwcc2ABSfcCledmXhhQPlGbfcRXbiUQI5Icjcg19BGCZVKKInYbvUCut/ufbbLLPFC5cbb1hw==
   dependencies:
     "@radix-ui/react-use-layout-effect" "1.1.0"
+
+"@radix-ui/react-visually-hidden@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-visually-hidden/-/react-visually-hidden-1.1.0.tgz#ad47a8572580f7034b3807c8e6740cd41038a5a2"
+  integrity sha512-N8MDZqtgCgG5S3aV60INAB475osJousYpZ4cTJ2cFbMpdHS5Y6loLTH8LPtkj2QN0x93J30HT/M3qJXM0+lyeQ==
+  dependencies:
+    "@radix-ui/react-primitive" "2.0.0"
 
 "@radix-ui/rect@1.1.0":
   version "1.1.0"
@@ -1459,7 +1484,8 @@ code-block-writer@^12.0.0:
     "@radix-ui/react-slot" "^1.1.0"
     class-variance-authority "^0.7.0"
     clsx "^2.1.1"
-    code-factory-presencial-front "file:../../../../AppData/Local/Yarn/Cache/v6/npm-code-factory-presencial-front-0.1.0-62136d23-caf6-4aea-ac0d-494fe33c4db9-1728649809932/node_modules/code-factory-presencial-front"
+    cmdk "^1.0.0"
+    code-factory-presencial-front "file:../../../../AppData/Local/Yarn/Cache/v6/npm-code-factory-presencial-front-0.1.0-517b7f4a-b9a3-489f-96f8-061df206821b-1729869858778/node_modules/code-factory-presencial-front"
     date-fns "^4.1.0"
     lucide-react "^0.451.0"
     next "^14.2.15"
@@ -1467,7 +1493,7 @@ code-block-writer@^12.0.0:
     react-day-picker "8.10.1"
     react-dom "^18"
     react-hook-form "^7.53.0"
-    shadcn "^2.1.0"
+    shadcn "^2.1.2"
     tailwind-merge "^2.5.2"
     tailwindcss-animate "^1.0.7"
     zod "^3.23.8"
@@ -3690,10 +3716,10 @@ set-function-name@^2.0.1, set-function-name@^2.0.2:
     functions-have-names "^1.2.3"
     has-property-descriptors "^1.0.2"
 
-shadcn@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-2.1.0.tgz#31fef8b46e8ece4a04829abac296411f20a2fdfc"
-  integrity sha512-lVuOAnibJUFrl2KaFkO3w+9ObCFBH4aLWrs4xWd9ZHvGKVYopdGXOva9qNAo8XqdeKSOUm0Xv5CYImrV80pjkA==
+shadcn@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-2.1.2.tgz#059865c43c7ec0b7903c404c71f42d87a82c07cb"
+  integrity sha512-9VCw3Q5Yz17yAik5gdEq0oddkCG7Zb+j7hl7zsm78jhwT7ge3svvtkmsbvOyx/3cF9eS1CkOu3OUcG43QRjXRQ==
   dependencies:
     "@antfu/ni" "^0.21.4"
     "@babel/core" "^7.22.1"
