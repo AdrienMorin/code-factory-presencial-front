@@ -63,13 +63,13 @@ export const searchFieldsCalendar: InputSearchFieldCalendar[] = [
 ];
 
 export const searchFieldsCombobox: OptionsCombobox[] = [
-    { label: "Bogota", value: "BOG" },
-    { label: "Medellin", value: "MDE" },
-    { label: "Cartagena", value: "CTG" },
-    { label: "Cali", value: "CLO" },
-    { label: "Barranquilla", value: "BAQ" },
-    { label: "Santa Marta", value: "SMR" },
-    { label: "San Andres", value: "ADZ" },
-    { label: "Pereira", value: "PEI" },
-    { label: "Armenia", value: "AXM" },
+    { label: "Bogota (BOG)", value: "BOG" },
+    { label: "Medellin (MDE)", value: "MDE" },
+    { label: "Cartagena (CTG)", value: "CTG" },
+    { label: "Cali (CLO)", value: "CLO" },
+    { label: "Barranquilla (BAQ)", value: "BAQ" },
+    { label: "Santa Marta (SMR)", value: "SMR" },
+    { label: "San Andres (ADZ)", value: "ADZ" },
+    { label: "Pereira (PEI)", value: "PEI" },
+    { label: "Armenia (AXM)", value: "AXM" },
 ];

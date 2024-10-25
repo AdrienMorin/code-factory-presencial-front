@@ -311,7 +311,6 @@ export const flightsData: Flight[] = [
       "flightCode": "AV768",
       "passengers": 1,
       "price": 294617,
-      
     },
     {
       "origin": "CLO",
@@ -694,7 +693,7 @@ export const flightsData: Flight[] = [
       "origin": "BOG",
       "destination": "BAQ",
       "departureDate": "2024-10-18",
-      "arrivalDate": "2024-10-25",
+      "arrivalDate": "2024-10-26",
       "departureTime": "23:48",
       "arrivalTime": "09:38",
       "flightClass": "oneWay",
@@ -1317,7 +1316,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1330,7 +1329,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1343,7 +1342,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1351,12 +1350,11 @@ export const flightsData: Flight[] = [
       "flightCode": "AV123",
       "passengers": 3,
       "price": 126506,
-      
     },
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1369,7 +1367,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1382,7 +1380,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1395,7 +1393,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1408,7 +1406,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
@@ -1421,7 +1419,7 @@ export const flightsData: Flight[] = [
     {
       "origin": "BOG",
       "destination": "MDE",
-      "departureDate": "2024-10-25",
+      "departureDate": "2024-10-26",
       "arrivalDate": "2024-10-30",
       "departureTime": "07:30",
       "arrivalTime": "08:30",
