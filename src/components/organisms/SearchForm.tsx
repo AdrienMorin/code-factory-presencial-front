@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { RadioGroup, RadioGroupItem} from '../ui/radio-group'
 import { Label } from '@radix-ui/react-label'
 import { InputSearchField, InputSearchFieldCalendar, InputSearchFieldPassenger, } from '@/types/InputTypes'
@@ -44,6 +44,10 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
     });
   };
 
+  const isValid = useMemo(() => {
+    return searchParams.origin !== '' && searchParams.destination !== '' && searchParams.departureDate !== '' && searchParams.returnDate !== '' && searchParams.passengers >= 1;
+  }, [searchParams]);
+
   console.log(searchParams, tripType);
   return (
     <form onSubmit={handleSubmit} className='flex w-auto xl:w-11/12 p-4 rounded-lg shadow-md border justify-around items-center gap-3'>
@@ -79,8 +83,11 @@ export default function SearchForm( { inputFields, inputFieldsCalendar, InputSea
         </div>
         <Button 
           type="submit" 
-          className="bg-primary lg:w-32 xl:w-52 h-10 text-white rounded-2xl p-2"
-        >Buscar</Button>
+          className="bg-primary lg:w-32 xl:w-52 h-10 text-white rounded-2xl p-2 disabled:opacity-30"
+          disabled={!isValid}
+        >
+          Buscar
+        </Button>
     </form>
   )
 }

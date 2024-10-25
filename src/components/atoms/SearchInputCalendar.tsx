@@ -13,6 +13,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Label } from "../ui/label"
+import { useToast } from "@/hooks/use-toast"
+import { ToastAction } from "../ui/toast"
 import { InputSearchFieldCalendar } from "@/types/InputTypes"
 
 type SearchInputCalendarProps = {
@@ -23,10 +25,42 @@ type SearchInputCalendarProps = {
 export function SearchInputCalendar({ inputSearchField, handleInputChange }: SearchInputCalendarProps) {
   const [dates, setDates] = useState<{ [key: string]: Date }>({});
   const [activeField, setActiveField] = useState<string | null>(null);
+  const { toast } = useToast()
 
   const handleDateChange = (name: string , selectedDate: Date) => {
+    const today = new Date();
+    const departureDate = dates["departureDate"];
+
+    if (name === 'departureDate' && selectedDate.getTime() < today.getTime()) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Haz cometido algun error.",
+        description: "La fecha de salida no puede ser anterior a la fecha actual.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+      return;
+    }
+
+    if (name === 'returnDate' && departureDate && selectedDate.getTime() < departureDate.getTime()) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Haz cometido algun error.",
+        description: "La fecha de regreso debe ser despues de la fecha de salida.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+      return;
+    }
+    
     setDates(prevDates => ({...prevDates, [name]: selectedDate}));
     if(selectedDate){
+      toast({
+        variant: "afirmative",
+        title: "¡Listo!",
+        description: "La fecha ha sido agregada correctamente.",
+        action: (
+          <ToastAction altText="OK">OK</ToastAction>
+        ),
+      })
       handleInputChange(name, format(selectedDate, "yyyy-MM-dd"));  
     }
   };
