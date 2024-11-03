@@ -73,3 +73,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printCard,
+  .printCard * {
+    visibility: visible;
+  }
+
+  .printCard {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
