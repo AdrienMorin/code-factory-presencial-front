@@ -17,6 +17,7 @@ describe("RoundTripDate", () => {
   it("renders RoundTripDate component without crashing", () => {
     const mockOnDepartureSelect = jest.fn(); // Mock para simular la función de salida
     const mockOnReturnSelect = jest.fn(); // Mock para simular la función de regreso
+    // Render the RoundTripDate component with mock departure and return select functions
 
     render(
       <RoundTripDate
@@ -25,11 +26,13 @@ describe("RoundTripDate", () => {
       />
     );
 
+
     // Simulamos que se llaman las funciones de selección
     mockOnDepartureSelect(undefined); // Llama con un valor ficticio
     mockOnReturnSelect(undefined); // Llama con un valor ficticio
 
     expect(mockOnDepartureSelect).toHaveBeenCalled(); // Verifica que el mock fue llamado
     expect(mockOnReturnSelect).toHaveBeenCalled(); // Verifica que el mock fue llamado
+
   });
 });

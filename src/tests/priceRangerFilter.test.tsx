@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+
 import PriceRangeFilter from "../components/atoms/priceRangeFilter"; // Ajusta el path de acuerdo a tu estructura
 import "@testing-library/jest-dom"; // Opcional, para algunas utilidades adicionales de testing
 
