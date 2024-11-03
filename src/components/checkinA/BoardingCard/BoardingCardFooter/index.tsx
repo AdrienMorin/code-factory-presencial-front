@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
-import React, { useState } from "react";
 
 export const BoardingCardFooter = ({
   id,
