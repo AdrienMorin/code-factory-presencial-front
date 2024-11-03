@@ -81,7 +81,7 @@ export const BoardingCardContent = ({
             </div>
           </div>
           <p className="text-black text-sm mt-2">
-            Reservar: <strong>2Q528X</strong>
+            Reservar: <strong>{id}Q528X</strong>
           </p>
         </div>
         <div>
