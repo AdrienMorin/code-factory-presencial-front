@@ -109,8 +109,8 @@ export default function AirplaneTypesPage() {
     {
       accessorKey: "id",
       id: "modelo",
-      header: "Modelo",
-      cell: ({ row }) => <div>{row.original.id}</div>,
+      header: () => <div className="text-center">Modelo</div>,
+      cell: ({ row }) => <div className="text-center">{row.original.id}</div>,
     },
     {
       accessorKey: "type.name",
@@ -120,6 +120,7 @@ export default function AirplaneTypesPage() {
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="w-full text-center"
           >
             Familia de avión
             <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -127,15 +128,25 @@ export default function AirplaneTypesPage() {
         );
       },
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.type.name}</div>
+        <div className="capitalize text-center">{row.original.type.name}</div>
       ),
     },
     {
       accessorKey: "maxSeats",
       id: "número de asientos",
-      header: () => <div className="text-right">Número de asientos</div>,
+      header: () => <div className="text-center">Número de asientos</div>,
       cell: ({ row }) => {
-        return <div className="text-right">{row.original.maxSeats}</div>;
+        return <div className="text-center">{row.original.maxSeats}</div>;
+      },
+    },
+    {
+      accessorKey: "seatsDistribution",
+      id: "distribución de asientos",
+      header: () => <div className="text-center">Distribución de asientos</div>,
+      cell: ({ row }) => {
+        return (
+          <div className="text-center">{row.original.seatsDistribution}</div>
+        );
       },
     },
     {
