@@ -138,9 +138,9 @@ export const updateAirplaneType = async (input: string) => {
   return response.updateAirplaneType;
 };
 
-export const deleteAirplaneType = async (id: number) => {
+export const deleteAirplaneType = async (id: string) => {
   const mutation = `
-    mutation($id: ID!) {
+    mutation($id: String!) {
       deleteAirplaneType(id: $id)
     }
   `;
