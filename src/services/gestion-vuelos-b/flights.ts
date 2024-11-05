@@ -266,7 +266,7 @@ export const updateFlight = async (input: string) => {
   return response.updateFlight;
 };
 
-export const deleteFlight = async (id: number) => {
+export const deleteFlight = async (id: string) => {
   const mutation = `
     mutation($id: ID!) {
       deleteFlight(id: $id)
