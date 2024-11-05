@@ -114,14 +114,14 @@ export default function AirplaneTypesPage() {
     },
     {
       accessorKey: "type.name",
-      id: "nombre",
+      id: "family",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Nombre
+            Familia de avión
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -224,12 +224,12 @@ export default function AirplaneTypesPage() {
         <h1 className="text-4xl font-bold">Aeronaves</h1>
         <div className="flex items-center py-4 gap-4 justify-between">
           <Input
-            placeholder="Filtrar por nombre"
+            placeholder="Filtrar por modelo"
             value={
-              (table.getColumn("nombre")?.getFilterValue() as string) ?? ""
+              (table.getColumn("modelo")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-              table.getColumn("nombre")?.setFilterValue(event.target.value)
+              table.getColumn("modelo")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
