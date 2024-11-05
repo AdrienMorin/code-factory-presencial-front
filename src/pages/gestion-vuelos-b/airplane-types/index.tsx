@@ -1,5 +1,9 @@
 import React from "react";
-import { CaretSortIcon, DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  CaretSortIcon,
+  DotsHorizontalIcon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
 
 import {
   ColumnDef,
@@ -34,8 +38,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllAirplaneTypes } from "@/services/gestion-vuelos-b/airplane-types";
-import { useQuery } from "react-query";
+import {
+  deleteAirplaneType,
+  getAllAirplaneTypes,
+} from "@/services/gestion-vuelos-b/airplane-types";
+import { useMutation, useQuery } from "react-query";
 import type { AirplaneType } from "@/services/gestion-vuelos-b/types";
 import { EyeIcon, PenIcon, Settings2Icon, TrashIcon } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -47,109 +54,141 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useRouter } from "next/navigation";
-
-export const columns: ColumnDef<AirplaneType>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "id",
-    id: "modelo",
-    header: "Modelo",
-    cell: ({ row }) => <div>{row.original.id}</div>,
-  },
-  {
-    accessorKey: "type.name",
-    id: "nombre",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Nombre
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="capitalize">{row.original.type.name}</div>
-    ),
-  },
-  {
-    accessorKey: "maxSeats",
-    id: "número de asientos",
-    header: () => <div className="text-right">Número de asientos</div>,
-    cell: ({ row }) => {
-      return <div className="text-right">{row.original.maxSeats}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ }) => {
-      // cell: ({ row }) => {
-      // TODO: Implementar eliminación y edición de tipos de aviones
-      // const airplaneType = row.original.id;
-
-      return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir Menu</span>
-                <DotsHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              <DropdownMenuItem className="inline-flex items-center w-full">
-                <PenIcon className="h-4 w-4 mr-2" />
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem className="inline-flex items-center w-full">
-                <EyeIcon className="h-4 w-4 mr-2" />
-                Ver detalles
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="inline-flex items-center w-full text-red-500 sm:hover:text-red-700 sm:hover:bg-red-100">
-                <TrashIcon className="h-4 w-4 mr-2" />
-                Eliminar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
-  },
-];
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import ConfirmDialog from "@/components/confirm-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AirplaneTypesPage() {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const query = useQuery({
-    queryKey: "airplane-types",
     queryFn: getAllAirplaneTypes,
+    queryKey: "airplane-types",
   });
 
-  const router = useRouter();
+  const deleteMutation = useMutation(deleteAirplaneType, {
+    onSuccess: () => {
+      toast({
+        title: "¡Éxito!",
+        description: "Tipo de avión eliminado exitosamente",
+      });
+      query.refetch();
+    },
+    onError: () => {
+      toast({
+        title: "Algo salió mal",
+        description: "No se pudo eliminar el tipo de avión",
+      });
+    },
+  });
+
+  const columns: ColumnDef<AirplaneType>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "id",
+      id: "modelo",
+      header: "Modelo",
+      cell: ({ row }) => <div>{row.original.id}</div>,
+    },
+    {
+      accessorKey: "type.name",
+      id: "nombre",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Nombre
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize">{row.original.type.name}</div>
+      ),
+    },
+    {
+      accessorKey: "maxSeats",
+      id: "número de asientos",
+      header: () => <div className="text-right">Número de asientos</div>,
+      cell: ({ row }) => {
+        return <div className="text-right">{row.original.maxSeats}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        // TODO: Implementar la edición de tipos de aviones
+        const airplaneType = row.original.id;
+        const airplaneTypeFamily = row.original.type.name;
+
+        return (
+          <div className="flex justify-center">
+            <Dialog>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Abrir Menu</span>
+                    <DotsHorizontalIcon className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuItem className="inline-flex items-center w-full">
+                    <PenIcon className="h-4 w-4 mr-2" />
+                    Editar
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="inline-flex items-center w-full">
+                    <EyeIcon className="h-4 w-4 mr-2" />
+                    Ver detalles
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DialogTrigger asChild>
+                    <DropdownMenuItem className="inline-flex items-center w-full text-red-500 sm:hover:text-red-700 sm:hover:bg-red-100">
+                      <TrashIcon className="h-4 w-4 mr-2" />
+                      Eliminar
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <ConfirmDialog
+                titleMessage="¿Estás seguro de eliminar este tipo de avión?"
+                descriptionMessage={`Si seleccionas 'Eliminar', el tipo de avión '${airplaneTypeFamily} ${airplaneType}' será eliminado y no podrás recuperarlo.`}
+                confirmLabel="Eliminar"
+                onConfirm={() => {
+                  deleteMutation.mutate(airplaneType);
+                }}
+              />
+            </Dialog>
+          </div>
+        );
+      },
+    },
+  ];
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -198,7 +237,9 @@ export default function AirplaneTypesPage() {
             <Button
               variant="default"
               className="inline-flex items-center gap-2"
-              onClick={() => router.push("/gestion-vuelos-b/airplane-types/create")}
+              onClick={() =>
+                router.push("/gestion-vuelos-b/airplane-types/create")
+              }
             >
               <PlusIcon className="h-4 w-4" /> Agregar aeronave
             </Button>
@@ -241,9 +282,9 @@ export default function AirplaneTypesPage() {
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                       </TableHead>
                     );
                   })}
@@ -273,7 +314,9 @@ export default function AirplaneTypesPage() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    {query.isLoading ? "Cargando..." : "No hay datos para mostrar."}
+                    {query.isLoading
+                      ? "Cargando..."
+                      : "No hay datos para mostrar."}
                   </TableCell>
                 </TableRow>
               )}
