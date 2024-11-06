@@ -101,10 +101,9 @@ export const getFlightById = async (id: string) => {
     }
   `;
   const variables = { id };
-  const response: Record<string, string> = await gqlClient.request(
-    query,
-    variables
-  );
+  const response: {
+    getFlightById: Flight;
+  } = await gqlClient.request(query, variables);
   return response.getFlightById;
 };
 
