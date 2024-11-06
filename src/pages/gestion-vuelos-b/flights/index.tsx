@@ -60,9 +60,14 @@ import Link from "next/link";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { useToast } from "@/hooks/use-toast";
+import FlightDetails from "@/components/gestion-vuelos-b/flight-details";
 
 export default function FlightsPage() {
   const { toast } = useToast();
+
+  const [flightDetailsId, setFlightDetailsId] = React.useState<string | null>(
+    null
+  );
 
   const query = useQuery({
     queryKey: "flights",
@@ -219,7 +224,12 @@ export default function FlightsPage() {
                   <PenIcon className="h-4 w-4 mr-2" />
                   Editar
                 </DropdownMenuItem>
-                <DropdownMenuItem className="inline-flex items-center w-full">
+                <DropdownMenuItem
+                  className="inline-flex items-center w-full"
+                  onClick={() => {
+                    setFlightDetailsId(row.original.id);
+                  }}
+                >
                   <EyeIcon className="h-4 w-4 mr-2" />
                   Ver detalles
                 </DropdownMenuItem>
@@ -411,6 +421,18 @@ export default function FlightsPage() {
           </div>
         </div>
       </div>
+      {flightDetailsId !== null && (
+        <Dialog
+          open={flightDetailsId !== null}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              setFlightDetailsId(null);
+            }
+          }}
+        >
+          <FlightDetails flightId={flightDetailsId} />
+        </Dialog>
+      )}
     </>
   );
 }
