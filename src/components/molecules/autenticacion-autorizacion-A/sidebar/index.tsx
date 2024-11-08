@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Plane, Wallet, Package2, TicketsPlane, LogOut } from "lucide-react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 //import { useSession } from 'next-auth/react';
