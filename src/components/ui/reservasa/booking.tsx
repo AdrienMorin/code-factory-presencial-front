@@ -7,15 +7,15 @@ import {
 
 import { PassengerForm } from "./passengerForm";
 import { BookingForm } from "./bookingForm";
-import { Passenger } from "@/types/passenger";
+import { Passenger, PassengerDB } from "@/types/passenger";
 import { useState } from "react";
 
 const Booking = ({
   passengers,
   setPassengers,
 }: {
-  passengers: Passenger[];
-  setPassengers: React.Dispatch<React.SetStateAction<Passenger[]>>;
+  passengers: PassengerDB[];
+  setPassengers: React.Dispatch<React.SetStateAction<PassengerDB[]>>;
 }) => {
   const [showBookingForm, setShowBookingForm] = useState<boolean>(true);
   const [showPassengerForm, setShowPassengerForm] = useState<boolean>(false);

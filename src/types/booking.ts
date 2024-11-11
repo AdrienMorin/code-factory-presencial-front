@@ -1,37 +1,42 @@
-import { Passenger, PassengerDB } from "./passenger";
+import { Flight } from "./flight";
 
-export interface BookingInfo {
-    idVueloIda: number;
-    idVueloVuelta: number;
-    numeroReserva: string;
-    fechaReserva: Date;
-    numeroPasajeros: number;
-  }
 
-  export interface Booking {
-    idVueloIda: number;
-    idVueloVuelta: number;
-    numeroReserva: string;
-    fechaReserva: Date;
-    numeroPasajeros: number;
-    pasajeros: Passenger[];
-  }
+export interface Reservation {
+  reservationCode: string;
+  id: string;
+  flight: Flight;
+}
 
-  export interface BookingDB {
-    idReserva: number;
-    numeroReserva: string;
-    fechaReserva: Date;
-    numeroPasajeros: number;
-    idVueloIda: number;
-    idVueloVuelta: number;
-  }
+export interface ReservationRequest {
+  flightId: number;
+  passengerIds: number[];
+}
 
-  export interface BookingPassenger {
-    idReservaPasajero: number;
-    reserva: BookingDB;
-    pasajero: PassengerDB;
-    accesibilidad: boolean;
-    equipajeAdicional: boolean;
-    adiciones: boolean;
-    asientoElegido: boolean;
-  }
+export interface ReservationPassenger {
+  allReservationPassengers: AllReservationsPassenger[];
+}
+
+export interface AllReservationsPassenger {
+  id: string;
+  passenger: PassengerReservation;
+  reservation: ReservationData;
+  reservationTime: Date;
+  seatNumber: string;
+}
+
+export interface PassengerReservation {
+  name: string;
+  lastName: string;
+  id: string;
+}
+
+export interface ReservationData {
+  reservationCode: string;
+  flight: FlightReservation;
+}
+
+export interface FlightReservation {
+  origin: string;
+  destination: string;
+  flightNumber: string;
+}

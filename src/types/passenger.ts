@@ -1,22 +1,22 @@
 export interface Passenger {
-    nombre: string;
-    apellido: string;
-    tipoDocumento: string;
-    numeroDocumento: string;
-    correo: string;
-    telefono: string;
-    accesibilidad: boolean;
-    equipajeAdicional: boolean;
-    adiciones: boolean;
-    asientoElegido: boolean;
-    }
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    age: number;
+    typeDni: string;
+    dni: string;
+    nationality: string;
+}
 
 export interface PassengerDB {
-    idPasajero: number;
-    nombre: string;
-    apellido: string;
-    tipoDocumento: string;
-    numeroDocumento: string;
-    correo: string;
-    telefono: string;
-    }
+    id: number;
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    age: number;
+    typeDni: string;
+    dni: string;
+    nationality: string;
+}

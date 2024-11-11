@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button"
-import { Passenger } from '@/types/passenger';
+import { Passenger, PassengerDB } from '@/types/passenger';
 import {
   Card,
   CardContent,
@@ -14,8 +14,8 @@ import {
 
 const PassengerCard = ({ passenger, passengers, setPassengers}: {
     passenger: Passenger;
-    passengers: Passenger[];
-    setPassengers: React.Dispatch<React.SetStateAction<Passenger[]>>
+    passengers: PassengerDB[];
+    setPassengers: React.Dispatch<React.SetStateAction<PassengerDB[]>>
 }) => {
 
     const removePassenger = () => {
@@ -27,23 +27,23 @@ const PassengerCard = ({ passenger, passengers, setPassengers}: {
     <Card>
     <CardHeader>
       <CardTitle>
-        {passenger.nombre} {passenger.apellido}
+        {passenger.name} {passenger.lastName}
       </CardTitle>
-      <CardDescription>{passenger.correo}</CardDescription>
+      <CardDescription>{passenger.email}</CardDescription>
     </CardHeader>
     <CardContent>
       <dl className="grid gap-3">
         <div className="flex items-center justify-between">
           <dt className="text-muted-foreground">Tipo de documento</dt>
-          <dd>{passenger.tipoDocumento}</dd>
+          <dd>{passenger.typeDni}</dd>
         </div>
         <div className="flex items-center justify-between">
           <dt className="text-muted-foreground">Número de documento</dt>
-          <dd>{passenger.numeroDocumento}</dd>
+          <dd>{passenger.dni}</dd>
         </div>
         <div className="flex items-center justify-between">
           <dt className="text-muted-foreground">Teléfono</dt>
-          <dd>{passenger.telefono}</dd>
+          <dd>{passenger.phone}</dd>
         </div>
       </dl>
     </CardContent>

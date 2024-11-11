@@ -1,14 +1,16 @@
 import { CardContent, CardFooter } from "../card";
 import { Separator } from "../separator";
 import { Button } from "../button";
-import { Input } from "../input";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { Booking, BookingInfo } from "@/types/booking";
-import { useState } from "react";
-import { useBooking } from "@/hooks/useBooking";
+import { Reservation, ReservationRequest } from "@/types/booking";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Passenger } from "@/types/passenger";
+import { Passenger, PassengerDB } from "@/types/passenger";
 import { PassengerCard } from "./passengerCard";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_FLIGHTS } from "@/graphql/query/flight";
+import { FlightSelection } from "@/types/flight";
+import { SAVE_RESERVATION } from "@/graphql/mutation/reservation";
 
 const BookingForm = ({
   passengers,
@@ -18,35 +20,31 @@ const BookingForm = ({
   showPassengerCard,
   setShowPassengerCard,
 }: {
-  passengers: Passenger[];
+  passengers: PassengerDB[];
   setShowBookingForm: React.Dispatch<React.SetStateAction<boolean>>;
   setShowPassengerForm: React.Dispatch<React.SetStateAction<boolean>>;
-  setPassengers: React.Dispatch<React.SetStateAction<Passenger[]>>;
+  setPassengers: React.Dispatch<React.SetStateAction<PassengerDB[]>>;
   showPassengerCard: boolean;
   setShowPassengerCard: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [bookingData, setBookingData] = useState<BookingInfo>({
-    idVueloIda: 0,
-    idVueloVuelta: 0,
-    numeroReserva: "",
-    fechaReserva: new Date(),
-    numeroPasajeros: 0,
-  });
+  const [flightId, setFlightId] = useState<number | null>(null);
 
-  const { createBooking } = useBooking();
+  const { loading, error, data: flights } = useQuery<FlightSelection>(GET_FLIGHTS);
+  const [saveReservation, { data, loading: saveLoading, error: saveError }] = useMutation(SAVE_RESERVATION);
+
+  useEffect(() => {
+    if (flights) {
+      console.log(flights);
+    }
+  }
+    , [flights
+    ]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    const newBooking: BookingInfo = {
-      idVueloIda: parseInt(data.idVueloIda as string),
-      idVueloVuelta: parseInt(data.idVueloVuelta as string),
-      numeroReserva: data.numeroReserva as string,
-      fechaReserva: new Date(),
-      numeroPasajeros: passengers.length,
-    };
-    setBookingData(newBooking);
+    setFlightId(parseInt(data.flight as string));
     setShowPassengerForm(true);
     setShowBookingForm(false);
   };
@@ -56,19 +54,27 @@ const BookingForm = ({
       return;
     }
 
-    const booking: Booking = {
-      ...bookingData,
-      pasajeros: passengers,
+    const booking: ReservationRequest = {
+      flightId: flightId as number,
+      passengerIds: passengers.map((passenger) => passenger.id)
+
     };
 
-    const bookingSaved = await createBooking(booking);
+    const bookingSaved = await saveReservation({
+      variables: {
+        input: booking,
+      },
+    });
+
     if (bookingSaved) {
       setShowPassengerCard(false);
       setPassengers([]);
+      setFlightId(null);
+      const bookingCode = bookingSaved.data.saveReservation.reservationCode;
 
       Swal.fire({
         title: "Reserva guardada",
-        text: "La reserva se ha guardado correctamente",
+        text: `Su código de reserva es: ${bookingCode}`,
         icon: "success",
       });
     }
@@ -86,37 +92,24 @@ const BookingForm = ({
           <div className="flex flex-col space-y-3">
             <div className="font-semibold">Información de la reserva</div>
             <ul className="flex flex-col space-y-3">
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Vuelo de ida</span>
-                <div>
-                  <Input
-                    type="number"
-                    min={0}
-                    name="idVueloIda"
-                    defaultValue={bookingData.idVueloIda}
-                  />
-                </div>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Vuelo de vuelta</span>
-                <div>
-                  <Input
-                    type="number"
-                    min={0}
-                    name="idVueloVuelta"
-                    defaultValue={bookingData.idVueloVuelta}
-                  />
-                </div>
-              </li>
               <li className="flex items-center justify-between md:space-x-3">
-                <span className="text-muted-foreground">Número de reserva</span>
+                <span className="text-muted-foreground">Vuelo</span>
                 <div>
-                  <Input
-                    type="text"
-                    name="numeroReserva"
-                    defaultValue={bookingData.numeroReserva}
-                    required
-                  />
+                  {flights && (
+                    <select
+                      name="flight"
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                      required
+                    >
+                      <option value="">Seleccione un vuelo</option>
+                      {flights.allFlights.map((flight) => (
+                        <option key={flight.id} value={flight.id}>
+                          {flight.origin} - {flight.destination}
+                        </option>
+                      ))}
+                    </select>
+                  )
+                  }
                 </div>
               </li>
             </ul>
@@ -145,9 +138,8 @@ const BookingForm = ({
         </CardFooter>
       </form>
       <div
-        className={`flex flex-col space-y-4 ${
-          showPassengerCard ? "block" : "hidden"
-        }`}
+        className={`flex flex-col space-y-4 ${showPassengerCard ? "block" : "hidden"
+          }`}
       >
         {passengers.map((passenger, index) => (
           <PassengerCard

@@ -197,7 +197,7 @@ export const NavBar = ({ children }: { children: ReactNode }) => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="/reservasa/buscar">Buscar Reserva</Link>
+                  <Link href="/reservasa/all">Ver reservas</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
