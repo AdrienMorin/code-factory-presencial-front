@@ -26,7 +26,7 @@ const PassengerForm = ({
   setShowPassengerCard: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 
-  const [savePassenger, { data, loading, error }] = useMutation(SAVE_PASSENGER);
+  const [savePassenger] = useMutation(SAVE_PASSENGER);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
