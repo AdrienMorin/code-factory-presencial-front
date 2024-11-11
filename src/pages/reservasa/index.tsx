@@ -1,5 +1,5 @@
 import Booking from "@/components/ui/reservasa/booking";
-import { Passenger, PassengerDB } from "@/types/passenger";
+import {PassengerDB } from "@/types/passenger";
 import { useState } from "react";
 
 export const description =

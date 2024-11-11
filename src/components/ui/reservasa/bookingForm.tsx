@@ -2,10 +2,10 @@ import { CardContent, CardFooter } from "../card";
 import { Separator } from "../separator";
 import { Button } from "../button";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { Reservation, ReservationRequest } from "@/types/booking";
+import { ReservationRequest } from "@/types/booking";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Passenger, PassengerDB } from "@/types/passenger";
+import { PassengerDB } from "@/types/passenger";
 import { PassengerCard } from "./passengerCard";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_FLIGHTS } from "@/graphql/query/flight";
@@ -29,8 +29,8 @@ const BookingForm = ({
 }) => {
   const [flightId, setFlightId] = useState<number | null>(null);
 
-  const { loading, error, data: flights } = useQuery<FlightSelection>(GET_FLIGHTS);
-  const [saveReservation, { data, loading: saveLoading, error: saveError }] = useMutation(SAVE_RESERVATION);
+  const { data: flights } = useQuery<FlightSelection>(GET_FLIGHTS);
+  const [saveReservation] = useMutation(SAVE_RESERVATION);
 
   useEffect(() => {
     if (flights) {

@@ -7,7 +7,7 @@ import {
 
 import { PassengerForm } from "./passengerForm";
 import { BookingForm } from "./bookingForm";
-import { Passenger, PassengerDB } from "@/types/passenger";
+import { PassengerDB } from "@/types/passenger";
 import { useState } from "react";
 
 const Booking = ({
