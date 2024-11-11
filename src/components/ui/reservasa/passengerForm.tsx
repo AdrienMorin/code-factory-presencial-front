@@ -11,6 +11,7 @@ import { PassengerCard } from "./passengerCard";
 import { useMutation } from "@apollo/client";
 import { SAVE_PASSENGER } from "@/graphql/mutation/passenger";
 import { PassengerDB } from '../../../types/passenger';
+import { countries } from "@/utils/country";
 
 const PassengerForm = ({
   passengers,
@@ -99,7 +100,7 @@ const PassengerForm = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Tipo de documento</span>
-              <div>
+              <div className="justify-end w-1/2">
                 <select
                   className="w-full p-2 border border-gray-300 rounded-md"
                   name="typeDni"
@@ -122,8 +123,20 @@ const PassengerForm = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Nacionalidad</span>
-              <div>
-                <Input type="text" name="nationality" required />
+              <div className=" justify-end w-1/2">
+                <select
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  required
+                  name="nationality"
+                >
+                  <option value="">Elija una opción</option>
+                  {countries.map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+                </select>
+
               </div>
             </div>
             <div className="flex items-center justify-between">

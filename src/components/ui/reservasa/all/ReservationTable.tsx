@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { DeleteDialog } from "./DeleteDialog";
 import Link from "next/link";
+import Tooltip from '@mui/material/Tooltip';
+
 
 
 
@@ -64,18 +66,22 @@ const ReservationTable = ({
                 <TableCell>{reservation.seatNumber}</TableCell>
                 <TableCell>{reservation.reservation.reservationCode}</TableCell>
                 <TableCell className="flex items-center space-x-8">
-                    <Link
-                        href={{
-                            pathname: '/reservasa/all/[id]',
-                            query: { id: reservation.id }
-                        }}
-                        className="hover:text-sky-800 text-xl text-sky-500">
-                        <BsSearch />
-                    </Link>
+                    <Tooltip title="Ver detalles" placement="bottom">
+                        <Link
+                            href={{
+                                pathname: '/reservasa/all/[id]',
+                                query: { id: reservation.id }
+                            }}
+                            className="hover:text-sky-800 text-xl text-sky-500">
+                            <BsSearch />
+                        </Link>
+                    </Tooltip>
 
-                    <button onClick={() => setOpenDelete(true)}>
-                        <BsFillTrashFill className="hover:text-red-800  text-xl text-red-500" />
-                    </button>
+                    <Tooltip title="Eliminar" placement="bottom">
+                        <button onClick={() => setOpenDelete(true)}>
+                            <BsFillTrashFill className="hover:text-red-800  text-xl text-red-500" />
+                        </button>
+                    </Tooltip>
                 </TableCell>
             </TableRow>
 

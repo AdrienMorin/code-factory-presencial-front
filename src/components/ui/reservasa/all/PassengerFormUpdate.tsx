@@ -6,6 +6,7 @@ import { tipoDocumento } from "@/utils/tipoDocumento"
 import { useMutation } from "@apollo/client"
 import { UPDATE_PASSENGER } from "@/graphql/query/passenger"
 import Swal from "sweetalert2"
+import { countries } from "@/utils/country"
 
 export const PassengerFormUpdate = ({
     booking
@@ -14,7 +15,6 @@ export const PassengerFormUpdate = ({
 }) => {
 
     const [updatePassenger] = useMutation(UPDATE_PASSENGER);
-
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
@@ -51,6 +51,12 @@ export const PassengerFormUpdate = ({
     const documentTypes = tipoDocumento.filter(
         (tipo) => tipo !== booking.reservationPassengerById.passenger?.typeDni
     )
+
+    //delete from countries the nationality that the passenger already has
+    const countriesFiltered = countries.filter(
+        (country) => country !== booking.reservationPassengerById.passenger?.nationality
+    )
+
 
     return (
         <form className="grid grid-cols-1 gap-4" onSubmit={handleUpdate}>
@@ -137,15 +143,22 @@ export const PassengerFormUpdate = ({
                         defaultValue={booking.reservationPassengerById.passenger?.dni}
                     />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-end w-1/2">
                     <label className="text-gray-700 font-semibold mb-1">Nacionalidad</label>
-                    <Input
-                        type="text"
-                        name="nationality"
+                    <select
+                        className="p-2 border border-gray-300 rounded-md"
                         required
-                        className="w-full rounded-md"
-                        defaultValue={booking.reservationPassengerById.passenger?.nationality}
-                    />
+                        name="nationality"
+                    >
+                        <option value={booking.reservationPassengerById.passenger?.nationality}>{booking.reservationPassengerById.passenger?.nationality}</option>
+                        {countriesFiltered.map((country) => (
+                            <option key={country} value={country}>
+                                {country}
+                            </option>
+
+                        ))}
+
+                    </select>
                 </div>
             </div>
             <div className="flex justify-center">
