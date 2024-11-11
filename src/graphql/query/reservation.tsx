@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 
-const GET_RESERVATIONS = gql`query MyQuery {
+const GET_RESERVATIONS = gql`
+query MyQuery {
   allReservations {
     id
     reservationCode
@@ -32,6 +33,7 @@ query MyQuery {
         destination
         flightNumber
       }
+      id
       reservationCode
     }
     reservationTime
@@ -40,7 +42,37 @@ query MyQuery {
 }
 `;
 
+const GET_RESERVATION_PASSENGER_BY_ID = gql`
+query MyQuery($id: ID!) {
+  reservationPassengerById(id: $id) {
+    reservationTime
+    seatNumber
+    passenger {
+      age
+      dni
+      email
+      id
+      lastName
+      name
+      nationality
+      phone
+      typeDni
+    }
+    reservation {
+      reservationCode
+      id
+      flight {
+        origin
+        destination
+        flightNumber
+      }
+    }
+  }
+}
+`;
+
 export {
     GET_RESERVATIONS,
-    GET_RESERVATIONS_PASSENGER
+    GET_RESERVATIONS_PASSENGER,
+    GET_RESERVATION_PASSENGER_BY_ID
 }

@@ -1,14 +1,14 @@
 import { AllReservationsPassenger } from "@/types/booking"
-import { TableBody, TableCell, TableRow } from "../../table"
-import { AiFillEdit } from "react-icons/ai";
+import { TableCell, TableRow } from "../../table"
 import { BsFillTrashFill } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 import { useMutation } from "@apollo/client";
 import { DELETE_RESERVATION_PASSENGER } from "@/graphql/mutation/reservation";
-import Dialog from '@mui/material/Dialog';
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useRouter } from "next/router";
+import { DeleteDialog } from "./DeleteDialog";
+import Link from "next/link";
 
 
 
@@ -19,12 +19,12 @@ const ReservationTable = ({
         reservation: AllReservationsPassenger
     }) => {
 
-    const [deleteReservationPassenger, { data, loading, error }] = useMutation(DELETE_RESERVATION_PASSENGER)
-    const [open, setOpen] = useState(false)
+    const [deleteReservationPassenger] = useMutation(DELETE_RESERVATION_PASSENGER)
+    const [openDelete, setOpenDelete] = useState(false)
     const router = useRouter()
 
     const handleClose = () => {
-        setOpen(false)
+        setOpenDelete(false)
     }
 
     const handleDeleteReservationPassenger = async () => {
@@ -44,7 +44,7 @@ const ReservationTable = ({
         } catch (error) {
             console.log(error)
         }
-        setOpen(false)
+        setOpenDelete(false)
         router.reload()
     }
 
@@ -64,30 +64,23 @@ const ReservationTable = ({
                 <TableCell>{reservation.seatNumber}</TableCell>
                 <TableCell>{reservation.reservation.reservationCode}</TableCell>
                 <TableCell className="flex items-center space-x-8">
-                    <button className="hover:text-sky-800 text-xl text-sky-500">
-                        <AiFillEdit />
-                    </button>
+                    <Link
+                        href={{
+                            pathname: '/reservasa/all/[id]',
+                            query: { id: reservation.id }
+                        }}
+                        className="hover:text-sky-800 text-xl text-sky-500">
+                        <BsSearch />
+                    </Link>
 
-                    <button onClick={() => setOpen(true)}>
+                    <button onClick={() => setOpenDelete(true)}>
                         <BsFillTrashFill className="hover:text-red-800  text-xl text-red-500" />
                     </button>
                 </TableCell>
             </TableRow>
-            <Dialog open={open} onClose={handleClose} className="items-center justify-center bg-black bg-opacity-50">
-                <DialogContent className="bg-white rounded-lg shadow-lg w-full max-w-md p-8">
-                    <DialogTitle className="text-xl font-semibold text-gray-800 mb-4 text-center">
-                        ¿Estás seguro de eliminar la reserva?
-                    </DialogTitle>
-                    <DialogActions className="flex justify-end space-x-4 mt-6">
-                        <button onClick={handleClose} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md">
-                            Cancelar
-                        </button>
-                        <button onClick={handleDeleteReservationPassenger} className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
-                            Eliminar
-                        </button>
-                    </DialogActions>
-                </DialogContent>
-            </Dialog>
+
+            <DeleteDialog openDelete={openDelete} handleClose={handleClose} handleDelete={handleDeleteReservationPassenger} />
+
         </>
     )
 }

@@ -1,4 +1,5 @@
 import { Flight } from "./flight";
+import { PassengerDB } from "./passenger";
 
 
 export interface Reservation {
@@ -24,13 +25,25 @@ export interface AllReservationsPassenger {
   seatNumber: string;
 }
 
+export interface ReservationPassengerID {
+  reservationPassengerById: ReservationPassengerById;
+}
+
+export interface ReservationPassengerById {
+  reservationTime: Date;
+  seatNumber: string;
+  passenger: PassengerDB;
+  reservation: ReservationData;
+}
+
 export interface PassengerReservation {
   name: string;
   lastName: string;
-  id: string;
+  id: number;
 }
 
 export interface ReservationData {
+  id: number;
   reservationCode: string;
   flight: FlightReservation;
 }

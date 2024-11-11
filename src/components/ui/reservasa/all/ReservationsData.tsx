@@ -1,12 +1,12 @@
 import { useQuery } from "@apollo/client"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../table"
+import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow } from "../../table"
 import { GET_RESERVATIONS_PASSENGER } from "@/graphql/query/reservation"
 import { ReservationPassenger } from "@/types/booking"
 import ReservationTable from "./ReservationTable"
 
 export const ReservationsData = () => {
 
-    const { loading, error, data } = useQuery<ReservationPassenger>(GET_RESERVATIONS_PASSENGER)
+    const { data } = useQuery<ReservationPassenger>(GET_RESERVATIONS_PASSENGER)
     return (
         <Table>
             <TableCaption>Lista de reservas</TableCaption>
@@ -23,11 +23,11 @@ export const ReservationsData = () => {
                 </TableRow>
             </TableHeader>
             {data && (
-                        <TableBody>
-                        {data?.allReservationPassengers.map((reservation) => (
-                            <ReservationTable reservation={reservation} key={reservation.id} />
-                        ))}
-                    </TableBody>
+                <TableBody>
+                    {data?.allReservationPassengers.map((reservation) => (
+                        <ReservationTable reservation={reservation} key={reservation.id} />
+                    ))}
+                </TableBody>
             )}
         </Table>
     )
