@@ -1,15 +1,18 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/router"; // Importa useRouter
+import { useRouter } from "next/router";
 import { RadioGroup, RadioGroupItem } from "@/components/atoms/RadioGroup";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/atoms/Select";
 import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
 import { toast } from "@/components/hooks/use-toast";
+import { useMutation } from "@apollo/client";
+import { AGREGAR_EQUIPAJE } from "@/graphql/mutations/addMutations";
 
-// Define el esquema de validación con Zod
+// Definición del esquema de validación con Zod
 const FormSchema = z.object({
   location: z.enum(["handLuggage", "cabin", "hold"], {
     required_error: "Debes seleccionar una ubicación para el equipaje.",
@@ -18,57 +21,88 @@ const FormSchema = z.object({
     required_error: "Debes seleccionar un tipo de equipaje.",
   }),
   weight: z
-    .string() // Mantener como string
-    .min(1, { message: "El peso no puede estar vacío." }) // Prohibir campos vacíos
+    .string()
+    .min(1, { message: "El peso no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El peso debe ser un número positivo." }),
   height: z
-    .string() // Mantener como string
-    .min(1, { message: "La altura no puede estar vacía." }) // Prohibir campos vacíos
+    .string()
+    .min(1, { message: "La altura no puede estar vacía." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "La altura debe ser un número positivo." }),
   length: z
-    .string() // Mantener como string
-    .min(1, { message: "El largo no puede estar vacío." }) // Prohibir campos vacíos
+    .string()
+    .min(1, { message: "El largo no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El largo debe ser un número positivo." }),
   width: z
-    .string() // Mantener como string
-    .min(1, { message: "El ancho no puede estar vacío." }) // Prohibir campos vacíos
+    .string()
+    .min(1, { message: "El ancho no puede estar vacío." })
     .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, { message: "El ancho debe ser un número positivo." }),
 });
 
-// Inferir tipos a partir del esquema de Zod
+// Inferencia de tipos de Zod
 type FormData = z.infer<typeof FormSchema>;
-
 export function LuggageForm() {
-  const router = useRouter(); // Inicializa useRouter
+  const router = useRouter();
+  const [agregarEquipaje] = useMutation(AGREGAR_EQUIPAJE);
+  const [valorEquipaje, setValorEquipaje] = useState(50000); // Estado para el valor del equipaje
+
   const form = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
 
-  const { register, handleSubmit, setValue, formState: { errors } } = form;
-
-  function onSubmit(data: FormData) {
-    toast({
-      title: "Has enviado los siguientes valores:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = form;
+  // Función para calcular el valor del equipaje
+  function calcularValor() {
+    const peso = parseFloat(watch("weight") || "0");
+    const alto = parseFloat(watch("height") || "0");
+    const largo = parseFloat(watch("length") || "0");
+    const ancho = parseFloat(watch("width") || "0");
     
-    // Redirige a la nueva ruta
-    router.push("/equipajes/equipaje");
+    // Ejemplo de cálculo simple (puedes ajustarlo según tus necesidades)
+    const nuevoValor = (peso * 1000) + (alto + largo + ancho) * 10;
+    setValorEquipaje(nuevoValor);
   }
+  // Actualiza el valor del equipaje cuando cambian el peso o las dimensiones
+  useEffect(() => {
+    calcularValor();
+  }, [watch("weight"), watch("height"), watch("length"), watch("width")]);
+  async function onSubmit(data: FormData) {
+    try {
+      const variables = {
+        alto: parseFloat(data.height),
+        largo: parseFloat(data.length),
+        ancho: parseFloat(data.width),
+        peso: parseFloat(data.weight),
+        tipo: data.type,
+        ubicacion: data.location,
+        valor: valorEquipaje, // Usa el valor calculado
+        // vueloId y pasajeroId no están incluidos si no están disponibles
+      };
 
+      const response = await agregarEquipaje({ variables });
+      console.log(response); // Log para verificar la respuesta
+
+      if (response.data.agregarEquipaje) {
+        toast({
+          title: "Equipaje añadido exitosamente",
+          description: `ID del equipaje: ${response.data.agregarEquipaje.id}`,
+        });
+        router.push("/equipajes/equipaje");
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+      toast({
+        title: "Error al añadir equipaje",
+        description: errorMessage,
+      });
+    }
+  }
   return (
     <div className="w-full h-screen bg-white flex justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full md:max-w-6xl mt-0">
-        {/* Título principal "Añadir equipaje" */}
         <Label className="block mb-4 text-left text-4xl font-bold text-black">Añadir equipaje</Label>
 
-        {/* Sección de ubicación y tipo de equipaje */}
+        {/* Campos de selección y entrada para Ubicación, Tipo, Peso y Dimensiones */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          {/* Columna 1: Ubicación del equipaje */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Ubicación del equipaje</Label>
             <RadioGroup
@@ -92,7 +126,7 @@ export function LuggageForm() {
             {errors.location && <span className="text-red-500">{errors.location.message}</span>}
           </div>
 
-          {/* Columna 2: Tipo de equipaje */}
+          {/* Tipo de equipaje */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Tipo de equipaje</Label>
             <Select
@@ -113,11 +147,11 @@ export function LuggageForm() {
             {errors.type && <span className="text-red-500">{errors.type.message}</span>}
           </div>
 
-          {/* Columna 3: Peso */}
+          {/* Peso */}
           <div className="col-span-1">
             <Label className="block mb-1 text-left">Peso</Label>
             <Input
-              type="text" // Mantener como 'text' para permitir decimales
+              type="text"
               {...register("weight")}
               className="w-full"
               placeholder="Ingrese el peso"
@@ -127,7 +161,7 @@ export function LuggageForm() {
           </div>
         </div>
 
-        {/* Sección de dimensiones */}
+        {/* Dimensiones */}
         <div className="mt-8">
           <Label className="block mb-1 text-left text-xl font-bold text-black">Dimensiones</Label>
           <p className="text-xs text-gray-500 mt-1 block mb-1 text-left">
@@ -170,15 +204,12 @@ export function LuggageForm() {
           </div>
         </div>
 
-        {/* Línea dibujada y valor */}
+        {/* Valor Calculado */}
         <div className="mt-8">
-          {/* Línea con el mismo tono de los bordes de input */}
           <div className="w-full h-[2px] bg-gray-300"></div>
-
-          {/* Texto "Valor" debajo de la línea */}
           <div className="flex justify-end mt-2">
             <div className="text-black text-right">
-              <span className="font-bold">Valor:</span> <span className="text-black">$ 50.000</span>
+              <span className="font-bold">Valor:</span> <span className="text-black">$ {valorEquipaje.toLocaleString()}</span>
             </div>
           </div>
         </div>
