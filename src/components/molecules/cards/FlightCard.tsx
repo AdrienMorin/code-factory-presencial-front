@@ -65,7 +65,7 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
           </div>
 
           {/* Código del vuelo centrado */}
-          <h2 className="text-2xl font-bold text-center">
+          <h2 className="text-2xl font-bold text-center" id="flightId">
             {flight.flightNumber}
           </h2>
 
@@ -73,7 +73,7 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
           <div className="flex justify-between gap-8">
             <div className="flex flex-col gap-1">
               <span className="text-sm font-semibold">Origen</span>
-              <span>{flight.departureCity}</span>
+              <span id="departureCity">{flight.departureCity}</span>
               <span className="text-sm font-semibold">Fecha de salida</span>
               <span>
                 {flight.departureDate} - {flight.departureTime}
@@ -88,6 +88,10 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
               </span>
             </div>
           </div>
+
+          <h2 className="text-2xl font-bold text-center" id="flightPrice">
+            {flight.price} $
+          </h2>
 
           {/* Botones al final */}
           <div className="flex justify-end gap-2">
