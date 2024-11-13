@@ -25,6 +25,14 @@ interface AirplaneType {
   seatsDistribution: string; // Example: "2-4-2", "3-3-3"
 }
 
+// AirplaneTypePayload TypeScript Interface
+interface AirplaneTypePayload {
+  id: string;
+  typeId: number;
+  maxSeats: number;
+  seatsDistribution: string;
+}
+
 // Status TypeScript Interface
 type Status = {
   id: string;
