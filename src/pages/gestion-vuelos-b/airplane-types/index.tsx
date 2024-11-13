@@ -57,10 +57,15 @@ import { useRouter } from "next/navigation";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { useToast } from "@/hooks/use-toast";
+import AirplaneDetails from "@/components/gestion-vuelos-b/airplane-details";
 
 export default function AirplaneTypesPage() {
   const router = useRouter();
   const { toast } = useToast();
+
+  const [airplaneDetailsId, setAirplaneDetailsId] = React.useState<
+    string | null
+  >(null);
 
   const query = useQuery({
     queryFn: getAllAirplaneTypes,
@@ -180,7 +185,12 @@ export default function AirplaneTypesPage() {
                     <PenIcon className="h-4 w-4 mr-2" />
                     Editar
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="inline-flex items-center w-full">
+                  <DropdownMenuItem
+                    className="inline-flex items-center w-full"
+                    onClick={() => {
+                      setAirplaneDetailsId(row.original.id);
+                    }}
+                  >
                     <EyeIcon className="h-4 w-4 mr-2" />
                     Ver detalles
                   </DropdownMenuItem>
@@ -372,6 +382,18 @@ export default function AirplaneTypesPage() {
           </div>
         </div>
       </div>
+      {airplaneDetailsId !== null && (
+        <Dialog
+          open={airplaneDetailsId !== null}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              setAirplaneDetailsId(null);
+            }
+          }}
+        >
+          <AirplaneDetails airplaneId={airplaneDetailsId} />
+        </Dialog>
+      )}
     </>
   );
 }
