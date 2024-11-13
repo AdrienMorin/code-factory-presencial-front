@@ -10,12 +10,15 @@ import { useQuery } from "react-query";
 import { getAirplaneTypeById } from "@/services/gestion-vuelos-b/airplane-types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { AlertTriangleIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface IAirplaneDetailsProps {
   airplaneId: string;
 }
 
 const AirplaneDetails = ({ airplaneId }: IAirplaneDetailsProps) => {
+  const router = useRouter();
+
   const {
     data: airplane,
     isLoading,
@@ -44,7 +47,15 @@ const AirplaneDetails = ({ airplaneId }: IAirplaneDetailsProps) => {
                 Aeronave {airplane?.id}
               </p>
               <div className="inline-flex gap-2">
-                <Button variant="outline" className="inline-flex gap-2">
+                <Button
+                  variant="outline"
+                  className="inline-flex gap-2"
+                  onClick={() =>
+                    router.push(
+                      `/gestion-vuelos-b/airplane-types/edit/${airplaneId}`
+                    )
+                  }
+                >
                   <PencilIcon /> Editar
                 </Button>
                 <Button variant="destructive" className="inline-flex gap-2">
