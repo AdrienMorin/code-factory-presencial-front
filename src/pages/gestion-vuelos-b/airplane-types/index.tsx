@@ -169,7 +169,14 @@ export default function AirplaneTypesPage() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                  <DropdownMenuItem className="inline-flex items-center w-full">
+                  <DropdownMenuItem
+                    className="inline-flex items-center w-full"
+                    onClick={() =>
+                      router.push(
+                        `/gestion-vuelos-b/airplane-types/edit/${airplaneType}`
+                      )
+                    }
+                  >
                     <PenIcon className="h-4 w-4 mr-2" />
                     Editar
                   </DropdownMenuItem>
