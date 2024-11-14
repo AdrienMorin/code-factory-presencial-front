@@ -54,6 +54,7 @@ const FlightCard = ({ searchValue }: FlightCardProps) => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-4">
       {filteredFlights.map((flight) => (
         <div
+          id="flightCard"
           key={flight.id}
           className="w-full max-w-3xl border border-slate-300 shadow-lg rounded-lg p-6 flex flex-col gap-4"
         >
