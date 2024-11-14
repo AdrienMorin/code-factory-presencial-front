@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
         link: from([
             new HttpLink({
                 // eslint-disable-next-line no-nested-ternary
-                uri: 'http://localhost:8081/graphiql',
+                uri: 'https://codefact.udea.edu.co/modulo-03/graphiql',
             }),
         ]),
         connectToDevTools: true,
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
             cache: new InMemoryCache(),
             link: from([
                 new HttpLink({
-                    uri: 'http://localhost:8081/graphiql',
+                    uri: 'https://codefact.udea.edu.co/modulo-03/graphiql',
                 }),
             ]),
             connectToDevTools: true,

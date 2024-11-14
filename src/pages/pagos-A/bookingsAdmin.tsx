@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import Header from "@/components/molecules/header";
 import React, { useState, useEffect } from "react";
-import BookingCard from "../../components/atoms/bookingCard";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_BOOKINGS } from "@/utils/graphql/queries/bookings";
 import {BookingsTable} from "../../components/molecules/bookingsTable";
@@ -27,7 +26,9 @@ interface BookingCardProps {
     is_paid: boolean,
     price: number,
     additional_charge: number,
-    user_id: number,
+    user: {
+        id: number
+    },
     flight_infos: FlightInfo[]
 }
 

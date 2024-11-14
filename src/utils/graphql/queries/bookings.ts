@@ -33,7 +33,9 @@ export const GET_ALL_BOOKINGS = gql`
         is_paid
         price
         additional_charge
-        user_id
+        user {
+            id
+        }
         flight_infos {
             id
             flight {

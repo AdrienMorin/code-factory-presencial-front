@@ -33,7 +33,9 @@ interface BookingCardProps {
     is_paid: boolean,
     price: number,
     additional_charge: number,
-    user_id: number,
+    user: {
+        id: number
+    },
     flight_infos: FlightInfo[]
 }
 
@@ -64,7 +66,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                 {bookings.map((booking) => (
                     <TableRow key={booking.id} className="cursor-pointer hover:bg-gray-100" onClick={() => handleRowClick(booking.id)}> {/* Ajoutez des classes pour le style de survol */}
                         <TableCell className="font-medium">{booking.id}</TableCell>
-                        <TableCell className={"font-medium"}>{booking.user_id}</TableCell>
+                        <TableCell className={"font-medium"}>{booking.user.id}</TableCell>
                         <TableCell>
                             {booking.is_paid ? (
                                 <Badge className={"bg-green-500 hover:bg-green-500 text-white"}>Pagado</Badge>
