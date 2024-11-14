@@ -33,10 +33,6 @@ export default function Bookings() {
     const router = useRouter();
     const { userId } = router.query;
 
-    if (!userId) {
-        return <div>Loading...</div>;
-    }
-
     const [bookings, setBookings] = useState<BookingCardProps[]>([]);
 
     const bookingsResult = useQuery(GET_ALL_USER_BOOKINGS, {
@@ -48,6 +44,10 @@ export default function Bookings() {
             setBookings(bookingsResult.data.getAllUserBookings);
         }
     }, [bookingsResult.data]);
+
+    if (!userId) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
