@@ -74,12 +74,12 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                                 <Badge className={"hover:bg-red-500 bg-red-500 text-white"}>Pendiente</Badge>
                             )}
                         </TableCell>
-                        <TableCell>{booking.flight_infos[0].flight.flight_number}</TableCell>
+                        <TableCell>{booking.flight_infos[0]?.flight.flight_number}</TableCell>
                         <TableCell className="">
-                            {transformDateShort(booking.flight_infos[0].flight.departure_date)} - {transformDateShort(booking.flight_infos[1].flight.departure_date)}
+                            {transformDateShort(booking.flight_infos[0]?.flight.departure_date)} - {transformDateShort(booking.flight_infos[1]?.flight.departure_date)}
                         </TableCell>
                         <TableCell>
-                            {booking.flight_infos[0].flight.departure_airport} - {booking.flight_infos[0].flight.arrival_airport}
+                            {booking.flight_infos[0]?.flight.departure_airport} - {booking.flight_infos[0]?.flight.arrival_airport}
                         </TableCell>
                     </TableRow>
                 ))}
