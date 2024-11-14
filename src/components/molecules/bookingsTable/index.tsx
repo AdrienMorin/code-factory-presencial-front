@@ -58,7 +58,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                     <TableHead>Usuario Id</TableHead>
                     <TableHead>Estado</TableHead>
                     <TableHead>Numero de vuelo</TableHead>
-                    <TableHead className="">Fechas</TableHead>
+                    <TableHead className="">Fecha(s)</TableHead>
                     <TableHead>Sentido</TableHead>
                 </TableRow>
             </TableHeader>
@@ -76,7 +76,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                         </TableCell>
                         <TableCell>{booking.flight_infos[0]?.flight.flight_number}</TableCell>
                         <TableCell className="">
-                            {transformDateShort(booking.flight_infos[0]?.flight.departure_date)} - {transformDateShort(booking.flight_infos[1]?.flight.departure_date)}
+                            {transformDateShort(booking.flight_infos[0]?.flight.departure_date)} {booking.flight_infos[1] && " - " + transformDateShort(booking.flight_infos[1]?.flight.departure_date)}
                         </TableCell>
                         <TableCell>
                             {booking.flight_infos[0]?.flight.departure_airport} - {booking.flight_infos[0]?.flight.arrival_airport}

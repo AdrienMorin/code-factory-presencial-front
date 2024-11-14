@@ -39,7 +39,7 @@ export default function BookingCard( props: bookingCardProps ) {
                             {props.flight_infos[0]?.flight.departure_airport} - {props.flight_infos[0]?.flight.arrival_airport}
                         </div>
                         <div>
-                            {transformDateShort(props.flight_infos[0]?.flight.departure_date)} - {transformDateShort(props.flight_infos[1]?.flight.departure_date)}
+                            {transformDateShort(props.flight_infos[0]?.flight.departure_date)} {props.flight_infos[1] && " - " + transformDateShort(props.flight_infos[1]?.flight.departure_date)}
                         </div>
                     </div>
                     <div>
