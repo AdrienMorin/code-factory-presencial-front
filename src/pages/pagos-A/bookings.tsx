@@ -59,7 +59,7 @@ export default function Bookings() {
                             Vuestras reservas
                         </h2>
                     </div>
-                    <div className={"flex flex-col lg:flex-row lg:justify-between"}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {bookings.map((booking) => (
                             <BookingCard key={booking.id} {...booking} />
                         ))}

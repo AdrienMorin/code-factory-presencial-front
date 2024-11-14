@@ -36,18 +36,18 @@ export default function BookingCard( props: bookingCardProps ) {
                 <div className={"flex justify-center gap-10 p-3"}>
                     <div>
                         <div className={"font-bold"}>
-                            {props.flight_infos[0].flight.departure_airport} - {props.flight_infos[0].flight.arrival_airport}
+                            {props.flight_infos[0]?.flight.departure_airport} - {props.flight_infos[0]?.flight.arrival_airport}
                         </div>
                         <div>
-                            {transformDateShort(props.flight_infos[0].flight.departure_date)} - {transformDateShort(props.flight_infos[1].flight.departure_date)}
+                            {transformDateShort(props.flight_infos[0]?.flight.departure_date)} - {transformDateShort(props.flight_infos[1]?.flight.departure_date)}
                         </div>
                     </div>
                     <div>
                         <div className={"font-bold"}>
-                            {props.flight_infos[0].flight.flight_class}
+                            {props.flight_infos[0]?.flight.flight_class}
                         </div>
                         <div>
-                            {props.flight_infos[0].flight.flight_number}
+                            {props.flight_infos[0]?.flight.flight_number}
                         </div>
                     </div>
                 </div>
